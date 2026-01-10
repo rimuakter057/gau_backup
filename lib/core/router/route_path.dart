@@ -12,9 +12,21 @@ class RoutePath {
   ///Auth==================================================================================================
 
   static const String loginScreen = 'loginScreen';
+    ///home==============================-===============
+  static const String homeScreen = 'homeScreen';
+
+  ///grade====================================================================================
+  static const String gradeScreen = 'gradeScreen';
+
+
 //   ///chat==============================================================
   static const String chatScreen = 'chatScreen';
   static const String chatInboxScreen = 'chatInboxScreen';
+
+
+
+
+
 //   static const String signUpScreen='signup';
 //   static const String forgotPassScreen='forgotPass';
 //   static const String verifyCodeScreen='verifyCode';
@@ -39,8 +51,7 @@ class RoutePath {
 //   static const String orderScreen = 'orderScreen';
 //
 //
-//   ///home==============================-===============
-//   static const String homeScreen = 'homeScreen';
+
 //
 //
 // ///product==============================-===============

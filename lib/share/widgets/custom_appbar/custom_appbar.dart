@@ -26,21 +26,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leadingWidth: leadingWidth.w,
-      leading: GestureDetector(
-        onTap: onBack ?? () => context.pop(),
-        child: Center(
-          child: CustomImage(
-            imageSrc:leadingIcon?? AppAssets.back,
-            height: iconSize.h,
-            width: iconSize.w,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ),
+
       title: Text(
         title,
-        style: context.titleLarge,
+        style: context.titleMedium,
       ),
     );
   }

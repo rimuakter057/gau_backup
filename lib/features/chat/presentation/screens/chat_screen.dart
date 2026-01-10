@@ -13,7 +13,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppText.allChats),
+      appBar: CustomAppBar(title: "AppText.allChats"),
 
       body: SingleChildScrollView(
         child: Padding(

@@ -10,7 +10,7 @@ class CustomContainer extends StatelessWidget {
   final double? height;
   final EdgeInsetsGeometry? padding; // <-- updated
   final EdgeInsetsGeometry? margin;
-
+ final double?borderWidth;
   const CustomContainer({
     super.key,
     required this.child,
@@ -20,7 +20,7 @@ class CustomContainer extends StatelessWidget {
     this.width,
     this.height,
     this.padding,
-    this.margin,
+    this.margin, this.borderWidth,
   });
 
   @override
@@ -35,6 +35,7 @@ class CustomContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius ?? 8),
         border: Border.all(
           color: borderColor ?? Colors.transparent,
+          width:borderWidth??1
         ),
       ),
       child: child,

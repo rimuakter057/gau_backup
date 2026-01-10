@@ -36,6 +36,7 @@ class AppColors {
   static const Color red = Color(0xffFF0000);
   static const Color darkRed=Color(0xFF7F1D1D);
   static const Color softRed=Color(0xFFFEF2F2);
+  static const Color softRedBoarder=Color(0xFFFEE2E2);
   static const Color hintColor = Color(0xffCCCCCC);
   static const Color labelTextColor=Color(0xFF374151);
   static const Color chatContainer=Color(0xFFD84D4D);
@@ -59,7 +60,7 @@ class AppColors {
   static const Color darkGrey = Color(0xFF272728);
   static const Color searchBarBgColor = Color(0xFFFFFFFF);
   static const Color searchTextColor = Color(0xFF8E8E93);
-  // static const Color containerGreyBgColor = Color(0xFF656467);
+   static const Color containerGreyBgColor = Color(0xFFF9FAFB);
   //
   // static const Color cartDetailsConColor = Color(0xFF272728);
   // static const Color priceTextColor = Color(0xFFCD9235);

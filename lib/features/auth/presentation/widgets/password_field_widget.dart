@@ -34,8 +34,8 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
             padding: const EdgeInsets.all(12), // optional padding
             child: CustomImage(
               imageSrc: _obscureText
-                  ? AppAssets.passHide // your "eye closed" image
-                  : AppAssets.pass,  // your "eye open" image
+                  ? AppAssets.visibilityOff // your "eye closed" image
+                  : AppAssets.visibility,  // your "eye open" image
               height: 24.h,
               width: 24.w,
               fit: BoxFit.contain,

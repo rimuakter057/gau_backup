@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gau_app/features/auth/grade/presentation/screens/grade_screen.dart';
 import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
+import 'package:gau_app/features/home/presentation/screens/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:gau_app/core/router/route_path.dart';
@@ -51,7 +53,30 @@ class AppRouter {
           );
         },
       ),
+          ///home===========================================
 
+          GoRoute(
+            name: RoutePath.homeScreen,
+            path: RoutePath.homeScreen.addBasePath,
+            pageBuilder: (context, state) {
+              return _buildPageWithAnimation(
+                child:  HomeScreen(),
+                state: state,
+              );
+            },
+          ),
+      ///grade===========================================
+
+      GoRoute(
+        name: RoutePath.gradeScreen,
+        path: RoutePath.gradeScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  GradeScreen(),
+            state: state,
+          );
+        },
+      ),
 
 
       GoRoute(

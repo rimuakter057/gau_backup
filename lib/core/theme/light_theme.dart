@@ -23,10 +23,11 @@ final ThemeData lightTheme = ThemeData(
       shadowColor: Colors.transparent,
       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      foregroundColor: AppColors.white,
+
       textStyle: GoogleFonts.inter(
         fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: AppColors.white,
+        fontWeight: FontWeight.w500
       ),
     ),
   ),
@@ -105,6 +106,14 @@ final ThemeData lightTheme = ThemeData(
 
 ///text theme=====================================================================
   textTheme: TextTheme(
+
+
+    titleLarge:  GoogleFonts.inter(
+
+      fontSize: 32,
+      fontWeight: FontWeight.w700,
+      color: AppColors.darkRed,
+    ),
 
     titleMedium:GoogleFonts.playfairDisplay(
 

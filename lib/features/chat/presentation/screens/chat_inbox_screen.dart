@@ -50,7 +50,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppText.inbox),
+      appBar: CustomAppBar(title: "AppText.inbox"),
       body: Column(
         children: [
 
@@ -79,7 +79,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
                   children: [
                     IconButton(
                       onPressed: () {},
-                      icon: CustomImage(imageSrc: AppAssets.link),
+                      icon: CustomImage(imageSrc: AppAssets.add),
                     ),
                     Expanded(
                       child: TextField(

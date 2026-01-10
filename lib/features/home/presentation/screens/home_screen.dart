@@ -1,248 +1,374 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:gau_app/core/router/route_path.dart';
-// import 'package:gau_app/core/router/routes.dart';
-// import 'package:gau_app/features/common/auth/presentation/widgets/title_widget.dart';
-// import 'package:gau_app/features/user/home/presentation/widgets/add_to_cart_button_widget.dart';
-// import 'package:gau_app/features/user/home/presentation/widgets/home_app_bar.dart';
-// import 'package:gau_app/features/user/home/presentation/widgets/home_category_widget.dart';
-// import 'package:gau_app/features/user/home/presentation/widgets/home_product_card_widget.dart';
-// import 'package:gau_app/share/widgets/custom_appbar/custom_appbar.dart';
-// import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
-// import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
-// import 'package:gau_app/share/widgets/custom_search_bar/custom_search_bar.dart';
-// import 'package:gau_app/utils/app_assets/app_assets.dart';
-// import 'package:gau_app/utils/app_const/app_const.dart';
-// import 'package:gau_app/utils/app_text/app_text.dart';
-// import 'package:gau_app/utils/color/app_colors.dart';
-// import 'package:gau_app/utils/config/app_config.dart';
-// import 'package:gau_app/utils/extension/base_extension.dart';
-//
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-//     final width = MediaQuery.of(context).size.width;
-//     print('width===============================$width');
-//     return Scaffold(
-//       key: _scaffoldKey,
-//       appBar: HomeAppBar(
-//         profileName: "user",
-//         profileSubtitle: "Great Falls, Marylan",
-//
-//         onNotificationTap: (){
-//           context.pushNamed(RoutePath.notificationScreen);
-//         },
-//
-//         onDrawerTap: () {
-//           _scaffoldKey.currentState?.openEndDrawer();
-//         },
-//       ),
-//       endDrawer: Drawer(
-//         backgroundColor: AppColors.drawerBgColor,
-//
-//
-//
-//         child: _buildDrawer(context),
-//       ),
-//
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: EdgeInsets.all(16.w),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               CustomSearchBar(),
-//               SizedBox(height: 16.h),
-//               TitleWidget(title: AppText.selectCategory),
-//               SizedBox(height: 16.h),
-//               ///select category=======================================================
-//               SizedBox(
-//                 height:40.h,
-//
-//                 child: ListView.builder(
-//                   scrollDirection: Axis.horizontal,
-//                   itemCount: 10,
-//                   itemBuilder: (context, index) {
-//                     return         Padding(
-//                       padding: const EdgeInsets.symmetric(horizontal:4),
-//                       child: Container(
-//                         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(30),
-//                           gradient: AppColors.buttonGradient,
-//                         ),
-//                         child: Row(
-//                           children: [
-//                             Icon(Icons.directions_run, color: Colors.white, size: 20),
-//                             SizedBox(width: 8),
-//                             Text(
-//                               "Shoes",
-//                               style: TextStyle(color: Colors.white, fontSize: 16),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               ),
-//
-//               SizedBox(height: 16.h),
-//
-//               ///brand category=======================================================
-//               TitleWidget(title: AppText.selectBrand),
-//               SizedBox(height: 8.h),
-//               ///category home================================================
-//               HomeCategoryWidget(image:AppConstant.unknown, name: 'Starbucks',),
-//
-//               SizedBox(height: 16.h),
-//               _buildHomeTitle(context, title: AppText.exclusive,
-//               onTap: (){
-//
-//                   context.pushNamed(RoutePath.exclusiveProductScreen);}
-//
-//               ),
-//               SizedBox(height: 8.h),
-//
-//               ///exclusive=======================
-//               SizedBox(
-//                 height:
-//                     (width == 360)
-//                         ? 290.h
-//                         : (width > 360)
-//                         ? 210.h
-//                         : 220.h,
-//                 child: ListView.builder(
-//                   scrollDirection: Axis.horizontal,
-//                   itemCount: 10,
-//                   itemBuilder: (context, index) {
-//                     return HomeProductCardWidget();
-//                   },
-//                 ),
-//               ),
-//
-//               SizedBox(height: 24.h),
-//
-//               _buildHomeTitle(context, title: AppText.featureProduct,
-//                   onTap: (){
-//
-//                     context.pushNamed(RoutePath.featureProductScreen);}
-//               ),
-//               SizedBox(height: 8.h),
-//
-//               ///featureProduct=======================
-//               SizedBox(
-//                 height:
-//                     (width == 360)
-//                         ? 290.h
-//                         : (width > 360)
-//                         ? 210.h
-//                         : 220.h,
-//                 child: ListView.builder(
-//                   scrollDirection: Axis.horizontal,
-//                   itemCount: 10,
-//                   itemBuilder: (context, index) {
-//                     return HomeProductCardWidget();
-//                   },
-//                 ),
-//               ),
-//
-//               SizedBox(height: 24.h),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// ///drawer==================================================
-//   Column _buildDrawer(BuildContext context) {
-//     return Column(
-//         crossAxisAlignment:CrossAxisAlignment.start,
-//         children: [
-//
-//           Padding(
-//             padding: const EdgeInsets.all(16.0),
-//             child: SizedBox(
-//               height: 150.h,
-//               child: DrawerHeader(
-//
-//                 margin: EdgeInsets.zero,
-//                 padding: EdgeInsets.zero,
-//                 child:CustomImage(imageSrc: AppAssets.appLogoImage)
-//               ),
-//             ),
-//           ),
-//
-//           const CustomDivider(
-//             color: AppColors.dividerColor,
-//           ),
-//
-//
-//           Padding(
-//             padding: const EdgeInsets.all(16.0),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 _buildDrawerTitle(context, title: AppText.myOrder, onTap: () {
-//                   context.pushNamed(RoutePath.orderScreen);
-//                 }),
-//                 SizedBox(height: 16.h,),
-//                 _buildDrawerTitle(context, title: AppText.privacyPolicy, onTap: () {
-//                   context.pushNamed(RoutePath.privacyPolicyScreen);
-//                 }),
-//                 SizedBox(height: 16.h,),
-//                 _buildDrawerTitle(context, title: AppText.termsAndConditions, onTap: () {
-//                   context.pushNamed(RoutePath.termsOfConditionScreen);
-//                 }),
-//                 SizedBox(height: 16.h,),
-//                 _buildDrawerTitle(context, title: AppText.profile, onTap: () {
-//                   context.pushNamed(RoutePath.profileScreen);
-//                 }),
-//               ],
-//             ),
-//           ),
-//         ],);
-//   }
-// ///drawer title=============================================================================
-//   GestureDetector _buildDrawerTitle(BuildContext context,{required String title,required VoidCallback onTap}) {
-//     return GestureDetector(
-//               onTap: onTap,
-//               child: Text(title,style: context.titleLarge,));
-//   }
-//
-//
-//
-//   ///home title=============================================================================
-//
-//   Row _buildHomeTitle(
-//     BuildContext context, {
-//     required String title,
-//     VoidCallback? onTap,
-//   }) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         Text(title, style: context.titleLarge),
-//         GestureDetector(
-//           onTap: onTap,
-//           child: Text(
-//             AppText.viewAll,
-//             style: TextStyle(
-//               fontFamily: AppConfig.questrial,
-//               fontSize: 12.sp,
-//               fontWeight: FontWeight.w400,
-//               color: AppColors.white,
-//               decoration: TextDecoration.underline,
-//               decorationColor: AppColors.white,
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/features/common/widgets/grade_gpa_widget.dart';
+import 'package:gau_app/features/home/presentation/widgets/home_app_bar.dart';
+import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
+import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
+import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
+import 'package:gau_app/utils/app_assets/app_assets.dart';
+import 'package:gau_app/utils/app_text/app_text.dart';
+import 'package:gau_app/utils/color/app_colors.dart';
+import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:go_router/go_router.dart';
+
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  // Courses
+  final List<Map<String, String>> courses = [
+    {"code": "CS301", "name": "Data Structures"},
+    {"code": "MATH202", "name": "Linear Algebra"},
+    {"code": "ENG102", "name": "Academic Writing"},
+    {"code": "PHYS101", "name": "Physics I"},
+    {"code": "CS301", "name": "Data Structures"},
+    {"code": "MATH202", "name": "Linear Algebra"},
+    {"code": "ENG102", "name": "Academic Writing"},
+    {"code": "PHYS101", "name": "Physics I"},
+  ];
+
+  // Upcoming Deadlines
+  final List<Map<String, String>> deadlines = [
+    {"title": "Assignment 1", "date": "12 Feb 2026"},
+    {"title": "Midterm Exam", "date": "18 Feb 2026"},
+    {"title": "Project Submission", "date": "25 Feb 2026"},
+    {"title": "Assignment 1", "date": "12 Feb 2026"},
+    {"title": "Midterm Exam", "date": "18 Feb 2026"},
+    {"title": "Project Submission", "date": "25 Feb 2026"},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: HomeAppBar(
+        profileName: "User",
+        profileSubtitle: "Great Falls, Maryland",
+        onNotificationTap: () {
+          // context.pushNamed(RoutePath.notificationScreen);
+        },
+      ),
+      drawer: Drawer(
+        backgroundColor: AppColors.drawerBgColor,
+        child: _buildDrawer(context),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // My Grades
+            CustomContainer(
+              padding: EdgeInsets.all(24.w),
+              width: double.infinity,
+              borderColor: AppColors.inputBorderColor,
+              backgroundColor: AppColors.containerGreyBgColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(AppText.myGrades, style: context.titleMedium),
+                  Text(
+                    AppText.viewAcademicPerformance,
+                    style: context.bodyMedium.copyWith(
+                      color: AppColors.greyTextColor,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Center(
+                    child: GradGpaContainerWidget(
+                      borderColor: AppColors.softRedBoarder,
+                      bgColor: AppColors.softRed,
+                      title: AppText.currentGpa,
+                      number: 3.67,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 18.h),
+
+            // // Courses Table
+            // CustomContainer(
+            //   borderColor: AppColors.inputBorderColor,
+            //   backgroundColor: AppColors.white,
+            //   radius: 12,
+            //   child: SizedBox(
+            //     height: 400.h,
+            //     child: CourseTable(courses: courses),
+            //   ),
+            // ),
+            CustomContainer(
+              borderColor: AppColors.inputBorderColor,
+              backgroundColor: AppColors.white,
+              radius: 12,
+              padding: EdgeInsets.all(0), // optional
+              child: CourseTable(courses: courses), // No SizedBox, height auto
+            ),
+
+            SizedBox(height: 18.h),
+
+            // Quick Options Row 1
+            Row(
+              children: [
+                _buildContainerOption(
+                  context,
+                  title: AppText.transcript,
+                  image: AppAssets.transcript,
+                  onTap: () {},
+                ),
+                SizedBox(width: 8.w),
+                _buildContainerOption(
+                  context,
+                  title: AppText.complaint,
+                  image: AppAssets.complain,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+
+            // Quick Options Row 2
+            Row(
+              children: [
+                _buildContainerOption(
+                  context,
+                  title: AppText.profile,
+                  image: AppAssets.profile,
+                  onTap: () {},
+                ),
+                SizedBox(width: 12.w),
+                _buildContainerOption(
+                  context,
+                  title: AppText.badges,
+                  image: AppAssets.badges,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+
+            // Upcoming Deadlines
+            CustomContainer(
+              width: double.infinity,
+              backgroundColor: AppColors.containerGreyBgColor,
+              borderColor: AppColors.inputBorderColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppText.upcomingDeadlines,
+                    style: context.bodyMedium.copyWith(
+                      color: AppColors.titleColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  CustomDivider(color: AppColors.dividerColor),
+                  deadlines.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          child: Text(
+                            "No upcoming deadlines",
+                            style: context.bodySmall.copyWith(
+                              color: AppColors.greyTextColor,
+                            ),
+                          ),
+                        )
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: deadlines.length,
+                          separatorBuilder: (_, __) =>
+                              CustomDivider(color: AppColors.dividerColor),
+                          itemBuilder: (context, index) {
+                            final item = deadlines[index];
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    item['title']!,
+                                    style: context.bodySmall.copyWith(
+                                      color: AppColors.titleColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    item['date']!,
+                                    style: context.bodySmall.copyWith(
+                                      color: AppColors.greyTextColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Drawer
+  Column _buildDrawer(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            height: 150.h,
+            child: DrawerHeader(
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              child: CustomImage(imageSrc: AppAssets.appLogoImage),
+            ),
+          ),
+        ),
+        const CustomDivider(color: AppColors.dividerColor),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildDrawerTitle(
+                context,
+                title: AppText.dashboard,
+                onTap: () {},
+              ),
+              SizedBox(height: 16.h),
+              _buildDrawerTitle(
+                context,
+                title: AppText.myGradesMenu,
+                onTap: () => context.pushNamed(RoutePath.gradeScreen),
+              ),
+              SizedBox(height: 16.h),
+              _buildDrawerTitle(
+                context,
+                title: AppText.transcriptMenu,
+                onTap: () {},
+              ),
+              SizedBox(height: 16.h),
+              _buildDrawerTitle(
+                context,
+                title: AppText.complaintsMenu,
+                onTap: () {},
+              ),
+              SizedBox(height: 16.h),
+              _buildDrawerTitle(
+                context,
+                title: AppText.messageMenu,
+                onTap: () {},
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  GestureDetector _buildDrawerTitle(
+    BuildContext context, {
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Text(title, style: context.titleMedium),
+    );
+  }
+
+  // Quick Option Cards
+  Expanded _buildContainerOption(
+    BuildContext context, {
+    required String title,
+    required String image,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: CustomContainer(
+          borderWidth: 2,
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+          borderColor: AppColors.red,
+          child: Column(
+            children: [
+              CustomImage(imageSrc: image),
+              SizedBox(height: 4.h),
+              Text(
+                title,
+                style: context.bodySmall.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.red,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Course Table
+class CourseTable extends StatelessWidget {
+  final List<Map<String, String>> courses;
+  const CourseTable({super.key, required this.courses});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const _RowItem(code: 'Code', name: 'Course Name', isHeader: true),
+        const Divider(height: 1),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: courses.length,
+          separatorBuilder: (_, __) => const Divider(height: 1),
+          itemBuilder: (context, index) {
+            final course = courses[index];
+            return _RowItem(code: course['code']!, name: course['name']!);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _RowItem extends StatelessWidget {
+  final String code;
+  final String name;
+  final bool isHeader;
+  const _RowItem({
+    required this.code,
+    required this.name,
+    this.isHeader = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final style = TextStyle(
+      color: isHeader ? Colors.blueGrey[400] : Colors.blueGrey[700],
+      fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+      fontSize: 15,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      child: Row(
+        children: [
+          Expanded(child: Text(code, style: style)),
+          Expanded(
+            child: Text(name, style: style, textAlign: TextAlign.right),
+          ),
+        ],
+      ),
+    );
+  }
+}

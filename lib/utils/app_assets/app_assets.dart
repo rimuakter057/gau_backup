@@ -4,46 +4,53 @@ class AppAssets {
   static final String _images = 'assets/logo';
   static final String _icons = 'assets/icons';
 
-  //================================ IMAGES ==================================
-
+  //================================ IMAGES logo ==================================
   static String appLogoImage = '$_images/logo.png';
-  static String cartImage = '$_images/cart_image.png';
- // static String logo = '$_images/logo.png';
-  static String paymentCardImage = '$_images/payment_card.png';
-  static String productImage = '$_images/product_image.png';
-  static String userLoginImage = '$_images/user_login.png';
-  static String buyerImage = '$_images/buyer.png';
-  static String sellerImage = '$_images/seller.png';
-  static String productDetailsImage = '$_images/product_details_image.png';
-  static String documentImage = '$_images/documentImage.png';
+
 
   //================================ ICONS ====================================
 
-  static String seller = '$_icons/seller.svg';
-  static String user = '$_icons/user.svg';
-  static String accessories = '$_icons/acc.svg';
-  static String addNav = '$_icons/add_nav.svg';
-  static String back = '$_icons/back.svg';
-  static String camera = '$_icons/camera.svg';
-  static String cart = '$_icons/cart.svg';
-  static String cartNav = '$_icons/cart_nav.svg';
-  static String chatNav = '$_icons/chat_nav.svg';
-  static String drawer = '$_icons/drawer.svg';
-  static String edit = '$_icons/edit.svg';
-  static String passHide = '$_icons/hide_icon.svg';
-  static String homeNav = '$_icons/home_nav.svg';
-  static String jewelry = '$_icons/jewelry.svg';
-  static String notification = '$_icons/notification.svg';
-  static String orderNav = '$_icons/order_nav.svg';
-  static String pass = '$_icons/pass_icon.svg';
-  static String pdf = '$_icons/pdf.png';
-  static String productNav = '$_icons/product_nav.svg';
-  static String search = '$_icons/search.svg';
-  static String shoes = '$_icons/shoes.svg';
-  static String upload = '$_icons/upload.svg';
-  static String userSignUp='$_icons/user_signup_icon.svg';
+  static String visibilityOff = '$_icons/visibility_off.svg';
+  static String visibility = '$_icons/visibility.svg';
   static String send = '$_icons/send.svg';
-  static String link='$_icons/link.svg';
-  static String addImage='$_icons/add_image.svg';
+  static String add = '$_icons/add.svg';
+ static String notification = '$_icons/notification.svg';
+  static String drawer = '$_icons/menu.svg';
+   static String next = '$_icons/next_arrow.svg';
+
+
+
+
+
+   static String badges = '$_icons/badges.svg';
+   static String close = '$_icons/close.svg';
+
+  static String complain = '$_icons/complain.svg';
+  static String dashBoard = '$_icons/dash_board.svg';
+  static String deliver = '$_icons/deliver.svg';
+  static String download = '$_icons/download.svg';
+  static String dropDown = '$_icons/drop_down.svg';
+  static String grade = '$_icons/grade.svg';
+  static String inProgress = '$_icons/in_progress.svg';
+
+  static String logOut = '$_icons/logout.svg';
+  static String message = '$_icons/message.svg';
+
+  static String pending = '$_icons/pending.svg';
+
+  static String phone = '$_icons/phone.svg';
+  static String print = '$_icons/print.svg';
+  static String profile = '$_icons/profile.svg';
+  static String profileDrawer = '$_icons/profile_drawer.svg';
+  static String save = '$_icons/save.svg';
+
+
+  static String submitReq='$_icons/submit_req.svg';
+  static String transcript='$_icons/transcript.svg';
+static String twoFactor = '$_icons/two_factor.svg';
+static String updatePass = '$_icons/update_pass.svg';
+static String updateDoc = '$_icons/upload_doc.svg';
+static String window = '$_icons/windows.svg';
+
 
 }

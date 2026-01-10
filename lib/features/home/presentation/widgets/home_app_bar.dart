@@ -13,7 +13,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final VoidCallback? onNotificationTap;
   final VoidCallback? onCartTap;
-  final VoidCallback? onDrawerTap;
+
 
   const HomeAppBar({
     super.key,
@@ -22,7 +22,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     this.onNotificationTap,
     this.onCartTap,
-    this.onDrawerTap,
+
 
   });
 
@@ -32,49 +32,22 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.backgroundColor,
       elevation: 1,
       titleSpacing: 0,
-      leadingWidth: 200,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: Row(
-          children: [
-            CustomProfileAvatar(),
-
-            const SizedBox(width: 8),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  profileName,
-                  style: context.bodyLarge.copyWith(
-                      fontFamily: "Poppins"
-                  )
-                ),
-                Text(
-                  profileSubtitle,
-                  style: context.bodyMedium.copyWith(
-                    fontFamily: "Poppins"
-                  )
-                ),
-              ],
-            ),
-          ],
-        ),
+      leading: IconButton(
+        icon:CustomImage(imageSrc: AppAssets.drawer), // 👈 custom icon
+        onPressed: () {
+          Scaffold.of(context).openDrawer();
+        },
       ),
+    
+
       actions: [
         IconButton(
           onPressed: onNotificationTap,
           icon: CustomImage(imageSrc: AppAssets.notification)
         ),
 
-        IconButton(
-          onPressed: onCartTap,
-            icon: CustomImage(imageSrc: AppAssets.cart)
-        ),
-        IconButton(
-          onPressed: onDrawerTap,
-            icon: CustomImage(imageSrc: AppAssets.drawer)
-        ),
+
+  Text("data"),
          SizedBox(width: 8.w),
       ],
     );
