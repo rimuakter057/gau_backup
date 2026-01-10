@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/grade_gpa_widget.dart';
 import 'package:gau_app/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
@@ -49,7 +50,7 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: Drawer(
         backgroundColor: AppColors.drawerBgColor,
-        child: _buildDrawer(context),
+        child: CustomDrawer(),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
@@ -86,16 +87,6 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 18.h),
 
-            // // Courses Table
-            // CustomContainer(
-            //   borderColor: AppColors.inputBorderColor,
-            //   backgroundColor: AppColors.white,
-            //   radius: 12,
-            //   child: SizedBox(
-            //     height: 400.h,
-            //     child: CourseTable(courses: courses),
-            //   ),
-            // ),
             CustomContainer(
               borderColor: AppColors.inputBorderColor,
               backgroundColor: AppColors.white,
@@ -146,7 +137,7 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
 
-            // Upcoming Deadlines
+            /// Upcoming Deadlines=================================================
             CustomContainer(
               width: double.infinity,
               backgroundColor: AppColors.containerGreyBgColor,
@@ -181,8 +172,12 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final item = deadlines[index];
                             return Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.h),
-                              child: Row(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8.h,
+                                horizontal: 24,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -197,6 +192,7 @@ class HomeScreen extends StatelessWidget {
                                     item['date']!,
                                     style: context.bodySmall.copyWith(
                                       color: AppColors.greyTextColor,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
@@ -207,69 +203,77 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 32.h),
+
+            ///academic progress===================================================
+            CustomContainer(
+              width: double.infinity,
+              backgroundColor: AppColors.containerGreyBgColor,
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppText.academicProgress,
+                    style: context.bodyMedium.copyWith(
+                      color: AppColors.titleColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  CustomDivider(color: AppColors.dividerColor),
+                  _buildAcademicProgressText(
+                    context,
+                    title: AppText.recentSemesters,
+                    progress: "32.5%",
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    AppText.recentSemesters,
+                    style: context.bodySmall.copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 12.h),
+                  _buildAcademicProgressText(
+                    context,
+                    title: AppText.spring,
+                    progress: "32.5%",
+                  ),
+                  SizedBox(height: 8.h),
+                  _buildAcademicProgressText(
+                    context,
+                    title: AppText.spring,
+                    progress: "32.5%",
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  // Drawer
-  Column _buildDrawer(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  ///academic progress================================================================
+  Row _buildAcademicProgressText(
+    BuildContext context, {
+    required String title,
+    required String progress,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SizedBox(
-            height: 150.h,
-            child: DrawerHeader(
-              margin: EdgeInsets.zero,
-              padding: EdgeInsets.zero,
-              child: CustomImage(imageSrc: AppAssets.appLogoImage),
-            ),
-          ),
-        ),
-        const CustomDivider(color: AppColors.dividerColor),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildDrawerTitle(
-                context,
-                title: AppText.dashboard,
-                onTap: () {},
-              ),
-              SizedBox(height: 16.h),
-              _buildDrawerTitle(
-                context,
-                title: AppText.myGradesMenu,
-                onTap: () => context.pushNamed(RoutePath.gradeScreen),
-              ),
-              SizedBox(height: 16.h),
-              _buildDrawerTitle(
-                context,
-                title: AppText.transcriptMenu,
-                onTap: () {},
-              ),
-              SizedBox(height: 16.h),
-              _buildDrawerTitle(
-                context,
-                title: AppText.complaintsMenu,
-                onTap: () {},
-              ),
-              SizedBox(height: 16.h),
-              _buildDrawerTitle(
-                context,
-                title: AppText.messageMenu,
-                onTap: () {},
-              ),
-            ],
+        Text(title, style: context.bodySmall),
+        Text(
+          progress,
+          style: context.bodySmall.copyWith(
+            fontWeight: FontWeight.w500,
+            color: AppColors.titleColor,
           ),
         ),
       ],
     );
   }
+
+
 
   GestureDetector _buildDrawerTitle(
     BuildContext context, {
