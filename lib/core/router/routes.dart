@@ -4,7 +4,9 @@ import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
+import 'package:gau_app/features/home/presentation/screens/complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/home_screen.dart';
+import 'package:gau_app/features/home/presentation/screens/transcript_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:gau_app/core/router/route_path.dart';
@@ -16,7 +18,7 @@ class AppRouter {
       GlobalKey<NavigatorState>();
 
   static final GoRouter initRoute = GoRouter(
-    initialLocation: RoutePath.splashScreen.addBasePath,
+    initialLocation: RoutePath.complainScreen.addBasePath,
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
     routes: [
@@ -31,16 +33,16 @@ class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   name: RoutePath.selectedScreen,
-      //   path: RoutePath.selectedScreen.addBasePath,
-      //   pageBuilder: (context, state) {
-      //     return _buildPageWithAnimation(
-      //       child:  SelectedScreen(),
-      //       state: state,
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        name: RoutePath.transcriptScreen,
+        path: RoutePath.transcriptScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  TranscriptScreen(),
+            state: state,
+          );
+        },
+      ),
 
       ///======================= auth Route =======================
       GoRoute(
@@ -65,6 +67,18 @@ class AppRouter {
               );
             },
           ),
+
+      GoRoute(
+        name: RoutePath.complainScreen,
+        path: RoutePath.complainScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  ComplainScreen(),
+            state: state,
+          );
+        },
+      ),
+
       ///grade===========================================
 
       GoRoute(
@@ -105,260 +119,7 @@ class AppRouter {
 
 
 
-//       GoRoute(
-//         name: RoutePath.signUpScreen,
-//         path: RoutePath.signUpScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  SignUpScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//       GoRoute(
-//         name: RoutePath.forgotPassScreen,
-//         path: RoutePath.forgotPassScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  ForgotPasswordScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//       GoRoute(
-//         name: RoutePath.verifyCodeScreen,
-//         path: RoutePath.verifyCodeScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  VerifyCodeScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//       GoRoute(
-//         name: RoutePath.verifyEmailScreen,
-//         path: RoutePath.verifyEmailScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  VerifyEmailScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//
-//
-//       ///======================= User Bottom Navbar user =======================
-//       ShellRoute(
-//         builder: (context, state, child) {
-//           return MainNavBar(child: child); // 👈 Navbar wrapper
-//         },
-//         routes: [
-//
-//           ///home route=========================================================
-//           GoRoute(
-//             name: RoutePath.homeScreen,
-//             path: RoutePath.homeScreen.addBasePath,
-//             pageBuilder: (context, state) {
-//               return _buildPageWithAnimation(
-//                 child:  HomeScreen(),
-//                 state: state,
-//               );
-//             },
-//           ),
-//
-//           ///======================= cart Route =======================
-//           GoRoute(
-//             name: RoutePath.cartScreen,
-//             path: RoutePath.cartScreen.addBasePath,
-//             pageBuilder: (context, state) {
-//               return _buildPageWithAnimation(
-//                 child:  CartScreen(),
-//                 state: state,
-//               );
-//             },
-//           ),
-//           ///product route=========================================================
-//           GoRoute(
-//             name: RoutePath.productScreen,
-//             path: RoutePath.productScreen.addBasePath,
-//             pageBuilder: (context, state) {
-//               return _buildPageWithAnimation(
-//                 child:  ProductScreen(),
-//                 state: state,
-//               );
-//             },
-//           ),
-//
-//
-//           ///chat route=========================================================
-//
-//
-//           ///order route=========================================================
-//
-//           GoRoute(
-//             name: RoutePath.orderScreen,
-//             path: RoutePath.orderScreen.addBasePath,
-//             pageBuilder: (context, state) {
-//               return _buildPageWithAnimation(
-//                 child:  OrderScreen(),
-//                 state: state,
-//               );
-//             },
-//           ),
-//
-//         ],
-//       ),
-//
-//
-//
-//
-//
-//
-//
-// ///===========================other screens=============================
-//
-//
-//
-//
-//
-// ///cart================================
-//
-//       GoRoute(
-//         name: RoutePath.paymentScreen,
-//         path: RoutePath.paymentScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  PaymentScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//
-//       GoRoute(
-//         name: RoutePath.cartDetailsScreen,
-//         path: RoutePath.cartDetailsScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  CartDetailsScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//
-//       ///======================= profile Route =======================
-//
-//       GoRoute(
-//         name: RoutePath.profileScreen,
-//         path: RoutePath.profileScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  ProfileScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//
-//
-//
-//       GoRoute(
-//         name: RoutePath.editProfileScreen,
-//         path: RoutePath.editProfileScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  EditProfileScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//       ///product route=========================================================
-//       GoRoute(
-//         name: RoutePath.productDetailsScreen,
-//         path: RoutePath.productDetailsScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  ProductDetailsScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//       GoRoute(
-//         name: RoutePath.exclusiveProductScreen,
-//         path: RoutePath.exclusiveProductScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  ExclusiveProductScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//       GoRoute(
-//         name: RoutePath.featureProductScreen,
-//         path: RoutePath.featureProductScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  FeatureProductScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//
-//
-//
-//
-//
-//       ///doc===================================
-//
-//       GoRoute(
-//         name: RoutePath.termsOfConditionScreen,
-//         path: RoutePath.termsOfConditionScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  TermsConditionScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//
-//       GoRoute(
-//         name: RoutePath.privacyPolicyScreen,
-//         path: RoutePath.privacyPolicyScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  PrivacyPolicyScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
-//       ///notification=============================================================
-//       GoRoute(
-//         name: RoutePath.notificationScreen,
-//         path: RoutePath.notificationScreen.addBasePath,
-//         pageBuilder: (context, state) {
-//           return _buildPageWithAnimation(
-//             child:  NotificationScreen(),
-//             state: state,
-//           );
-//         },
-//       ),
+
 
 
 

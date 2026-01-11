@@ -13,7 +13,7 @@ final ThemeData lightTheme = ThemeData(
     backgroundColor: AppColors.backgroundColor,
     elevation: 0,
     centerTitle: true,
-    iconTheme: IconThemeData(color: AppColors.brandHoverColor),
+    iconTheme: IconThemeData(color: AppColors.primaryColor),
   ),
 ///elevated  button==============================================================
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -35,13 +35,13 @@ final ThemeData lightTheme = ThemeData(
 ///outline button==========================================================
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      side: const BorderSide(color: AppColors.brandHoverColor, width: 1.5),
-      foregroundColor: Colors.black,
+      side: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+      foregroundColor: AppColors.primaryColor,
       minimumSize: const Size(186, 48),
       padding: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      textStyle: const TextStyle(
-        fontFamily: AppConfig.questrial,
+      textStyle: GoogleFonts.inter(
+
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
@@ -59,14 +59,14 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
-  iconTheme: const IconThemeData(color: AppColors.brandHoverColor),
+  iconTheme: const IconThemeData(color: AppColors.primaryColor),
   /// input decoration-==================================================
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: AppColors.backgroundColor,
-    iconColor: AppColors.brandHoverColor,
-    prefixIconColor: AppColors.brandHoverColor,
-    suffixIconColor: AppColors.brandHoverColor,
+    iconColor: AppColors.primaryColor,
+    prefixIconColor: AppColors.primaryColor,
+    suffixIconColor: AppColors.primaryColor,
     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),

@@ -29,10 +29,30 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
     ChatMessage(text: "Hi, how can I help you?", isMe: true),
     ChatMessage(
       text:
-          "Hello rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
+          "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
       isMe: false,
     ),
     ChatMessage(text: "Hi, how can I help you?", isMe: true),
+    ChatMessage(text: "Hello 👋", isMe: false),
+    ChatMessage(text: "Hi, how can I help you?", isMe: true),
+    ChatMessage(
+      text:
+      "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
+      isMe: false,
+    ),
+    ChatMessage(text: "Hi, how can I help you?", isMe: true),
+    ChatMessage(text: "Hello 👋", isMe: false),
+    ChatMessage(text: "Hi, how can I help you?", isMe: true),
+    ChatMessage(
+      text:
+      "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
+      isMe: false,
+    ),
+    ChatMessage(text: "Hi, how can I help you?", isMe: true),
+
+
+
+
   ];
 
   void _sendMessage() {
@@ -50,42 +70,41 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "AppText.inbox"),
-      body: Column(
-        children: [
-
-
-          /// 🔹 Message list
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16.w),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return MessageBubble(message: _messages[index]);
-              },
+      appBar: CustomAppBar(title: "User Name"),
+      body: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          children: [
+             TextField(
+               decoration: InputDecoration(
+                 hintText: AppText.searchConver
+               ),
+             ),
+            /// 🔹 Message list
+            Expanded(
+              child: ListView.builder(
+                //padding: EdgeInsets.all(16.w),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return MessageBubble(message: _messages[index]);
+                },
+              ),
             ),
-          ),
 
-          /// 🔹 Input box
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            /// 🔹 Input box
+            SafeArea(
               child: CustomContainer(
-                backgroundColor: AppColors.chatInputField,
+                borderColor: AppColors.inputBorderColor,
                 radius: 12.r,
-                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                padding: EdgeInsets.only(left: 4, right: 2, top: 8, bottom: 8),
 
                 child: Row(
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: CustomImage(imageSrc: AppAssets.add),
-                    ),
                     Expanded(
                       child: TextField(
                         controller: _messageController,
                         decoration: InputDecoration(
-                          fillColor: AppColors.white,
+                          fillColor: AppColors.softRed,
                           filled: true,
                           hintText: "Type a message...",
                           border: InputBorder.none,
@@ -102,8 +121,8 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

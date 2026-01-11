@@ -26,7 +26,7 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? const EdgeInsets.all(8), // default 8
+      padding: padding ?? const EdgeInsets.all(12), // default 8
       width: width,
       height: height,
       margin: margin,

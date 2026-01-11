@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:gau_app/core/service/datasource/local/local_service.dart';
 import 'package:gau_app/core/service/datasource/remote/api_client.dart';
 import 'package:gau_app/core/service/datasource/remote/network_checker.dart';
-import 'package:gau_app/features/common/controller/main_nav_controller.dart';
+
 
 
 
@@ -21,7 +21,7 @@ Future<void> initDependencies() async {
 
   sl.registerLazySingleton<NetworkChecker>(() => NetworkChecker());
   sl.registerLazySingleton<LocalService>(() => LocalService());
-  sl.registerLazySingleton<NavController>(() => NavController());
+ // sl.registerLazySingleton<NavController>(() => NavController());
  // sl.registerLazySingleton<HomeController>(() => HomeController());
 
   sl.registerLazySingleton<ApiClient>(

@@ -8,8 +8,9 @@ class AppAssets {
   static String appLogoImage = '$_images/logo.png';
 
 
-  //================================ ICONS ====================================
 
+  //================================ ICONS ====================================
+  static String pdf = '$_icons/pdf.png';
   static String visibilityOff = '$_icons/visibility_off.svg';
   static String visibility = '$_icons/visibility.svg';
   static String send = '$_icons/send.svg';

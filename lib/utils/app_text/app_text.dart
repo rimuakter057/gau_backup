@@ -190,7 +190,7 @@ class AppText{
       "Pending";
 
   static const String inProgressStatus =
-      "In Progress\nAssigned to housing coordinator";
+      "In Progress Assigned to housing coordinator";
 
   static const String bySystem =
       "by System";
@@ -413,8 +413,8 @@ class AppText{
       "Others";
 
 
-
-
+///=======================
+  static const searchConver = 'Search conversations...';
 
 
 

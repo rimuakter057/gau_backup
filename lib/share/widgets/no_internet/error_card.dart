@@ -87,7 +87,7 @@ class ErrorCard extends StatelessWidget {
             ElevatedButton(
               onPressed: onTap,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.brandHoverColor,
+                backgroundColor: AppColors.primaryColor,
                 minimumSize: const Size(140, 44),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
