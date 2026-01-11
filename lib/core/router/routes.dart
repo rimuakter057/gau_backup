@@ -4,9 +4,11 @@ import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
+import 'package:gau_app/features/home/presentation/screens/add_complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/home_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/transcript_screen.dart';
+import 'package:gau_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:gau_app/core/router/route_path.dart';
@@ -18,7 +20,7 @@ class AppRouter {
       GlobalKey<NavigatorState>();
 
   static final GoRouter initRoute = GoRouter(
-    initialLocation: RoutePath.complainScreen.addBasePath,
+    initialLocation: RoutePath.profileScreen.addBasePath,
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
     routes: [
@@ -78,6 +80,16 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        name: RoutePath.addComplainScreen,
+        path: RoutePath.addComplainScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  AddComplainScreen(),
+            state: state,
+          );
+        },
+      ),
 
       ///grade===========================================
 
@@ -117,6 +129,18 @@ class AppRouter {
         },
       ),
 
+      ///profile route=========================================================
+
+      GoRoute(
+        name: RoutePath.profileScreen,
+        path: RoutePath.profileScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  ProfileScreen(),
+            state: state,
+          );
+        },
+      ),
 
 
 

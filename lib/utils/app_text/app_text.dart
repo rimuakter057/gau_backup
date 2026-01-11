@@ -201,8 +201,7 @@ class AppText{
       "Submit a Complaint";
 
   static const String complaintSubtitle =
-      "We take your concerns seriously. Please\n"
-      "provide details below.";
+      "We take your concerns seriously. Please provide details below.";
 
   static const String category =
       "Category";
@@ -235,10 +234,10 @@ class AppText{
       "Click to upload";
 
   static const String dragAndDrop =
-      "or drag and drop";
+      " or drag and drop";
 
   static const String acceptedFormats =
-      "Accepted formats: .pdf,.jpg,.png,.doc  (Max 5 MB)";
+      "Accepted formats: .pdf,.jpg,.png,.doc\n(Max 5 MB)";
 
 
 ///======================================================================================

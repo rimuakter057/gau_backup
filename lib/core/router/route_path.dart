@@ -15,6 +15,8 @@ class RoutePath {
     ///home==============================-===============
   static const String homeScreen = 'homeScreen';
   static const String complainScreen = 'complain';
+  static const String addComplainScreen = 'addComplain';
+
   ///grade====================================================================================
   static const String gradeScreen = 'gradeScreen';
 
@@ -24,6 +26,12 @@ class RoutePath {
   static const String chatInboxScreen = 'chatInboxScreen';
 ///transcript=================================================
   static const String transcriptScreen = 'transcript';
+
+///profile=======================================================
+
+  static const String profileScreen='profile';
+ // static const String profileScreen='profile';
+
 
 
 

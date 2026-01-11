@@ -21,7 +21,7 @@ class ComplainScreen extends StatelessWidget {
           child: Column(
             children: [
               CustomContainer(
-        
+                padding: EdgeInsets.all(24),
                 backgroundColor: AppColors.containerGreyBgColor,
                 borderColor: AppColors.inputBorderColor,
                 child: Column(
