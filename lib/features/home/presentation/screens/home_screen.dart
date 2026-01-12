@@ -181,26 +181,36 @@ class HomeScreen extends StatelessWidget {
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                 vertical: 8.h,
-                                horizontal: 24,
+                                horizontal: 12,
                               ),
-                              child: Column(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    item['title']!,
-                                    style: context.bodySmall.copyWith(
-                                      color: AppColors.titleColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+
+                                  CircleAvatar(backgroundColor: AppColors.primaryColor,
+                                    minRadius: 5,
                                   ),
-                                  Text(
-                                    item['date']!,
-                                    style: context.bodySmall.copyWith(
-                                      color: AppColors.greyTextColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                      SizedBox(width: 6,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        item['title']!,
+                                        style: context.bodySmall.copyWith(
+                                          color: AppColors.titleColor,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        item['date']!,
+                                        style: context.bodySmall.copyWith(
+                                          color: AppColors.greyTextColor,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

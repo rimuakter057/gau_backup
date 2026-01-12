@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/share/widgets/custom_profile_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -39,10 +38,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       actions: [
         badges.Badge(
-          badgeContent: Text('3',style: context.bodySmall.copyWith(color: AppColors.white),),
+          badgeContent: Text(
+            '3',
+            style: context.bodySmall.copyWith(color: AppColors.white),
+          ),
           badgeStyle: const badges.BadgeStyle(
             badgeColor: Colors.red,
-            padding: EdgeInsets.all(3), // 🔹 round container ছোট
+            padding: EdgeInsets.all(3),
           ),
           child: CustomImage(
             imageSrc: AppAssets.notification,
@@ -51,17 +53,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         SizedBox(width: 24.w),
-        Container(
-          height: 24.h,
-          width: 1.w,
-          color: AppColors.dividerColor,
-
-        ),
+        Container(height: 24.h, width: 1.w, color: AppColors.dividerColor),
         SizedBox(width: 24.w),
-        CustomProfileAvatar(
-          height: 28.h,
-          width: 28.w,
-        ),
+        CustomProfileAvatar(height: 28.h, width: 28.w),
 
         SizedBox(width: 8.w),
       ],
