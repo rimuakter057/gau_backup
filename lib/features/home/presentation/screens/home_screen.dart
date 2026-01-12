@@ -11,7 +11,6 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -44,9 +43,7 @@ class HomeScreen extends StatelessWidget {
       appBar: HomeAppBar(
         profileName: "User",
         profileSubtitle: "Great Falls, Maryland",
-        onNotificationTap: () {
-          // context.pushNamed(RoutePath.notificationScreen);
-        },
+        onNotificationTap: () {},
       ),
       drawer: Drawer(
         backgroundColor: AppColors.drawerBgColor,
@@ -57,7 +54,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // My Grades
+            /// My Grades============================================
             CustomContainer(
               padding: EdgeInsets.all(24.w),
               width: double.infinity,
@@ -92,11 +89,20 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: AppColors.white,
               radius: 12,
               padding: EdgeInsets.all(0), // optional
-              child: CourseTable(courses: courses), // No SizedBox, height auto
+              child: CourseTable(courses: courses),
             ),
 
             SizedBox(height: 18.h),
 
+            Container(
+              height: 12.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.softRed,
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+            ),
+            SizedBox(height: 18.h),
             // Quick Options Row 1
             Row(
               children: [
@@ -135,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12.h),
+            SizedBox(height: 18.h),
 
             /// Upcoming Deadlines=================================================
             CustomContainer(
@@ -152,6 +158,7 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  SizedBox(height: 6.h,),
                   CustomDivider(color: AppColors.dividerColor),
                   deadlines.isEmpty
                       ? Padding(
@@ -223,9 +230,19 @@ class HomeScreen extends StatelessWidget {
                   CustomDivider(color: AppColors.dividerColor),
                   _buildAcademicProgressText(
                     context,
-                    title: AppText.recentSemesters,
+                    title: AppText.degree,
                     progress: "32.5%",
                   ),
+                  SizedBox(height: 12.h),
+                  Container(
+                    height: 12.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.red,
+                      borderRadius: BorderRadius.circular(6.r),
+                    ),
+                  ),
+
                   SizedBox(height: 12.h),
                   Text(
                     AppText.recentSemesters,
@@ -246,6 +263,8 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            SizedBox(height: 24.h,),
           ],
         ),
       ),
@@ -270,19 +289,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-
-
-  GestureDetector _buildDrawerTitle(
-    BuildContext context, {
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Text(title, style: context.titleMedium),
     );
   }
 
@@ -326,21 +332,28 @@ class CourseTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const _RowItem(code: 'Code', name: 'Course Name', isHeader: true),
-        const Divider(height: 1),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: courses.length,
-          separatorBuilder: (_, __) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final course = courses[index];
-            return _RowItem(code: course['code']!, name: course['name']!);
-          },
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(AppText.currentCourses, style: context.bodyMedium),
+          SizedBox(height: 12.h),
+          CustomDivider(),
+          const _RowItem(code: 'Code', name: 'Course Name', isHeader: true),
+          CustomDivider(),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: courses.length,
+            separatorBuilder: (_, __) => const Divider(height: 1),
+            itemBuilder: (context, index) {
+              final course = courses[index];
+              return _RowItem(code: course['code']!, name: course['name']!);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -364,7 +377,7 @@ class _RowItem extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
         children: [
           Expanded(child: Text(code, style: style)),

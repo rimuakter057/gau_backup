@@ -76,6 +76,9 @@ class AppText{
   static const String academicProgress =
       "Academic Progress";
 
+  static const String degree =
+      "Degree Completion";
+
   static const String recentSemesters =
       "Recent Semesters";
 ///=======================================================================================================================
