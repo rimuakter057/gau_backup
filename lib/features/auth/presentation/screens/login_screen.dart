@@ -33,16 +33,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final Widget gap = SizedBox(height: 16.h);
     return Scaffold(
-      appBar: CustomAppBar(title: AppText.signIn),
+
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.only(left:16.w,right:16.w,top: 56.h,bottom: 16.h   ),
           child: Form(
             key: _key,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
 
               children: [
+
+
                 /// heading logo and text==================================================
                 _buildHeadingLogoText(context),
                 gap,

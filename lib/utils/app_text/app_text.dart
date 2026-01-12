@@ -323,8 +323,7 @@ class AppText{
       "Enable 2FA";
 
   static const String twoFADescription =
-      "Add an extra layer of security to your "
-      "account using an authenticator app.";
+      "Add an extra layer of security to your account using an authenticator app.";
 
   // ===== Active Sessions =====
   static const String activeSessions =

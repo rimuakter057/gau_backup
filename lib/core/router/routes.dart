@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:gau_app/features/auth/grade/presentation/screens/grade_screen.dart';
+
+import 'package:flutter/material.dart';
 import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
+import 'package:gau_app/features/grade/presentation/screens/grade_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/add_complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/home_screen.dart';
@@ -20,7 +21,7 @@ class AppRouter {
       GlobalKey<NavigatorState>();
 
   static final GoRouter initRoute = GoRouter(
-    initialLocation: RoutePath.profileScreen.addBasePath,
+    initialLocation: RoutePath.splashScreen.addBasePath,
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
     routes: [

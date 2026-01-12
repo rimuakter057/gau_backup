@@ -21,6 +21,7 @@ class AppColors {
 
   static const Color blueColor = Color(0xff1D4ED8);
   static const Color softBlueBg = Color(0xffDBEAFE);
+  static const Color twoFactorBg = Color(0xffEFF6FF);
   static const Color softBlueBorder = Color(0xffBFDBFE);
   static const Color pendingBgColor = Color(0xffEAB308);
 

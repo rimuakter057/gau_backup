@@ -115,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
                     LayoutBuilder(
                       builder: (context, constraints) {
                         return SizedBox(
-                          height: 500.h, // Adjust this height as needed
+                          height: 500.h,
                           child: TabBarView(
                             children: [
                               // Tab 1
@@ -232,7 +232,7 @@ class ProfileScreen extends StatelessWidget {
                                       title: AppText.saveChanges,
                                     ),
                                     gap,
-                                    gap,
+
                                   ],
                                 ),
                               ),
@@ -242,9 +242,14 @@ class ProfileScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text(
+                                      AppText.passwordAuthentication,
+                                      style: context.titleMedium.copyWith(
+                                        fontFamily: 'inter',
+                                      ),
+                                    ),
+                                    gap,
 
-                                    Text(AppText.passwordAuthentication,style: context.titleMedium.copyWith(fontFamily: 'inter'),),
-                                         gap,
                                     ///current password field==============================================================
                                     InputPassFieldWidget(
                                       title: AppText.currentPassword,
@@ -291,6 +296,56 @@ class ProfileScreen extends StatelessWidget {
                                       },
                                     ),
                                     gap,
+                                       SizedBox(height: 8.h,),
+                                      CustomDivider(),
+                                    SizedBox(height: 4.h,),
+                                    OutlinedButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+
+                                          CustomImage(imageSrc: AppAssets.updatePass),
+                                          SizedBox(width: 12.w,),
+                                          Text(AppText.updatePassword),
+
+
+                                      ]),
+                                    ),
+                                    gap,
+                                    SizedBox(height: 8.h,),
+                                    CustomDivider(),
+                                    SizedBox(height: 4.h,),
+
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      leading: Container(
+                                        padding: EdgeInsets.all(6.w),
+                                        decoration: BoxDecoration(
+
+                                          color: AppColors.twoFactorBg,
+                                        ),
+                                        child: CustomImage(
+                                          imageSrc: AppAssets.twoFactor,
+                                        ),
+                                      ),
+                                      title: Text(
+
+                                        AppText.twoFactorAuthentication,
+                                        style: context.bodySmall.copyWith(fontWeight: FontWeight.w600,color: AppColors.titleColor),
+                                      ),
+                                      subtitle: Text(
+                                        AppText.twoFADescription,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: context.bodySmall,
+                                      ),
+                                      trailing:Text(
+                                        AppText.enable2FA,
+                                        style: context.bodySmall.copyWith(fontWeight: FontWeight.w600,color: AppColors.titleColor),
+                                      ),
+                                    ),
 
                                   ],
                                 ),
@@ -304,6 +359,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 38.h),
           ],
         ),
       ),
