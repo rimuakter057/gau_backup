@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
+import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
 import 'package:gau_app/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
@@ -75,7 +76,7 @@ class GradeScreen extends StatelessWidget {
                                     vertical: 20,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: AppColors.softRed, // Subtle red tint
+                                    color: AppColors.softRed,
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(16),
                                       bottomLeft: Radius.circular(16),
@@ -91,7 +92,7 @@ class GradeScreen extends StatelessWidget {
                               VerticalDivider(
                                 width: 2,
                                 thickness: 1,
-                                color: AppColors.greyTextColor,
+                                color: AppColors.dividerColor,
                               ),
                               // Credits Section
                               const Expanded(
@@ -141,10 +142,8 @@ class GradeScreen extends StatelessWidget {
                           height: 400,
                           child: TabBarView(
                             children: [
-                              CourseTable(courses: courses), // Fall 2024
-                              CourseTable(
-                                courses: courses,
-                              ), // Spring 2024 (future different data)
+                              CourseTable(courses: courses),
+                              CourseTable(courses: courses),
                             ],
                           ),
                         ),
@@ -153,6 +152,8 @@ class GradeScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              SoftRedContainerWidget(),
             ],
           ),
         ),
@@ -161,18 +162,6 @@ class GradeScreen extends StatelessWidget {
   }
 
   ///drawer==================================================
-
-  ///drawer title=============================================================================
-  GestureDetector _buildDrawerTitle(
-    BuildContext context, {
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Text(title, style: context.titleLarge),
-    );
-  }
 }
 
 //===========================================================================

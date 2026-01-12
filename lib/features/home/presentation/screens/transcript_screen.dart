@@ -7,6 +7,7 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TranscriptScreen extends StatelessWidget {
   const TranscriptScreen({super.key});
@@ -14,7 +15,18 @@ class TranscriptScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios)),
+        
+        title: Text(AppText.transcript,
+        style:   GoogleFonts.poppins(
+              fontSize: 14,
+              color: AppColors.titleColor,
+              fontWeight: FontWeight.w600
+          ),
+        ),
+        
+      ),
 
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: 16.w),

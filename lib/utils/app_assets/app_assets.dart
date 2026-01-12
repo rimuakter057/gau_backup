@@ -54,4 +54,5 @@ static String updateDoc = '$_icons/upload_doc.svg';
 static String window = '$_icons/windows.svg';
 
   static String camera = '$_icons/camera.svg';
+  static String back = '$_icons/back.svg';
 }

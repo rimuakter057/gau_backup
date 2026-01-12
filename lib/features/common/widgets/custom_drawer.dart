@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -7,13 +8,14 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Widget gap= SizedBox(height: 16.h);
+    final Widget gap = SizedBox(height: 16.h);
     return Drawer(
       backgroundColor: AppColors.drawerBgColor,
       child: Column(
@@ -30,52 +32,61 @@ class CustomDrawer extends StatelessWidget {
                     child: DrawerHeader(
                       margin: EdgeInsets.zero,
                       padding: EdgeInsets.zero,
-                      child: CustomImage(
-                        imageSrc: AppAssets.appLogoImage,
-                      ),
+                      child: CustomImage(imageSrc: AppAssets.appLogoImage),
                     ),
                   ),
                 ),
-
-
 
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(AppText.studentPortal,style: context.bodyMedium.copyWith(fontWeight: FontWeight.w600),),
-                  SizedBox(height: 16.h),
+                      Text(
+                        AppText.studentPortal,
+                        style: context.bodyMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
                       _DrawerItem(
                         image: AppAssets.dashBoard,
                         title: AppText.dashboard,
                         onTap: () {
-                          // navigate
+                          context.push(RoutePath.homeScreen.addBasePath);
                         },
                       ),
-                     gap,
+                      gap,
                       _DrawerItem(
                         image: AppAssets.grade,
                         title: AppText.myGradesMenu,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(RoutePath.gradeScreen.addBasePath);
+                        },
                       ),
                       gap,
                       _DrawerItem(
                         image: AppAssets.transcript,
                         title: AppText.transcriptMenu,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(RoutePath.transcriptScreen.addBasePath);
+                        },
                       ),
-                    gap,
+                      gap,
                       _DrawerItem(
                         image: AppAssets.complain,
                         title: AppText.complaintsMenu,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(RoutePath.complainScreen.addBasePath);
+                        },
                       ),
-                   gap,
+                      gap,
                       _DrawerItem(
                         image: AppAssets.message,
                         title: AppText.messageMenu,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(RoutePath.chatScreen.addBasePath);
+                        },
                       ),
                     ],
                   ),
@@ -85,31 +96,31 @@ class CustomDrawer extends StatelessWidget {
           ),
           Flexible(
             flex: 2,
-            child: Column(children: [
-              const CustomDivider(color: AppColors.dividerColor),
-              _DrawerItem(
-                image: AppAssets.message,
-                title: AppText.messageMenu,
-                onTap: () {},
-              ),
-            ],
-
+            child: Column(
+              children: [
+                const CustomDivider(color: AppColors.dividerColor),
+                _DrawerItem(
+                  image: AppAssets.message,
+                  title: AppText.messageMenu,
+                  onTap: () {},
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
 
-
 class _DrawerItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-   final String image;
+  final String image;
   const _DrawerItem({
     required this.title,
-    required this.onTap, required this.image,
+    required this.onTap,
+    required this.image,
   });
 
   @override
@@ -117,21 +128,18 @@ class _DrawerItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: CustomContainer(
-        padding: EdgeInsets.symmetric(
-          horizontal: 8.w,vertical: 12.h
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
         backgroundColor: AppColors.softRed,
 
         child: Row(
-
           children: [
             CustomImage(imageSrc: image),
-            SizedBox(width: 8.w,),
+            SizedBox(width: 8.w),
             Text(
               title,
               style: context.bodyMedium.copyWith(
                 color: AppColors.labelTextColor,
-                fontWeight: FontWeight.w500
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

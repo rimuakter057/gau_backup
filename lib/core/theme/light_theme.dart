@@ -9,11 +9,12 @@ final ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.backgroundColor,
   fontFamily: AppConfig.questrial,
   ///appbar===============================================
-  appBarTheme: const AppBarTheme(
+  appBarTheme:  AppBarTheme(
     backgroundColor: AppColors.backgroundColor,
     elevation: 0,
     centerTitle: true,
-    iconTheme: IconThemeData(color: AppColors.primaryColor),
+
+    iconTheme: IconThemeData(color: AppColors.black),
   ),
 ///elevated  button==============================================================
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -59,7 +60,7 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
-  iconTheme: const IconThemeData(color: AppColors.primaryColor),
+  iconTheme: const IconThemeData(color: AppColors.black),
   /// input decoration-==================================================
   inputDecorationTheme: InputDecorationTheme(
     filled: true,

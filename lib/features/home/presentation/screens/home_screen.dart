@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/grade_gpa_widget.dart';
+import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
 import 'package:gau_app/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
@@ -94,14 +95,7 @@ class HomeScreen extends StatelessWidget {
 
             SizedBox(height: 18.h),
 
-            Container(
-              height: 12.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.softRed,
-                borderRadius: BorderRadius.circular(6.r),
-              ),
-            ),
+            SoftRedContainerWidget(),
             SizedBox(height: 18.h),
             // Quick Options Row 1
             Row(
@@ -334,6 +328,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 // Course Table
 class CourseTable extends StatelessWidget {
