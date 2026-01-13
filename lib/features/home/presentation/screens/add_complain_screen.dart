@@ -54,8 +54,6 @@ class AddComplainScreen extends StatelessWidget {
                 ),
               ),
 
-              /// add complain from=======================================================================================
-
               /// add complain form =======================================================================================
               SizedBox(height: 20.h),
               CustomContainer(
@@ -72,13 +70,7 @@ class AddComplainScreen extends StatelessWidget {
                     _buildDropdownField(
                       context,
                       hint: AppText.selectCategory,
-                      list: [
-                        AppText.academicIssue,
-                        AppText.housingFacilities,
-                        AppText.financialAid,
-                        AppText.harassmentConduct,
-                        AppText.othersReason,
-                      ],
+                      list: AppText.categoryList,
                     ),
 
                     SizedBox(height: 16.h),
@@ -88,11 +80,7 @@ class AddComplainScreen extends StatelessWidget {
                     _buildDropdownField(
                       context,
                       hint: AppText.selectLevel,
-                      list: [
-                        AppText.lowGeneralInquiry,
-                        AppText.mediumNeedsAttention,
-                        AppText.highUrgentIssue,
-                      ],
+                      list: AppText.priorityList,
                     ),
                     SizedBox(height: 16.h),
 
@@ -120,6 +108,8 @@ class AddComplainScreen extends StatelessWidget {
                       style: context.titleSmall,
                     ),
                     SizedBox(height: 8.h),
+
+                    ///add file =====================================
                     CustomContainer(
                       padding: EdgeInsets.all(16),
                       width: double.infinity,
@@ -128,21 +118,11 @@ class AddComplainScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomImage(imageSrc: AppAssets.updateDoc),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                AppText.clickToUpload,
-                                style: context.bodyMedium.copyWith(
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                              Text(
-                                AppText.dragAndDrop,
-                                style: context.bodySmall,
-                              ),
-                            ],
+                          Text(
+                            AppText.clickToUpload,
+                            style: context.bodyMedium.copyWith(
+                              color: AppColors.primaryColor,
+                            ),
                           ),
                           SizedBox(height: 2.h),
                           Text(
@@ -186,9 +166,27 @@ class AddComplainScreen extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           isExpanded: true,
+          icon: CustomImage(imageSrc: AppAssets.dropDown),
           hint: Text(hint, style: context.bodySmall),
           items: list.map((String value) {
-            return DropdownMenuItem<String>(value: value, child: Text(value));
+            return DropdownMenuItem<String>(value: value,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.containerGreyBgColor
+                    // color: selectedValue == value
+                    //     ? Colors.blue.shade50
+                    //     : Colors.transparent,
+                  ),
+                  child:Text(value,style: context.bodyMedium,)
+                ),
+
+
+               // child: Text(value,style: context.bodyMedium,)
+
+
+            );
           }).toList(),
           onChanged: (_) {},
         ),

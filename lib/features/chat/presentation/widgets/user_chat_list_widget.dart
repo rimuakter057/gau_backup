@@ -35,29 +35,7 @@ class UserChatListWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    CustomProfileAvatar(),
-                    Align(
-                      alignment: AlignmentGeometry.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(6.r),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primaryColor,
-                        ),
-                        child: Text(
-                          count,
-                          style: context.bodySmall.copyWith(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 10.sp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                CustomProfileAvatar(),
 
                 SizedBox(width: 8.w),
                 Column(
@@ -82,7 +60,26 @@ class UserChatListWidget extends StatelessWidget {
             ),
 
             ///time=========================================================================
-            Text(time, style: context.bodySmall),
+            Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(6.r),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primaryColor,
+                  ),
+                  child: Text(
+                    count,
+                    style: context.bodySmall.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 10.sp,
+                    ),
+                  ),
+                ),
+                Text(time, style: context.bodySmall),
+              ],
+            ),
           ],
         ),
       ),

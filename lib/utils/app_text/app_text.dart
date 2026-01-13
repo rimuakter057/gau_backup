@@ -236,7 +236,7 @@ class AppText{
       "Attachments (Optional)";
 
   static const String clickToUpload =
-      "Click to upload";
+      "Tap to upload";
 
   static const String dragAndDrop =
       " or drag and drop";
@@ -382,6 +382,14 @@ class AppText{
   static const String harassmentConduct =
       "Harassment/Conduct";
 
+
+  static List<String> selectReasonList= [
+    AppText.calculationError,
+    AppText.missingAssignmentGrade,
+    AppText.finalExamDispute,
+    AppText.harassmentConduct,
+  ];
+
   static const String othersCategory =
       "Others";
 
@@ -395,12 +403,25 @@ class AppText{
   static const String highUrgentIssue =
       "High - Urgent Issue";
 
+
+  static List <String> priorityList= [
+    AppText.lowGeneralInquiry,
+    AppText.mediumNeedsAttention,
+    AppText.highUrgentIssue,
+  ];
+
+
   // ===== Courses =====
   static const String cs301DataStructures =
       "CS301 - Data Structures";
 
   static const String math301LinearAlgebra =
       "MATH301 - Linear Algebra";
+
+  static List<String> selectCourseList= [
+    AppText.cs301DataStructures,
+    AppText.math301LinearAlgebra,
+  ];
 
   // ===== Grade Verification / Complaint Reasons =====
   static const String calculationError =
@@ -414,6 +435,16 @@ class AppText{
 
   static const String othersReason =
       "Others";
+
+
+  static List<String> categoryList= [
+    AppText.academicIssue,
+    AppText.housingFacilities,
+    AppText.financialAid,
+    AppText.harassmentConduct,
+    AppText.othersReason,
+  ];
+
 
 
 ///=======================

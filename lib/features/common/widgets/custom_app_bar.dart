@@ -8,18 +8,10 @@ import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-
-
   final VoidCallback? onNotificationTap;
   final VoidCallback? onCartTap;
 
-  const CustomAppBar({
-    super.key,
-
-
-    this.onNotificationTap,
-    this.onCartTap,
-  });
+  const CustomAppBar({super.key, this.onNotificationTap, this.onCartTap});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             style: context.bodySmall.copyWith(color: AppColors.white),
           ),
           badgeStyle: const badges.BadgeStyle(
-            badgeColor: Colors.red,
+            badgeColor: AppColors.primaryColor,
             padding: EdgeInsets.all(3),
           ),
           child: CustomImage(

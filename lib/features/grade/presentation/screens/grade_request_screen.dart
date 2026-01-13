@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/common/widgets/cancel_save_button_row.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
-import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
-import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
@@ -15,23 +13,25 @@ class GradeRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final Widget gap=    SizedBox(height: 18.h);
+    final Widget gap = SizedBox(height: 18.h);
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          context.pop();
-        }, icon: Icon(Icons.arrow_back_ios)),
-
-        title: Text(AppText.requestGradeVerification,
-          style:   GoogleFonts.poppins(
-              fontSize: 14,
-              color: AppColors.titleColor,
-              fontWeight: FontWeight.w600
-          ),
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
         ),
 
+        title: Text(
+          AppText.requestGradeVerification,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            color: AppColors.titleColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
 
       body: SingleChildScrollView(
@@ -45,15 +45,13 @@ class GradeRequestScreen extends StatelessWidget {
                 backgroundColor: AppColors.softBlueBg,
                 borderColor: AppColors.softBlueBorder,
                 child: Text(
-
-
-                    AppText.gradeVerificationDescription, style: context.bodySmall),
+                  AppText.gradeVerificationDescription,
+                  style: context.bodySmall,
+                ),
               ),
 
-              /// add complain from=======================================================================================
-
               /// add complain form =======================================================================================
-             gap,
+              gap,
               CustomContainer(
                 padding: EdgeInsets.all(16),
                 width: double.infinity,
@@ -62,37 +60,26 @@ class GradeRequestScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-
-
-
                     /// select course ==================================
                     Text(AppText.selectCourse, style: context.bodyMedium),
                     SizedBox(height: 8.h),
                     _buildDropdownField(
                       context,
                       hint: AppText.selectCourse,
-                      list: [
-                        AppText.cs301DataStructures,
-                        AppText.math301LinearAlgebra,
-                      ],
+                      list: AppText.selectCourseList,
                     ),
-                   gap,
+                    gap,
+
                     /// select reason ==================================
                     Text(AppText.reasonForRequest, style: context.bodyMedium),
                     SizedBox(height: 8.h),
                     _buildDropdownField(
                       context,
                       hint: AppText.selectReason,
-                      list: [
-                        AppText.calculationError,
-                        AppText.missingAssignmentGrade,
-                        AppText.finalExamDispute,
-                        AppText.harassmentConduct,
-                      ],
+                      list: AppText.selectReasonList,
                     ),
 
-                   gap,
+                    gap,
 
                     Text(AppText.additionalDetails, style: context.bodyMedium),
                     SizedBox(height: 4.h),
@@ -125,10 +112,10 @@ class GradeRequestScreen extends StatelessWidget {
   }
 
   Widget _buildDropdownField(
-      BuildContext context, {
-        required List<String> list,
-        required String hint,
-      }) {
+    BuildContext context, {
+    required List<String> list,
+    required String hint,
+  }) {
     return CustomContainer(
       backgroundColor: AppColors.containerGreyBgColor,
       padding: EdgeInsets.symmetric(horizontal: 12.w),

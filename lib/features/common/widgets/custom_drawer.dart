@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
@@ -94,7 +95,7 @@ class CustomDrawer extends StatelessWidget {
                         image: AppAssets.profileDrawer,
                         title: AppText.profileMenu,
                         onTap: () {
-                          context.push(RoutesPath.chatScreen.addBasePath);
+                          context.push(RoutesPath.profileScreen.addBasePath);
                         },
                       ),
                     ],
@@ -111,7 +112,9 @@ class CustomDrawer extends StatelessWidget {
                 _DrawerItem(
                   image: AppAssets.logOut,
                   title: AppText.signOut,
-                  onTap: () {},
+                  onTap: () {
+                    context.push(RoutesPath.loginScreen.addBasePath);
+                  },
                 ),
               ],
             ),
@@ -138,11 +141,18 @@ class _DrawerItem extends StatelessWidget {
       onTap: onTap,
       child: CustomContainer(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
-        backgroundColor: AppColors.softRed,
+        backgroundColor: AppColors.containerGreyBgColor,
 
         child: Row(
           children: [
-            CustomImage(imageSrc: image),
+            SvgPicture.asset(
+              image,
+              color: AppColors.labelTextColor,
+              height: 20.h,
+              width: 20.w,
+              fit: BoxFit.cover,
+            ),
+
             SizedBox(width: 8.w),
             Text(
               title,
