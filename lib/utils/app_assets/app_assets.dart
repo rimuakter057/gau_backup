@@ -57,5 +57,6 @@ static String window = '$_icons/windows.svg';
   static String back = '$_icons/back.svg';
   static String reqGrade = '$_icons/request_grade.svg';
   static String notificationTime = '$_icons/notification_time.svg';
+  static String notificationMark = '$_icons/notification_mark.svg';
 
 }

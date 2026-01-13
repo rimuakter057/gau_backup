@@ -40,6 +40,7 @@ class NotificationScreen extends StatelessWidget {
             children: [
 
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomContainer(
                     radius: 50,
@@ -47,50 +48,104 @@ class NotificationScreen extends StatelessWidget {
                     backgroundColor: AppColors.softBlueBg,
                       child: Text("2 New",style: context.bodySmall.copyWith(
                         color: AppColors.blueColor
-                      ),))
+                      ),)),
+
+                  CustomContainer(
+                      radius: 50,
+                      padding: EdgeInsets.symmetric(vertical: 2,horizontal: 12.w),
+                      backgroundColor: AppColors.containerGreyBgColor,
+                      child:  Row(
+
+                        children: [
+                          CustomImage(imageSrc:AppAssets.notificationMark),
+                          SizedBox(width: 8.w,),
+                          Text(
+                            "Mark all read",
+                            style: context.bodySmall.copyWith(
+                                fontWeight: FontWeight.w700
+                            ),
+                          ),
+                        ],
+                      ),
+
+                  ),
                 ],
 
               ),
+              SizedBox(height: 6.h),
               ListView.builder(
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
                 itemCount: 10,
                 itemBuilder: (context, index) {
+
+
                   return CustomContainer(
                     width: double.infinity,
                     backgroundColor: AppColors.containerGreyBgColor.withAlpha(48),
-                   // padding: EdgeInsets.all(24.w),
+
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Razco Food reply on your feedback",
-                          style: context.bodyMedium,
-                        ),
-                        SizedBox(height: 12.h),
-                        Text(
-                          "Razco Food reply on your feedback Razco Food reply on your feedback Razco Food reply on your feedback Razco Food reply on your feedback",
-                          style: context.bodySmall,
-                        ),
-                        SizedBox(height: 12.h),
-                        Row(
 
+                        Row(
                           children: [
-                         CustomImage(imageSrc:AppAssets.notificationTime),
-                            SizedBox(width: 8.w,),
-                            Text(
-                              "2 days ago",
-                              style: context.bodySmall.copyWith(
-                                fontWeight: FontWeight.w700
+                            Container(
+                              padding: EdgeInsets.all(6.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.twoFactorBg,
+                              ),
+                              child: CustomImage(
+                                imageSrc: AppAssets.twoFactor,
+                              ),
+                            ),
+                            SizedBox(width: 4.w,),
+                            Expanded(
+                              child: Text(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                "Razco Food reply on your feedback",
+                                style: context.bodyMedium,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 12.h),
+
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 38),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 12.h),
+                              Text(
+                                "Razco Food reply on your feedback Razco Food reply on your feedback Razco Food reply on your feedback Razco Food reply on your feedback",
+                                style: context.bodySmall,
+                              ),
+                              SizedBox(height: 12.h),
+                              Row(
+
+                                children: [
+                               CustomImage(imageSrc:AppAssets.notificationTime),
+                                  SizedBox(width: 8.w,),
+                                  Text(
+                                    "2 days ago",
+                                    style: context.bodySmall.copyWith(
+                                      fontWeight: FontWeight.w700
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12.h),
+                            ],
+                          ),
+                        ),
                         CustomDivider()
                       ],
                     ),
                   );
+
+
                 },
               ),
             ],
