@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/config/app_config.dart';
 import 'package:google_fonts/google_fonts.dart';

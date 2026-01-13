@@ -6,10 +6,11 @@ import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
 import 'package:gau_app/features/grade/presentation/screens/grade_request_screen.dart';
 import 'package:gau_app/features/grade/presentation/screens/grade_screen.dart';
-import 'package:gau_app/features/home/presentation/screens/add_complain_screen.dart';
-import 'package:gau_app/features/home/presentation/screens/complain_screen.dart';
+import 'package:gau_app/features/complain/presentation/screens/add_complain_screen.dart';
+import 'package:gau_app/features/complain/presentation/screens/complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/home_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/transcript_screen.dart';
+import 'package:gau_app/features/notification/presentation/screens/notification_screen.dart';
 import 'package:gau_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -157,6 +158,17 @@ class AppRouter {
       ),
 
 
+
+      GoRoute(
+        name: RoutesPath.notificationScreen,
+        path: RoutesPath.notificationScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  NotificationScreen(),
+            state: state,
+          );
+        },
+      ),
 
 
 

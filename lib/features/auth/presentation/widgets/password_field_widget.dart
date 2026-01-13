@@ -14,7 +14,7 @@ final String? Function(String?)?validator;
 }
 
 class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
-  bool _obscureText = true; // initially hide password
+  bool _obscureText = false; // initially hide password
 
   @override
   Widget build(BuildContext context) {

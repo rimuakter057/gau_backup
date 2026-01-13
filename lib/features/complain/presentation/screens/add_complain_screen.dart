@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/common/widgets/cancel_save_button_row.dart';
+import 'package:gau_app/features/home/controller/home_controller.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddComplainScreen extends StatelessWidget {
-  const AddComplainScreen({super.key});
-
+   AddComplainScreen({super.key});
+  final controller = GetIt.instance<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,29 +113,89 @@ class AddComplainScreen extends StatelessWidget {
                     SizedBox(height: 8.h),
 
                     ///add file =====================================
-                    CustomContainer(
-                      padding: EdgeInsets.all(16),
-                      width: double.infinity,
-                      backgroundColor: AppColors.containerGreyBgColor,
-                      borderColor: AppColors.inputBorderColor,
-                      child: Column(
-                        children: [
-                          CustomImage(imageSrc: AppAssets.updateDoc),
-                          Text(
-                            AppText.clickToUpload,
-                            style: context.bodyMedium.copyWith(
-                              color: AppColors.primaryColor,
-                            ),
+
+
+                    // GestureDetector(
+                    //   onTap: (){
+                    //     ///upload file here =====
+                    //
+                    //
+                    //   },
+                    //   child: CustomContainer(
+                    //     padding: EdgeInsets.all(16),
+                    //     width: double.infinity,
+                    //     backgroundColor: AppColors.containerGreyBgColor,
+                    //     borderColor: AppColors.inputBorderColor,
+                    //     child: Column(
+                    //       children: [
+                    //         CustomImage(imageSrc: AppAssets.updateDoc),
+                    //         Text(
+                    //           AppText.clickToUpload,
+                    //           style: context.bodyMedium.copyWith(
+                    //             color: AppColors.primaryColor,
+                    //           ),
+                    //         ),
+                    //         SizedBox(height: 2.h),
+                    //         Text(
+                    //           textAlign: TextAlign.center,
+                    //           AppText.acceptedFormats,
+                    //           style: context.bodySmall,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    //
+
+
+
+
+                    GestureDetector(
+                      onTap: () {
+                        controller.pickFile();
+                      },
+                      child: Obx(() {
+                        return CustomContainer(
+                          padding: EdgeInsets.all(16),
+                          width: double.infinity,
+                          backgroundColor: AppColors.containerGreyBgColor,
+                          borderColor: AppColors.inputBorderColor,
+                          child: Column(
+                            children: [
+                              // যদি file select করা থাকে, নাম দেখাবে
+                              if (controller.selectedFile.value != null)
+                                Text(
+                                  'Selected: ${controller.selectedFile.value!.path.split('/').last}',
+                                  style: context.bodyMedium.copyWith(
+                                    color: AppColors.primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                )
+                              else
+                                CustomImage(imageSrc: AppAssets.updateDoc), // default icon
+
+                              SizedBox(height: 4.h),
+
+                              Text(
+                                AppText.clickToUpload,
+                                style: context.bodyMedium.copyWith(
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                textAlign: TextAlign.center,
+                                AppText.acceptedFormats,
+                                style: context.bodySmall,
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            textAlign: TextAlign.center,
-                            AppText.acceptedFormats,
-                            style: context.bodySmall,
-                          ),
-                        ],
-                      ),
+                        );
+                      }),
                     ),
+
+
 
                     SizedBox(height: 30.h),
 
@@ -169,23 +232,14 @@ class AddComplainScreen extends StatelessWidget {
           icon: CustomImage(imageSrc: AppAssets.dropDown),
           hint: Text(hint, style: context.bodySmall),
           items: list.map((String value) {
-            return DropdownMenuItem<String>(value: value,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.containerGreyBgColor
-                    // color: selectedValue == value
-                    //     ? Colors.blue.shade50
-                    //     : Colors.transparent,
-                  ),
-                  child:Text(value,style: context.bodyMedium,)
-                ),
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 8),
 
-
-               // child: Text(value,style: context.bodyMedium,)
-
-
+                child: Text(value, style: context.bodyMedium),
+              ),
             );
           }).toList(),
           onChanged: (_) {},

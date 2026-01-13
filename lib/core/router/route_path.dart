@@ -33,6 +33,9 @@ class RoutesPath {
   static const String profileScreen='profile';
 
 
+  static const String notificationScreen='notification';
+
+
 
 
 

@@ -12,7 +12,7 @@ class AppAssets {
   //================================ ICONS ====================================
   static String pdf = '$_icons/pdf.png';
   static String visibilityOff = '$_icons/visibility_off.svg';
-  static String visibility = '$_icons/visibility.svg';
+  static String visibility = '$_icons/eye.svg';
   static String send = '$_icons/send.svg';
   static String add = '$_icons/add.svg';
  static String notification = '$_icons/notification.svg';
@@ -56,4 +56,6 @@ static String window = '$_icons/windows.svg';
   static String camera = '$_icons/camera.svg';
   static String back = '$_icons/back.svg';
   static String reqGrade = '$_icons/request_grade.svg';
+  static String notificationTime = '$_icons/notification_time.svg';
+
 }
