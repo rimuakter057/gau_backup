@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
-import 'package:gau_app/features/home/presentation/widgets/home_app_bar.dart';
+import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
+import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
+import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:go_router/go_router.dart';
 
 class GradeScreen extends StatelessWidget {
   GradeScreen({super.key});
@@ -21,9 +25,8 @@ class GradeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(
-        profileName: "user",
-        profileSubtitle: "Great Falls, Marylan",
+      appBar: CustomAppBar(
+
 
         onNotificationTap: () {
           // context.pushNamed(RoutePath.notificationScreen);
@@ -208,22 +211,35 @@ class CourseTable extends StatelessWidget {
             children: [
               Text("${AppText.semesterGpa}3.72", style: context.bodyMedium),
               const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: 16,
-                    color: AppColors.greyTextColor,
-                  ),
-                  SizedBox(width: 4.w),
-                  Text(
-                    AppText.requestGradeVerification,
-                    style: context.bodyMedium.copyWith(
-                      color: AppColors.greyTextColor,
+              GestureDetector(
+                onTap: (){
+
+                  context.pushNamed(RoutesPath.gradeReqScreen);
+
+                },
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomImage(imageSrc: AppAssets.reqGrade),
+
+                    SizedBox(width: 4.w),
+
+
+
+                    Text(
+                      AppText.requestGradeVerification,
+                      style: context.bodyMedium.copyWith(
+                        color: AppColors.primaryColor,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppColors.primaryColor,
+                        decorationThickness: 1.5,
+                      ),
+
+
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

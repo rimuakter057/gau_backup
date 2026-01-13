@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
 
                   onPressed: () {
-                    context.pushNamed(RoutePath.homeScreen);
+                    context.pushNamed(RoutesPath.homeScreen);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

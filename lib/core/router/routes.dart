@@ -4,6 +4,7 @@ import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
+import 'package:gau_app/features/grade/presentation/screens/grade_request_screen.dart';
 import 'package:gau_app/features/grade/presentation/screens/grade_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/add_complain_screen.dart';
 import 'package:gau_app/features/home/presentation/screens/complain_screen.dart';
@@ -21,14 +22,14 @@ class AppRouter {
       GlobalKey<NavigatorState>();
 
   static final GoRouter initRoute = GoRouter(
-    initialLocation: RoutePath.splashScreen.addBasePath,
+    initialLocation: RoutesPath.splashScreen.addBasePath,
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
     routes: [
       ///======================= Initial Route =======================
       GoRoute(
-        name: RoutePath.splashScreen,
-        path: RoutePath.splashScreen.addBasePath,
+        name: RoutesPath.splashScreen,
+        path: RoutesPath.splashScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child: const SplashScreen(),
@@ -37,8 +38,8 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: RoutePath.transcriptScreen,
-        path: RoutePath.transcriptScreen.addBasePath,
+        name: RoutesPath.transcriptScreen,
+        path: RoutesPath.transcriptScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  TranscriptScreen(),
@@ -49,8 +50,8 @@ class AppRouter {
 
       ///======================= auth Route =======================
       GoRoute(
-        name: RoutePath.loginScreen,
-        path: RoutePath.loginScreen.addBasePath,
+        name: RoutesPath.loginScreen,
+        path: RoutesPath.loginScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  LoginScreen(),
@@ -61,8 +62,8 @@ class AppRouter {
           ///home===========================================
 
           GoRoute(
-            name: RoutePath.homeScreen,
-            path: RoutePath.homeScreen.addBasePath,
+            name: RoutesPath.homeScreen,
+            path: RoutesPath.homeScreen.addBasePath,
             pageBuilder: (context, state) {
               return _buildPageWithAnimation(
                 child:  HomeScreen(),
@@ -72,8 +73,8 @@ class AppRouter {
           ),
 
       GoRoute(
-        name: RoutePath.complainScreen,
-        path: RoutePath.complainScreen.addBasePath,
+        name: RoutesPath.complainScreen,
+        path: RoutesPath.complainScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  ComplainScreen(),
@@ -82,8 +83,8 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: RoutePath.addComplainScreen,
-        path: RoutePath.addComplainScreen.addBasePath,
+        name: RoutesPath.addComplainScreen,
+        path: RoutesPath.addComplainScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  AddComplainScreen(),
@@ -95,8 +96,8 @@ class AppRouter {
       ///grade===========================================
 
       GoRoute(
-        name: RoutePath.gradeScreen,
-        path: RoutePath.gradeScreen.addBasePath,
+        name: RoutesPath.gradeScreen,
+        path: RoutesPath.gradeScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  GradeScreen(),
@@ -105,10 +106,22 @@ class AppRouter {
         },
       ),
 
+      GoRoute(
+        name: RoutesPath.gradeReqScreen,
+        path: RoutesPath.gradeReqScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  GradeRequestScreen(),
+            state: state,
+          );
+        },
+      ),
+
+
 
       GoRoute(
-        name: RoutePath.chatScreen,
-        path: RoutePath.chatScreen.addBasePath,
+        name: RoutesPath.chatScreen,
+        path: RoutesPath.chatScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  ChatScreen(),
@@ -120,8 +133,8 @@ class AppRouter {
       ///chat route=========================================================
 
       GoRoute(
-        name: RoutePath.chatInboxScreen,
-        path: RoutePath.chatInboxScreen.addBasePath,
+        name: RoutesPath.chatInboxScreen,
+        path: RoutesPath.chatInboxScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  ChatInboxScreen(),
@@ -133,8 +146,8 @@ class AppRouter {
       ///profile route=========================================================
 
       GoRoute(
-        name: RoutePath.profileScreen,
-        path: RoutePath.profileScreen.addBasePath,
+        name: RoutesPath.profileScreen,
+        path: RoutesPath.profileScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  ProfileScreen(),

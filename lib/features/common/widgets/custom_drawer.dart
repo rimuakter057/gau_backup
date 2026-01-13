@@ -53,7 +53,7 @@ class CustomDrawer extends StatelessWidget {
                         image: AppAssets.dashBoard,
                         title: AppText.dashboard,
                         onTap: () {
-                          context.push(RoutePath.homeScreen.addBasePath);
+                          context.push(RoutesPath.homeScreen.addBasePath);
                         },
                       ),
                       gap,
@@ -61,7 +61,7 @@ class CustomDrawer extends StatelessWidget {
                         image: AppAssets.grade,
                         title: AppText.myGradesMenu,
                         onTap: () {
-                          context.push(RoutePath.gradeScreen.addBasePath);
+                          context.push(RoutesPath.gradeScreen.addBasePath);
                         },
                       ),
                       gap,
@@ -69,7 +69,7 @@ class CustomDrawer extends StatelessWidget {
                         image: AppAssets.transcript,
                         title: AppText.transcriptMenu,
                         onTap: () {
-                          context.push(RoutePath.transcriptScreen.addBasePath);
+                          context.push(RoutesPath.transcriptScreen.addBasePath);
                         },
                       ),
                       gap,
@@ -77,7 +77,7 @@ class CustomDrawer extends StatelessWidget {
                         image: AppAssets.complain,
                         title: AppText.complaintsMenu,
                         onTap: () {
-                          context.push(RoutePath.complainScreen.addBasePath);
+                          context.push(RoutesPath.complainScreen.addBasePath);
                         },
                       ),
                       gap,
@@ -85,7 +85,16 @@ class CustomDrawer extends StatelessWidget {
                         image: AppAssets.message,
                         title: AppText.messageMenu,
                         onTap: () {
-                          context.push(RoutePath.chatScreen.addBasePath);
+                          context.push(RoutesPath.chatScreen.addBasePath);
+                        },
+                      ),
+
+                      gap,
+                      _DrawerItem(
+                        image: AppAssets.profileDrawer,
+                        title: AppText.profileMenu,
+                        onTap: () {
+                          context.push(RoutesPath.chatScreen.addBasePath);
                         },
                       ),
                     ],
@@ -100,8 +109,8 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 const CustomDivider(color: AppColors.dividerColor),
                 _DrawerItem(
-                  image: AppAssets.message,
-                  title: AppText.messageMenu,
+                  image: AppAssets.logOut,
+                  title: AppText.signOut,
                   onTap: () {},
                 ),
               ],

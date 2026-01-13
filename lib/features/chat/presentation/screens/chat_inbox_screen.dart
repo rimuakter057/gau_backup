@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/chat/presentation/widgets/message_double.dart';
+import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 
 import 'package:gau_app/share/widgets/custom_appbar/custom_appbar.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
@@ -10,6 +11,8 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/chat_model.dart';
 
@@ -70,11 +73,29 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "User Name"),
+      appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.pop();
+        }, icon: Icon(Icons.arrow_back_ios)),
+        title: Text("User Name",
+          style:   GoogleFonts.poppins(
+              fontSize: 14,
+              color: AppColors.titleColor,
+              fontWeight: FontWeight.w600
+          ),
+        ),
+        actions: [
+          CustomProfileAvatar()
+        ],
+
+      ),
+
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           children: [
+            SizedBox(height: 8.h,),
+
              TextField(
                decoration: InputDecoration(
                  hintText: AppText.searchConver

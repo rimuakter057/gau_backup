@@ -4,7 +4,7 @@ import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/grade_gpa_widget.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
-import 'package:gau_app/features/home/presentation/widgets/home_app_bar.dart';
+import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -12,6 +12,7 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -41,9 +42,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(
-        profileName: "User",
-        profileSubtitle: "Great Falls, Maryland",
+      appBar: CustomAppBar(
+
         onNotificationTap: () {},
       ),
       drawer: Drawer(
@@ -104,14 +104,18 @@ class HomeScreen extends StatelessWidget {
                   context,
                   title: AppText.transcript,
                   image: AppAssets.transcript,
-                  onTap: () {},
+                  onTap: () {
+                    context.push(RoutesPath.transcriptScreen.addBasePath);
+                  },
                 ),
                 SizedBox(width: 8.w),
                 _buildContainerOption(
                   context,
                   title: AppText.complaint,
                   image: AppAssets.complain,
-                  onTap: () {},
+                  onTap: () {
+                    context.push(RoutesPath.complainScreen.addBasePath);
+                  },
                 ),
               ],
             ),
@@ -124,15 +128,23 @@ class HomeScreen extends StatelessWidget {
                   context,
                   title: AppText.profile,
                   image: AppAssets.profile,
-                  onTap: () {},
+                  onTap: () {
+                    context.push(RoutesPath.profileScreen.addBasePath);
+                  },
                 ),
-                SizedBox(width: 12.w),
-                _buildContainerOption(
-                  context,
-                  title: AppText.badges,
-                  image: AppAssets.badges,
-                  onTap: () {},
-                ),
+                Expanded(child: SizedBox(width: 12.w)),
+
+                // _buildContainerOption(
+                //   context,
+                //   title: AppText.badges,
+                //   image: AppAssets.badges,
+                //   onTap: () {
+                //    // context.push(RoutePath.profileScreen.addBasePath);
+                //   },
+                // ),
+
+                SizedBox(),
+
               ],
             ),
             SizedBox(height: 18.h),
@@ -238,14 +250,23 @@ class HomeScreen extends StatelessWidget {
                     progress: "32.5%",
                   ),
                   SizedBox(height: 12.h),
-                  Container(
-                    height: 12.h,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.red,
-                      borderRadius: BorderRadius.circular(6.r),
-                    ),
-                  ),
+
+                  ///progress bar====================================================
+
+
+
+
+                 LinearProgressIndicator(
+                   value:  32 / 100,
+                   color: AppColors.primaryColor,
+                   minHeight:12.h,
+                   borderRadius: BorderRadius.circular(6.r),
+                   backgroundColor: AppColors.dividerColor,
+
+
+                 ),
+
+
 
                   SizedBox(height: 12.h),
                   Text(

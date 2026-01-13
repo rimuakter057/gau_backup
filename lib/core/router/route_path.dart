@@ -1,4 +1,4 @@
-class RoutePath {
+class RoutesPath {
   static const String basePath = '/';
 
   // Init
@@ -19,6 +19,7 @@ class RoutePath {
 
   ///grade====================================================================================
   static const String gradeScreen = 'gradeScreen';
+  static const String gradeReqScreen = 'gradeReqScreen';
 
 
   ///chat==============================================================

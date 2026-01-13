@@ -204,7 +204,7 @@ class ApiClient {
       if (statusCode == 401) {
         try {
           sl<LocalService>().logOut();
-          AppRouter.route.goNamed(RoutePath.loginScreen);
+          AppRouter.route.goNamed(RoutesPath.loginScreen);
         } catch (_) {}
         return Response(
           requestOptions: requestOptions,

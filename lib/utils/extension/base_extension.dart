@@ -4,7 +4,7 @@ import 'package:gau_app/core/router/route_path.dart';
 
 extension BasePathExtensions on String {
   String get addBasePath {
-    return RoutePath.basePath + this;
+    return RoutesPath.basePath + this;
   }
 }
 

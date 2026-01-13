@@ -7,17 +7,15 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String profileName;
-  final String profileSubtitle;
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+
 
   final VoidCallback? onNotificationTap;
   final VoidCallback? onCartTap;
 
-  const HomeAppBar({
+  const CustomAppBar({
     super.key,
-    required this.profileName,
-    required this.profileSubtitle,
+
 
     this.onNotificationTap,
     this.onCartTap,

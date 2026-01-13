@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
+import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:go_router/go_router.dart';
 
 class ComplainScreen extends StatelessWidget {
   const ComplainScreen({super.key});
@@ -13,8 +17,17 @@ class ComplainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CustomAppBar(
 
+
+        onNotificationTap: () {
+          // context.pushNamed(RoutePath.notificationScreen);
+        },
+      ),
+      drawer: Drawer(
+        backgroundColor: AppColors.drawerBgColor,
+        child: CustomDrawer(),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -33,7 +46,11 @@ class ComplainScreen extends StatelessWidget {
                     SizedBox(height: 24.h),
         
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+
+                        context.push(RoutesPath.addComplainScreen.addBasePath);
+
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

@@ -22,6 +22,8 @@ class AppText{
   // ===== Auth Actions =====
   static const String signIn =
       "Sign In";
+  static const String signOut =
+      "Sign Out";
 
   static const String staffWithoutAccount =
       "Staff member without an account?";
@@ -131,14 +133,14 @@ class AppText{
       "Additional Details";
 
   static const String discrepancyHint =
-      "Please provide specific details about the "
-      "discrepancy...";
+      "Please provide specific details about the discrepancy...";
 
   static const String cancel =
       "Cancel";
 
   static const String submitRequest =
       "Submit Request";
+
 
 
 ///======================================================================

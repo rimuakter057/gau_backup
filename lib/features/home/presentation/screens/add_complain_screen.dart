@@ -8,6 +8,7 @@ import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AddComplainScreen extends StatelessWidget {
   const AddComplainScreen({super.key});
@@ -15,7 +16,23 @@ class AddComplainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
+
+        title: Text(
+          AppText.complaint,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            color: AppColors.titleColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
 
       body: SingleChildScrollView(
         child: Padding(
@@ -79,31 +96,6 @@ class AddComplainScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
 
-                    // Complaint Details
-                    Text(AppText.selectCourse, style: context.bodyMedium),
-                    _buildDropdownField(
-                      context,
-                      hint: AppText.selectCourse,
-                      list: [
-                        AppText.cs301DataStructures,
-                        AppText.math301LinearAlgebra,
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(AppText.selectReason, style: context.bodyMedium),
-                    SizedBox(height: 8.h),
-                    _buildDropdownField(
-                      context,
-                      hint: AppText.selectReason,
-                      list: [
-                        AppText.calculationError,
-                        AppText.missingAssignmentGrade,
-                        AppText.finalExamDispute,
-                        AppText.harassmentConduct,
-                      ],
-                    ),
-
-                    SizedBox(height: 16.h),
                     Text(AppText.subjectLine, style: context.bodyMedium),
                     SizedBox(height: 4.h),
                     TextFormField(
