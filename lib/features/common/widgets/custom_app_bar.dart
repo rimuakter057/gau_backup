@@ -45,7 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
 
               Positioned(
-                  right: 0,
+                  right: 0.w,
                   top: 0,
                   child: CircleAvatar(
                 minRadius: 5,
@@ -61,7 +61,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         SizedBox(width: 24.w),
         CustomProfileAvatar(height: 28.h, width: 28.w),
 
-        SizedBox(width: 8.w),
+        SizedBox(width: 16.w),
       ],
     );
   }

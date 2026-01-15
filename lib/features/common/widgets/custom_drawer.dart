@@ -10,149 +10,309 @@ import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:go_router/go_router.dart';
+//
+// class CustomDrawer extends StatelessWidget {
+//   const CustomDrawer({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final Widget gap = SizedBox(height: 16.h);
+//     return Drawer(
+//       backgroundColor: AppColors.drawerBgColor,
+//       child: Column(
+//         children: [
+//           Flexible(
+//             flex: 8,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.all(16),
+//                   child: SizedBox(
+//                     height: 150.h,
+//                     child: DrawerHeader(
+//                       margin: EdgeInsets.zero,
+//                       padding: EdgeInsets.zero,
+//                       child: CustomImage(imageSrc: AppAssets.appLogoImage),
+//                     ),
+//                   ),
+//                 ),
+//
+//                 Padding(
+//                   padding: const EdgeInsets.all(16),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text(
+//                         AppText.studentPortal,
+//                         style: context.bodyMedium.copyWith(
+//                           fontWeight: FontWeight.w600,
+//                         ),
+//                       ),
+//                       SizedBox(height: 16.h),
+//                       _DrawerItem(
+//                         image: AppAssets.dashBoard,
+//                         title: AppText.dashboard,
+//                         onTap: () {
+//                           context.push(RoutesPath.homeScreen.addBasePath);
+//                         },
+//                       ),
+//                       gap,
+//                       _DrawerItem(
+//                         image: AppAssets.grade,
+//                         title: AppText.myGradesMenu,
+//                         onTap: () {
+//                           context.push(RoutesPath.gradeScreen.addBasePath);
+//                         },
+//                       ),
+//                       gap,
+//                       _DrawerItem(
+//                         image: AppAssets.transcript,
+//                         title: AppText.transcriptMenu,
+//                         onTap: () {
+//                           context.push(RoutesPath.transcriptScreen.addBasePath);
+//                         },
+//                       ),
+//                       gap,
+//                       _DrawerItem(
+//                         image: AppAssets.complain,
+//                         title: AppText.complaintsMenu,
+//                         onTap: () {
+//                           context.push(RoutesPath.complainScreen.addBasePath);
+//                         },
+//                       ),
+//                       gap,
+//                       _DrawerItem(
+//                         image: AppAssets.message,
+//                         title: AppText.messageMenu,
+//                         onTap: () {
+//                           context.push(RoutesPath.chatScreen.addBasePath);
+//                         },
+//                       ),
+//
+//                       gap,
+//                       _DrawerItem(
+//                         image: AppAssets.profileDrawer,
+//                         title: AppText.profileMenu,
+//                         onTap: () {
+//                           context.push(RoutesPath.profileScreen.addBasePath);
+//                         },
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           Flexible(
+//             flex: 2,
+//             child: Column(
+//               children: [
+//                 const CustomDivider(color: AppColors.dividerColor),
+//                 _DrawerItem(
+//                   image: AppAssets.logOut,
+//                   title: AppText.signOut,
+//                   onTap: () {
+//                     context.push(RoutesPath.loginScreen.addBasePath);
+//                   },
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+// class _DrawerItem extends StatelessWidget {
+//   final String title;
+//   final VoidCallback onTap;
+//   final String image;
+//   const _DrawerItem({
+//     required this.title,
+//     required this.onTap,
+//     required this.image,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: CustomContainer(
+//         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+//         backgroundColor: AppColors.containerGreyBgColor,
+//
+//         child: Row(
+//           children: [
+//             SvgPicture.asset(
+//               image,
+//               color: AppColors.labelTextColor,
+//               height: 20.h,
+//               width: 20.w,
+//               fit: BoxFit.cover,
+//             ),
+//
+//             SizedBox(width: 8.w),
+//             Text(
+//               title,
+//               style: context.bodyMedium.copyWith(
+//                 color: AppColors.labelTextColor,
+//                 fontWeight: FontWeight.w500,
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+//
+// }
 
-class CustomDrawer extends StatelessWidget {
+
+
+
+
+
+
+
+
+
+
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
 
   @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  int selectedIndex = -1; // কোন item select
+  int hoveredIndex = -1;  // কোন item hover
+
+  final drawerItems = [
+    {"title": AppText.dashboard, "icon": AppAssets.dashBoard, "route": RoutesPath.homeScreen.addBasePath},
+    {"title": AppText.myGradesMenu, "icon": AppAssets.grade, "route": RoutesPath.gradeScreen.addBasePath},
+    {"title": AppText.transcriptMenu, "icon": AppAssets.transcript, "route": RoutesPath.transcriptScreen.addBasePath},
+    {"title": AppText.complaintsMenu, "icon": AppAssets.complain, "route": RoutesPath.complainScreen.addBasePath},
+    {"title": AppText.messageMenu, "icon": AppAssets.message, "route": RoutesPath.chatScreen.addBasePath},
+    {"title": AppText.profileMenu, "icon": AppAssets.profileDrawer, "route": RoutesPath.profileScreen.addBasePath},
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    final Widget gap = SizedBox(height: 16.h);
     return Drawer(
       backgroundColor: AppColors.drawerBgColor,
       child: Column(
         children: [
-          Flexible(
-            flex: 8,
+          // Header
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              height: 150.h,
+              child: DrawerHeader(
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                child: CustomImage(imageSrc: AppAssets.appLogoImage),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SizedBox(
-                    height: 150.h,
-                    child: DrawerHeader(
-                      margin: EdgeInsets.zero,
-                      padding: EdgeInsets.zero,
-                      child: CustomImage(imageSrc: AppAssets.appLogoImage),
-                    ),
-                  ),
+                Text(
+                  AppText.studentPortal,
+                  style: context.bodyMedium.copyWith(fontWeight: FontWeight.w600),
                 ),
-
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppText.studentPortal,
-                        style: context.bodyMedium.copyWith(
-                          fontWeight: FontWeight.w600,
+                SizedBox(height: 16.h),
+                ...List.generate(drawerItems.length, (index) {
+                  final item = drawerItems[index];
+                  bool isSelected = selectedIndex == index;
+                  bool isHovered = hoveredIndex == index;
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 16.h),
+                    child: MouseRegion(
+                      onEnter: (_) {
+                        setState(() => hoveredIndex = index);
+                      },
+                      onExit: (_) {
+                        setState(() => hoveredIndex = -1);
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() => selectedIndex = index);
+                          context.push(item["route"]!);
+                        },
+                        child: CustomContainer(
+                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+                          backgroundColor: (isSelected || isHovered)
+                              ? AppColors.primaryColor
+                              : AppColors.containerGreyBgColor,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                item["icon"]!,
+                                color: (isSelected || isHovered)
+                                    ? Colors.white
+                                    : AppColors.labelTextColor,
+                                height: 20.h,
+                                width: 20.w,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                item["title"]!,
+                                style: context.bodyMedium.copyWith(
+                                  color: (isSelected || isHovered)
+                                      ? Colors.white
+                                      : AppColors.labelTextColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(height: 16.h),
-                      _DrawerItem(
-                        image: AppAssets.dashBoard,
-                        title: AppText.dashboard,
-                        onTap: () {
-                          context.push(RoutesPath.homeScreen.addBasePath);
-                        },
-                      ),
-                      gap,
-                      _DrawerItem(
-                        image: AppAssets.grade,
-                        title: AppText.myGradesMenu,
-                        onTap: () {
-                          context.push(RoutesPath.gradeScreen.addBasePath);
-                        },
-                      ),
-                      gap,
-                      _DrawerItem(
-                        image: AppAssets.transcript,
-                        title: AppText.transcriptMenu,
-                        onTap: () {
-                          context.push(RoutesPath.transcriptScreen.addBasePath);
-                        },
-                      ),
-                      gap,
-                      _DrawerItem(
-                        image: AppAssets.complain,
-                        title: AppText.complaintsMenu,
-                        onTap: () {
-                          context.push(RoutesPath.complainScreen.addBasePath);
-                        },
-                      ),
-                      gap,
-                      _DrawerItem(
-                        image: AppAssets.message,
-                        title: AppText.messageMenu,
-                        onTap: () {
-                          context.push(RoutesPath.chatScreen.addBasePath);
-                        },
-                      ),
-
-                      gap,
-                      _DrawerItem(
-                        image: AppAssets.profileDrawer,
-                        title: AppText.profileMenu,
-                        onTap: () {
-                          context.push(RoutesPath.profileScreen.addBasePath);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }),
               ],
             ),
           ),
-          Flexible(
-            flex: 2,
-            child: Column(
-              children: [
-                const CustomDivider(color: AppColors.dividerColor),
-                _DrawerItem(
-                  image: AppAssets.logOut,
-                  title: AppText.signOut,
-                  onTap: () {
-                    context.push(RoutesPath.loginScreen.addBasePath);
-                  },
-                ),
-              ],
-            ),
+          const Spacer(),
+          const CustomDivider(color: AppColors.dividerColor),
+          // Logout
+          _buildDrawerItem(
+            title: AppText.signOut,
+            icon: AppAssets.logOut,
+            onTap: () {
+              context.push(RoutesPath.loginScreen.addBasePath);
+            },
           ),
         ],
       ),
     );
   }
-}
 
-class _DrawerItem extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  final String image;
-  const _DrawerItem({
-    required this.title,
-    required this.onTap,
-    required this.image,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildDrawerItem({
+    required String title,
+    required String icon,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: CustomContainer(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
         backgroundColor: AppColors.containerGreyBgColor,
-
         child: Row(
           children: [
             SvgPicture.asset(
-              image,
+              icon,
               color: AppColors.labelTextColor,
               height: 20.h,
               width: 20.w,
-              fit: BoxFit.cover,
             ),
-
             SizedBox(width: 8.w),
             Text(
               title,

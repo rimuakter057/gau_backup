@@ -74,7 +74,10 @@ class AddComplainScreen extends StatelessWidget {
                       context,
                       hint: AppText.selectCategory,
                       list: AppText.categoryList,
+                      selectedValue: controller.selectedCategory,
+                      onChanged: controller.setCategory,
                     ),
+
 
                     SizedBox(height: 16.h),
 
@@ -84,7 +87,10 @@ class AddComplainScreen extends StatelessWidget {
                       context,
                       hint: AppText.selectLevel,
                       list: AppText.priorityList,
+                      selectedValue: controller.selectedPriority,
+                      onChanged: controller.setPriority,
                     ),
+
                     SizedBox(height: 16.h),
 
                     Text(AppText.subjectLine, style: context.bodyMedium),
@@ -115,37 +121,6 @@ class AddComplainScreen extends StatelessWidget {
                     ///add file =====================================
 
 
-                    // GestureDetector(
-                    //   onTap: (){
-                    //     ///upload file here =====
-                    //
-                    //
-                    //   },
-                    //   child: CustomContainer(
-                    //     padding: EdgeInsets.all(16),
-                    //     width: double.infinity,
-                    //     backgroundColor: AppColors.containerGreyBgColor,
-                    //     borderColor: AppColors.inputBorderColor,
-                    //     child: Column(
-                    //       children: [
-                    //         CustomImage(imageSrc: AppAssets.updateDoc),
-                    //         Text(
-                    //           AppText.clickToUpload,
-                    //           style: context.bodyMedium.copyWith(
-                    //             color: AppColors.primaryColor,
-                    //           ),
-                    //         ),
-                    //         SizedBox(height: 2.h),
-                    //         Text(
-                    //           textAlign: TextAlign.center,
-                    //           AppText.acceptedFormats,
-                    //           style: context.bodySmall,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    //
 
 
 
@@ -217,34 +192,41 @@ class AddComplainScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDropdownField(
-    BuildContext context, {
-    required List<String> list,
-    required String hint,
-  }) {
-    return CustomContainer(
-      backgroundColor: AppColors.containerGreyBgColor,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      borderColor: AppColors.inputBorderColor,
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          isExpanded: true,
-          icon: CustomImage(imageSrc: AppAssets.dropDown),
-          hint: Text(hint, style: context.bodySmall),
-          items: list.map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 8),
+   Widget _buildDropdownField(
+       BuildContext context, {
+         required List<String> list,
+         required String hint,
+         required RxnString selectedValue,
+         required Function(String) onChanged,
+       }) {
+     return Obx(() {
+       return CustomContainer(
+         backgroundColor: AppColors.containerGreyBgColor,
+         padding: EdgeInsets.symmetric(horizontal: 12.w),
+         borderColor: AppColors.inputBorderColor,
+         child: DropdownButtonHideUnderline(
+           child: DropdownButton<String>(
+             isExpanded: true,
+             value: selectedValue.value,
+             icon: CustomImage(imageSrc: AppAssets.dropDown),
+             hint: Text(hint, style: context.bodySmall),
+             items: list.map((String value) {
+               return DropdownMenuItem<String>(
+                 value: value,
+                 child: Text(value, style: context.bodyMedium),
+               );
+             }).toList(),
+             onChanged: (value) {
+               if (value != null) {
+                 onChanged(value);
+               }
+             },
+           ),
+         ),
+       );
+     });
+   }
 
-                child: Text(value, style: context.bodyMedium),
-              ),
-            );
-          }).toList(),
-          onChanged: (_) {},
-        ),
-      ),
-    );
-  }
+
+
 }

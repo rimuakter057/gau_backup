@@ -3,10 +3,31 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 
 class HomeController extends GetxController {
-  var selectedCategory = ''.obs;
-  var priorityLevel = ''.obs;
-  var subject = ''.obs;
-  var description = ''.obs;
+  // var selectedCategory = ''.obs;
+  // var priorityLevel = ''.obs;
+  // var subject = ''.obs;
+  // var description = ''.obs;
+
+
+
+  RxnString selectedCategory = RxnString();
+  RxnString selectedPriority = RxnString();
+
+  void setCategory(String value) {
+    selectedCategory.value = value;
+  }
+
+  void setPriority(String value) {
+    selectedPriority.value = value;
+  }
+
+
+
+
+
+
+
+
 
   var selectedFile = Rx<File?>(null);
 

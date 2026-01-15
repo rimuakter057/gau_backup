@@ -132,7 +132,7 @@ class ProfileScreen extends StatelessWidget {
                       LayoutBuilder(
                         builder: (context, constraints) {
                           return SizedBox(
-                            height: 500.h,
+                            height: 540.h,
                             child: TabBarView(
                               children: [
                                 // Tab 1

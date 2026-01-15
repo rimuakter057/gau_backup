@@ -4,14 +4,12 @@ import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/auth/presentation/widgets/action_text_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_field_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_pass_field_widget.dart';
-
-import 'package:gau_app/share/widgets/custom_appbar/custom_appbar.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
-
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
+
 import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:go_router/go_router.dart';
 

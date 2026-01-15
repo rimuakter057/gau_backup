@@ -5,9 +5,6 @@ import 'package:gau_app/features/chat/presentation/widgets/user_chat_list_widget
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 
-
-import 'package:gau_app/share/widgets/custom_appbar/custom_appbar.dart';
-import 'package:gau_app/share/widgets/custom_search_bar/custom_search_bar.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:go_router/go_router.dart';
