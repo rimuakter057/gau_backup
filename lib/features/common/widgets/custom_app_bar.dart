@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
