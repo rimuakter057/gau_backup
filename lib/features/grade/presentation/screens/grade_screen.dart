@@ -4,6 +4,7 @@ import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -40,12 +41,12 @@ class GradeScreen extends StatelessWidget {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all( ResponsiveHelper.padding(16)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomContainer(
-                padding: EdgeInsets.all(24.w),
+                padding: EdgeInsets.all( ResponsiveHelper.padding(24)),
                 width: double.infinity,
                 borderColor: AppColors.inputBorderColor,
                 backgroundColor: AppColors.containerGreyBgColor,
@@ -59,7 +60,7 @@ class GradeScreen extends StatelessWidget {
                         color: AppColors.greyTextColor,
                       ),
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height:  ResponsiveHelper.height(16)),
 
                     Center(
                       child: IntrinsicHeight(
@@ -68,21 +69,21 @@ class GradeScreen extends StatelessWidget {
                             border: Border.all(
                               color: AppColors.inputBorderColor,
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(16)),
                           ),
                           child: Row(
                             children: [
                               // Current GPA Section
                               Expanded(
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 20,
+                                  padding:  EdgeInsets.symmetric(
+                                    vertical:  ResponsiveHelper.height(20),
                                   ),
                                   decoration: BoxDecoration(
                                     color: AppColors.softRed,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(16),
-                                      bottomLeft: Radius.circular(16),
+                                    borderRadius:  BorderRadius.only(
+                                      topLeft: Radius.circular( ResponsiveHelper.borderRadius(16)),
+                                      bottomLeft: Radius.circular( ResponsiveHelper.borderRadius(16)),
                                     ),
                                   ),
                                   child: const StatColumn(
@@ -98,9 +99,9 @@ class GradeScreen extends StatelessWidget {
                                 color: AppColors.dividerColor,
                               ),
                               // Credits Section
-                              const Expanded(
+                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  padding: EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(20)),
                                   child: StatColumn(
                                     label: AppText.credits,
                                     value: '88',
@@ -118,10 +119,10 @@ class GradeScreen extends StatelessWidget {
 
               Center(
                 child: Container(
-                  margin: const EdgeInsets.all(20),
+                  margin:  EdgeInsets.all( ResponsiveHelper.padding(20)),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(12)),
                     border: Border.all(color: AppColors.inputBorderColor),
                   ),
                   child: DefaultTabController(
@@ -142,7 +143,7 @@ class GradeScreen extends StatelessWidget {
                         ),
 
                         SizedBox(
-                          height: 400,
+                          height:  ResponsiveHelper.height(400),
                           child: TabBarView(
                             children: [
                               CourseTable(courses: courses),
@@ -185,7 +186,7 @@ class CourseTable extends StatelessWidget {
         // List (takes remaining space)
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding:  EdgeInsets.only(bottom:  ResponsiveHelper.height(12)),
             itemCount: courses.length + 1,
             itemBuilder: (context, index) {
               if (index == courses.length) {
@@ -205,12 +206,12 @@ class CourseTable extends StatelessWidget {
 
         // Footer
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding:  EdgeInsets.all( ResponsiveHelper.padding(20)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("${AppText.semesterGpa}3.72", style: context.bodyMedium),
-              const SizedBox(height: 8),
+               SizedBox(height:  ResponsiveHelper.height(8)),
               GestureDetector(
                 onTap: (){
 
@@ -223,7 +224,7 @@ class CourseTable extends StatelessWidget {
                   children: [
                     CustomImage(imageSrc: AppAssets.reqGrade),
 
-                    SizedBox(width: 4.w),
+                    SizedBox(width:  ResponsiveHelper.width(4)),
 
 
 
@@ -265,7 +266,7 @@ class _RowItem extends StatelessWidget {
     return Container(
       color: isHeader ? AppColors.containerGreyBgColor : AppColors.white,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        padding:  EdgeInsets.symmetric(horizontal:  ResponsiveHelper.width(20), vertical:  ResponsiveHelper.height(18)),
         child: Row(
           children: [
             Expanded(
@@ -273,7 +274,7 @@ class _RowItem extends StatelessWidget {
                 code,
                 style: context.bodySmall.copyWith(
                   fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
-                  fontSize: isHeader ? 14 : 12,
+                  fontSize: isHeader ?  ResponsiveHelper.fontSize(14) :  ResponsiveHelper.fontSize(12),
                 ),
               ),
             ),
@@ -282,7 +283,7 @@ class _RowItem extends StatelessWidget {
                 name,
                 style: context.bodySmall.copyWith(
                   fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
-                  fontSize: isHeader ? 14 : 12,
+                  fontSize: isHeader ?  ResponsiveHelper.fontSize(14) :  ResponsiveHelper.fontSize(12),
                 ),
                 textAlign: TextAlign.right,
               ),
@@ -317,7 +318,7 @@ class StatColumn extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 4),
+         SizedBox(height:  ResponsiveHelper.height(4)),
         Text(value, style: context.titleLarge),
       ],
     );

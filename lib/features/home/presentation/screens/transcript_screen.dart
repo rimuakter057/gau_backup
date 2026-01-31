@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -23,7 +24,7 @@ class TranscriptScreen extends StatelessWidget {
         
         title: Text(AppText.transcript,
         style:   GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: ResponsiveHelper.fontSize(14),
               color: AppColors.titleColor,
               fontWeight: FontWeight.w600
           ),
@@ -32,7 +33,7 @@ class TranscriptScreen extends StatelessWidget {
       ),
 
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 16.w),
+        padding:  EdgeInsets.symmetric(horizontal:  ResponsiveHelper.padding(16)),
         child: Column(
           children: [
 
@@ -44,31 +45,31 @@ class TranscriptScreen extends StatelessWidget {
                   children: [
 
                   Text(AppText.academicTranscript,style: context.titleMedium,),
-                  SizedBox(height: 4.h,),
+                  SizedBox(height: ResponsiveHelper.height(4)),
                   Text(AppText.officialRecord,style: context.bodySmall,),
-                    SizedBox(height: 24.h,),
+                    SizedBox(height:  ResponsiveHelper.height(24)),
                     OutlinedButton(onPressed: (){}, child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(AppText.print),
-                        SizedBox(width: 12.w,),
+                        SizedBox(width:  ResponsiveHelper.width(12)),
                         CustomImage(imageSrc: AppAssets.print),
                     ],)),
-                    SizedBox(height:  16.h,),
+                    SizedBox(height:   ResponsiveHelper.height(16)),
                     ElevatedButton(onPressed: (){}, child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CustomImage(imageSrc: AppAssets.download),
 
-                        SizedBox(width: 12.w,),
+                        SizedBox(width: ResponsiveHelper.width(12)),
                         Text(AppText.downloadPdf),
                       ],))
 
             ],)),
 
-            SizedBox(height: 24.h,),
+            SizedBox(height:  ResponsiveHelper.height(24)),
             CustomImage(imageSrc: AppAssets.pdf)
 
           ],

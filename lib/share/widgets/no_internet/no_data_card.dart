@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 class NoDataCard extends StatelessWidget {
   const NoDataCard({
@@ -14,7 +15,7 @@ class NoDataCard extends StatelessWidget {
     this.iconColor,
     this.textColor,
     this.padding,
-    this.iconSize = 64,
+    this.iconSize,
   });
 
   final VoidCallback onTap;
@@ -27,7 +28,7 @@ class NoDataCard extends StatelessWidget {
   final Color? iconColor;
   final Color? textColor;
   final EdgeInsetsGeometry? padding;
-  final double iconSize;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +53,8 @@ class NoDataCard extends StatelessWidget {
 
             if (image != null)
               SizedBox(
-                height: iconSize * 1.8,
-                width: iconSize * 1.8,
+                height: iconSize??ResponsiveHelper.iconSize(64) * 1.8,
+                width: iconSize??ResponsiveHelper.iconSize(64) * 1.8,
                 child: image,
               )
             else
@@ -89,15 +90,15 @@ class NoDataCard extends StatelessWidget {
             if (buttonText != null)
               ElevatedButton.icon(
                 onPressed: onTap,
-                icon: const Icon(Icons.refresh_rounded, size: 18),
+                icon:  Icon(Icons.refresh_rounded, size: ResponsiveHelper.iconSize(18)),
                 label: Text(buttonText!),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.colorScheme.primary,
                   foregroundColor: theme.colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(8)),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  padding:  EdgeInsets.symmetric(horizontal: ResponsiveHelper.padding(18), vertical: ResponsiveHelper.padding(10)),
                 ),
               ),
           ],

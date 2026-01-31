@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 class MoreDataErrorCard extends StatelessWidget {
   const MoreDataErrorCard({
@@ -10,7 +11,7 @@ class MoreDataErrorCard extends StatelessWidget {
     this.iconColor,
     this.textColor,
     this.padding,
-    this.iconSize = 20,
+    this.iconSize ,
   });
 
   final VoidCallback onTap;
@@ -19,22 +20,22 @@ class MoreDataErrorCard extends StatelessWidget {
   final Color? iconColor;
   final Color? textColor;
   final EdgeInsetsGeometry? padding;
-  final double iconSize;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      padding: padding ??  EdgeInsets.symmetric(vertical: ResponsiveHelper.height(8), horizontal: ResponsiveHelper.width(10)),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding:  EdgeInsets.symmetric(horizontal: ResponsiveHelper.width(10), vertical: ResponsiveHelper.height(8)),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(8)),
             color: Theme.of(context).colorScheme.surface,
           ),
           child: Row(
@@ -43,10 +44,10 @@ class MoreDataErrorCard extends StatelessWidget {
             children: [
               Icon(
                 icon ?? Icons.refresh_rounded,
-                size: iconSize,
+                size: iconSize??ResponsiveHelper.height(20),
                 color: iconColor ?? theme.colorScheme.primary,
               ),
-              const Gap(6),
+               Gap(ResponsiveHelper.width(6)),
               Flexible(
                 child: Text(
                   message ?? "Something went wrong. Tap to try again",
@@ -55,7 +56,7 @@ class MoreDataErrorCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    fontSize: 12,
+                    fontSize: ResponsiveHelper.fontSize(12),
                     color: textColor ?? theme.colorScheme.onSurface,
                   ),
                 ),

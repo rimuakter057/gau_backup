@@ -4,6 +4,7 @@ import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/home/controller/home_controller.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -32,20 +33,20 @@ class ComplainScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal:  ResponsiveHelper.height(16)),
           child: Column(
             children: [
               CustomContainer(
-                padding: EdgeInsets.all(24),
+                padding: EdgeInsets.all( ResponsiveHelper.padding(24)),
                 backgroundColor: AppColors.containerGreyBgColor,
                 borderColor: AppColors.inputBorderColor,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(AppText.myComplaints, style: context.titleMedium),
-                    SizedBox(height: 4.h),
+                    SizedBox(height:  ResponsiveHelper.height(4)),
                     Text(AppText.trackStatusAndUpdates, style: context.bodySmall),
-                    SizedBox(height: 24.h),
+                    SizedBox(height:  ResponsiveHelper.height(24)),
         
                     ElevatedButton(
                       onPressed: () {
@@ -59,7 +60,7 @@ class ComplainScreen extends StatelessWidget {
                         children: [
                           CustomImage(imageSrc: AppAssets.add),
         
-                          SizedBox(width: 12.w),
+                          SizedBox(width:  ResponsiveHelper.width(12)),
                           Text(AppText.complaint),
                         ],
                       ),
@@ -68,23 +69,25 @@ class ComplainScreen extends StatelessWidget {
                 ),
               ),
         
-              SizedBox(height: 24.h),
+              SizedBox(height:  ResponsiveHelper.height(24)),
               CustomContainer(
-                padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 33.h),
+                padding: EdgeInsets.symmetric(horizontal:  ResponsiveHelper.width(16),
+                    vertical: ResponsiveHelper.height(33)
+                ),
                 backgroundColor: AppColors.containerGreyBgColor,
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(AppText.roommateIssue, style: context.titleMedium),
-                    SizedBox(height: 4.h),
+                    SizedBox(height:  ResponsiveHelper.height(4)),
         
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(),
                         CustomContainer(
-                          radius: 50.r,
+                          radius: ResponsiveHelper.height(50),
                           backgroundColor: AppColors.softBlueBg,
                           borderColor: AppColors.softBlueBorder,
                           child: Text(
@@ -98,15 +101,15 @@ class ComplainScreen extends StatelessWidget {
                       ],
                     ),
                     ///details column============================================================
-                    SizedBox(height: 4.h),
+                    SizedBox(height:  ResponsiveHelper.height(4)),
                     _buildRowText(context, title: AppText.idLabel, text: "02"),
-                    SizedBox(height: 8.h),
+                    SizedBox(height:  ResponsiveHelper.height(8)),
                     _buildRowText(
                       context,
                       title: AppText.categoryLabel,
                       text: "Housing",
                     ),
-                    SizedBox(height: 8.h),
+                    SizedBox(height:  ResponsiveHelper.height(8)),
                     _buildRowText(
                       context,
                       title: AppText.submittedLabel,
@@ -114,7 +117,10 @@ class ComplainScreen extends StatelessWidget {
                     ),
                   ///complain description===========================================================================
                     CustomContainer(
-                      margin: EdgeInsets.symmetric(horizontal: 16.w,vertical: 32.h),
+                      margin: EdgeInsets.symmetric(
+                          horizontal:  ResponsiveHelper.padding(16),
+                          vertical:  ResponsiveHelper.padding(32)
+                      ),
                       backgroundColor: AppColors.containerGreyBgColor,
                       width: double.infinity,
                        borderColor: AppColors.softBlueBorder,
@@ -126,7 +132,7 @@ class ComplainScreen extends StatelessWidget {
                     ),
                     ///status timeline------------------------------------------------------
                     Text(AppText.statusTimeline, style: context.titleMedium),
-                SizedBox(height: 8.h),
+                SizedBox(height:  ResponsiveHelper.height(8)),
                 
                 ///status pending===================================================================
                 Row(
@@ -135,14 +141,14 @@ class ComplainScreen extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(6.r),
+                          padding: EdgeInsets.all( ResponsiveHelper.borderRadius(6)),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: AppColors.pendingBgColor,
                           ),
                           child: CustomImage(imageSrc: AppAssets.pending)
                         ),
-                        SizedBox(width: 12.w),
+                        SizedBox(width: ResponsiveHelper.width(12)),
                         Text(
                           AppText.pending,
                           style: context.bodyLarge,
@@ -155,12 +161,12 @@ class ComplainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                    SizedBox(height: 26.h),
+                    SizedBox(height: ResponsiveHelper.height(26)),
                     ///status In Progress===================================================================
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        padding: EdgeInsets.all(6.r),
+                        padding: EdgeInsets.all( ResponsiveHelper.borderRadius(6)),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColors.blueColor,
@@ -187,7 +193,7 @@ class ComplainScreen extends StatelessWidget {
                             "01/11/2026",
                             style: context.bodySmall,
                           ),
-                          SizedBox(height: 2.h),
+                          SizedBox(height:  ResponsiveHelper.height(2)),
                           Text(
                             AppText.bySystem,
                             style: context.bodySmall,
@@ -220,7 +226,7 @@ class ComplainScreen extends StatelessWidget {
           title,
           style: context.bodyMedium.copyWith(color: AppColors.greyTextColor),
         ),
-        SizedBox(width: 2.w),
+        SizedBox(width:  ResponsiveHelper.width(2)),
         Text(
           text,
           style: context.bodyMedium.copyWith(fontWeight: FontWeight.w600),

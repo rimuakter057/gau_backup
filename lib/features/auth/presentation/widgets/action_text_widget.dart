@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 import 'package:gau_app/utils/extension/base_extension.dart';
 
@@ -32,7 +33,7 @@ class ActionTextWidget extends StatelessWidget {
         GestureDetector(
           onTap: onActionTapped,
           child: Padding(
-            padding: const EdgeInsets.only(left: 12.0),
+            padding:  EdgeInsets.only(left: ResponsiveHelper.width(12)),
             child:Text(
               actionText,
               style:context.bodySmall.copyWith(

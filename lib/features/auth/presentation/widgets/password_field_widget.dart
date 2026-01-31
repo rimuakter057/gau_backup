@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 
@@ -36,8 +37,8 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
               imageSrc: _obscureText
                   ? AppAssets.visibilityOff // your "eye closed" image
                   : AppAssets.visibility,  // your "eye open" image
-              height: 24.h,
-              width: 24.w,
+              height: ResponsiveHelper.iconSize(24),
+              width:ResponsiveHelper.iconSize(24),
               fit: BoxFit.contain,
             ),
           ),

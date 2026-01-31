@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/chat/models/chat_model.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 import 'package:gau_app/utils/extension/base_extension.dart';
 
@@ -17,21 +18,21 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment: message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 4.h),
+            margin: EdgeInsets.only(bottom: ResponsiveHelper.height(4),),
             padding: EdgeInsets.symmetric(
-              horizontal: 14.w,
-              vertical: 10.h,
+              horizontal: ResponsiveHelper.width(14),
+              vertical: ResponsiveHelper.height(16),
             ),
-            constraints: BoxConstraints(maxWidth: 280.w),
+            constraints: BoxConstraints(maxWidth: ResponsiveHelper.width(280),),
             decoration: BoxDecoration(
               // Sender hole Red, Receiver hole Off-white/Grey
               color: message.isMe ? Color(0xFFD9534F) : Color(0xFFF8F9FA),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r),
+                topLeft: Radius.circular(ResponsiveHelper.borderRadius(16),),
+                topRight: Radius.circular(ResponsiveHelper.borderRadius(16),),
                 // Sender er jonno bottom-right 0, Receiver er jonno bottom-left 0
-                bottomRight: Radius.circular(message.isMe ? 16.r : 0),
-                bottomLeft: Radius.circular(message.isMe ? 0 : 16.r),
+                bottomRight: Radius.circular(message.isMe ? ResponsiveHelper.borderRadius(16) : 0),
+                bottomLeft: Radius.circular(message.isMe ? 0 : ResponsiveHelper.borderRadius(16),),
               ),
               border: message.isMe
                   ? null
@@ -54,8 +55,8 @@ class MessageBubble extends StatelessWidget {
                 // Tick icon shudhu matro receiver ba nicher bubble e thakle
                 if (!message.isMe)
                   Padding(
-                    padding: EdgeInsets.only(top: 4.h),
-                    child: Icon(Icons.done, color: Colors.red, size: 16.sp),
+                    padding: EdgeInsets.only(top:ResponsiveHelper.height(4),),
+                    child: Icon(Icons.done, color: Colors.red, size: ResponsiveHelper.fontSize(16),),
                   ),
               ],
             ),
@@ -63,10 +64,10 @@ class MessageBubble extends StatelessWidget {
           // "1 day ago" text ta bubble er baire thakle evabe add kora jay
           if (message.isMe)
             Padding(
-              padding: EdgeInsets.only(bottom: 10.h, right: 4.w),
+              padding: EdgeInsets.only(bottom: ResponsiveHelper.height(10), right: ResponsiveHelper.width(4),),
               child: Text(
                 "1 day ago",
-                style: TextStyle(fontSize: 10.sp, color: Colors.grey),
+                style: TextStyle(fontSize:  ResponsiveHelper.fontSize(10), color: Colors.grey),
               ),
             ),
         ],

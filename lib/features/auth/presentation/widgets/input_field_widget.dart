@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/auth/presentation/widgets/title_widget.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 
 
@@ -18,7 +19,7 @@ class InputFieldWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleWidget(title: title,),
-        SizedBox(height: 8.h,),
+        SizedBox(height: ResponsiveHelper.height(8),),
         TextFormField(
           validator: validator,
           controller: controller,

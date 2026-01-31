@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart'; // ❗ flutter_html import
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -26,7 +27,7 @@ class NotificationScreen extends StatelessWidget {
 
         title: Text("Notification",
           style:   GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize:  ResponsiveHelper.height(14),
               color: AppColors.titleColor,
               fontWeight: FontWeight.w600
           ),
@@ -35,7 +36,7 @@ class NotificationScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal:16.w),
+          padding:  EdgeInsets.symmetric(horizontal: ResponsiveHelper.width(16)),
           child: Column(
             children: [
 
@@ -43,22 +44,22 @@ class NotificationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomContainer(
-                    radius: 50,
-                    padding: EdgeInsets.symmetric(vertical: 2,horizontal: 12.w),
+                    radius: ResponsiveHelper.borderRadius(50),
+                    padding: EdgeInsets.symmetric(vertical: ResponsiveHelper.height(2),horizontal:  ResponsiveHelper.width(12)),
                     backgroundColor: AppColors.softBlueBg,
                       child: Text("2 New",style: context.bodySmall.copyWith(
                         color: AppColors.blueColor
                       ),)),
 
                   CustomContainer(
-                      radius: 50,
-                      padding: EdgeInsets.symmetric(vertical: 2,horizontal: 12.w),
+                      radius: ResponsiveHelper.borderRadius(50),
+                      padding: EdgeInsets.symmetric(vertical: ResponsiveHelper.height(2),horizontal: ResponsiveHelper.width(12)),
                       backgroundColor: AppColors.containerGreyBgColor,
                       child:  Row(
 
                         children: [
                           CustomImage(imageSrc:AppAssets.notificationMark),
-                          SizedBox(width: 8.w,),
+                          SizedBox(width: ResponsiveHelper.width(8),),
                           Text(
                             "Mark all read",
                             style: context.bodySmall.copyWith(
@@ -72,7 +73,7 @@ class NotificationScreen extends StatelessWidget {
                 ],
 
               ),
-              SizedBox(height: 6.h),
+              SizedBox(height: ResponsiveHelper.height(6)),
               ListView.builder(
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
@@ -91,15 +92,17 @@ class NotificationScreen extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(6.w),
+                              padding: EdgeInsets.all(ResponsiveHelper.padding(6)),
                               decoration: BoxDecoration(
                                 color: AppColors.twoFactorBg,
+                                shape: BoxShape.circle
                               ),
-                              child: CustomImage(
-                                imageSrc: AppAssets.twoFactor,
-                              ),
+                              child:Icon(Icons.message_outlined,color: AppColors.blueColor,)
+                              // CustomImage(
+                              //   imageSrc: AppAssets.twoFactor,
+                              // ),
                             ),
-                            SizedBox(width: 4.w,),
+                            SizedBox(width:ResponsiveHelper.width(4)),
                             Expanded(
                               child: Text(
                                 maxLines: 2,
@@ -113,21 +116,21 @@ class NotificationScreen extends StatelessWidget {
 
 
                         Padding(
-                          padding: const EdgeInsets.only(left: 38),
+                          padding:  EdgeInsets.only(left: ResponsiveHelper.padding(38)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 12.h),
+                              SizedBox(height: ResponsiveHelper.height(12)),
                               Text(
                                 "Razco Food reply on your feedback Razco Food reply on your feedback Razco Food reply on your feedback Razco Food reply on your feedback",
                                 style: context.bodySmall,
                               ),
-                              SizedBox(height: 12.h),
+                              SizedBox(height: ResponsiveHelper.height(12)),
                               Row(
 
                                 children: [
                                CustomImage(imageSrc:AppAssets.notificationTime),
-                                  SizedBox(width: 8.w,),
+                                  SizedBox(width: ResponsiveHelper.width(8),),
                                   Text(
                                     "2 days ago",
                                     style: context.bodySmall.copyWith(
@@ -136,7 +139,7 @@ class NotificationScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 12.h),
+                              SizedBox(height: ResponsiveHelper.height(12)),
                             ],
                           ),
                         ),

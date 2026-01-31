@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 
 class ErrorCard extends StatelessWidget {
@@ -32,11 +33,11 @@ class ErrorCard extends StatelessWidget {
 
     return Center(
       child: Container(
-        margin: const EdgeInsets.all(18),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+        margin:  EdgeInsets.all(ResponsiveHelper.padding(18)),
+        padding:  EdgeInsets.symmetric(horizontal: ResponsiveHelper.padding(20), vertical: ResponsiveHelper.padding(28)),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(16)),
           boxShadow:
               showShadow
                   ? [
@@ -57,14 +58,14 @@ class ErrorCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: (iconColor ?? AppColors.errorColor).withOpacity(0.15),
                 ),
-                padding: const EdgeInsets.all(14),
+                padding:  EdgeInsets.all(ResponsiveHelper.padding(14)),
                 child: Icon(
                   icon ?? Icons.error_outline,
                   color: iconColor ?? AppColors.errorColor,
-                  size: 42,
+                  size: ResponsiveHelper.iconSize(42)
                 ),
               ),
-            const Gap(16),
+             Gap(ResponsiveHelper.height(16)),
             Text(
               title ?? "Something went wrong",
               textAlign: TextAlign.center,
@@ -73,24 +74,24 @@ class ErrorCard extends StatelessWidget {
                 color: AppColors.black,
               ),
             ),
-            const Gap(8),
+             Gap(ResponsiveHelper.height(8)),
             Text(
               message ??
                   "The application has encountered an unknown error.\nPlease try again later.",
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: AppColors.primaryColor,
-                height: 1.4,
+                height: ResponsiveHelper.height(1.4),
               ),
             ),
-            const Gap(24),
+             Gap(ResponsiveHelper.height(24)),
             ElevatedButton(
               onPressed: onTap,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
-                minimumSize: const Size(140, 44),
+                minimumSize:  Size(ResponsiveHelper.width(140), ResponsiveHelper.height(44)),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(12)),
                 ),
               ),
               child: Text(

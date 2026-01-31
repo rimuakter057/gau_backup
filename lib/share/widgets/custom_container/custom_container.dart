@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 
 class CustomContainer extends StatelessWidget {
@@ -26,13 +27,13 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? const EdgeInsets.all(12), // default 8
+      padding: padding ??  EdgeInsets.all(ResponsiveHelper.padding(12),), // default 8
       width: width,
       height: height,
       margin: margin,
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(radius ?? 8),
+        borderRadius: BorderRadius.circular(radius ?? ResponsiveHelper.borderRadius(8),),
         border: Border.all(
           color: borderColor ?? Colors.transparent,
           width:borderWidth??1

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_profile_image.dart';
@@ -36,7 +37,7 @@ class UserChatListWidget extends StatelessWidget {
               children: [
                 CustomProfileAvatar(),
 
-                SizedBox(width: 8.w),
+                SizedBox(width:  ResponsiveHelper.width(8),),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -62,7 +63,7 @@ class UserChatListWidget extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(6.r),
+                  padding: EdgeInsets.all( ResponsiveHelper.borderRadius(6),),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.primaryColor,
@@ -72,7 +73,7 @@ class UserChatListWidget extends StatelessWidget {
                     style: context.bodySmall.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.w700,
-                      fontSize: 10.sp,
+                      fontSize:  ResponsiveHelper.fontSize(10),
                     ),
                   ),
                 ),

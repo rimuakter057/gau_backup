@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 import 'delay_tween.dart';
 
 class SpinKitCircle extends StatefulWidget {
-  const SpinKitCircle({
+   const SpinKitCircle({
     super.key,
     this.color,
-    this.size = 50.0,
+    this.size ,
     this.itemBuilder,
     this.duration = const Duration(milliseconds: 1200),
     this.controller,
@@ -17,7 +18,7 @@ class SpinKitCircle extends StatefulWidget {
   );
 
   final Color? color;
-  final double size;
+  final double? size;
   final IndexedWidgetBuilder? itemBuilder;
   final Duration duration;
   final AnimationController? controller;
@@ -50,10 +51,10 @@ class _SpinKitCircleState extends State<SpinKitCircle> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox.fromSize(
-        size: Size.square(widget.size),
+        size: Size.square(widget.size??ResponsiveHelper.iconSize(50),),
         child: Stack(
           children: List.generate(_itemCount, (index) {
-            final position = widget.size * .5;
+            final position = widget.size??ResponsiveHelper.iconSize(50) * .5;
             return Positioned.fill(
               left: position,
               top: position,
@@ -68,7 +69,7 @@ class _SpinKitCircleState extends State<SpinKitCircle> with SingleTickerProvider
                       delay: index / _itemCount,
                     ).animate(_controller),
                     child: SizedBox.fromSize(
-                      size: Size.square(widget.size * 0.15),
+                      size: Size.square(widget.size??ResponsiveHelper.iconSize(50) * 0.15),
                       child: _itemBuilder(index),
                     ),
                   ),

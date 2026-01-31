@@ -4,6 +4,7 @@ import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/auth/presentation/widgets/action_text_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_field_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_pass_field_widget.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -29,12 +30,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget gap = SizedBox(height: 16.h);
+    final Widget gap = SizedBox(height: ResponsiveHelper.height(16));
     return Scaffold(
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left:16.w,right:16.w,top: 56.h,bottom: 16.h   ),
+          padding: EdgeInsets.only(
+              left:ResponsiveHelper.width(16),
+              right:ResponsiveHelper.width(16),
+              top: ResponsiveHelper.height(56),
+              bottom:ResponsiveHelper.height(16)
+          ),
           child: Form(
             key: _key,
             child: Column(

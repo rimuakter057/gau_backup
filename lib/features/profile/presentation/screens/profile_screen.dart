@@ -5,6 +5,7 @@ import 'package:gau_app/features/auth/presentation/widgets/input_pass_field_widg
 import 'package:gau_app/features/common/widgets/cancel_save_button_row.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -21,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget gap = SizedBox(height: 16.h);
+    final Widget gap = SizedBox(height: ResponsiveHelper.height(16));
     return Scaffold(
       appBar: CustomAppBar(),
 
@@ -34,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           // ================= PROFILE CONTAINER =================
           CustomContainer(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(ResponsiveHelper.padding(24)),
             width: double.infinity,
             backgroundColor: AppColors.containerGreyBgColor,
             borderColor: AppColors.inputBorderColor,
@@ -42,27 +43,27 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(AppText.profileSettings, style: context.titleMedium),
-                SizedBox(height: 4.h),
+                SizedBox(height:ResponsiveHelper.height(4)),
                 Text(AppText.manageAccountSubtitle, style: context.bodySmall),
               ],
             ),
           ),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: ResponsiveHelper.height(20)),
 
           // ================= TAB SECTION =================
           Expanded(
             child: DefaultTabController(
               length: 2,
               child: Card(
-                margin: EdgeInsets.symmetric(horizontal: 8),
+                margin: EdgeInsets.symmetric(horizontal: ResponsiveHelper.width(8)),
                 color: AppColors.containerGreyBgColor,
                 elevation: 10,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(12)),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding:  EdgeInsets.all(ResponsiveHelper.padding(16)),
                   child: Column(
                    // mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,26 +79,26 @@ class ProfileScreen extends StatelessWidget {
                                 bottom: 0,
                                 right: 0,
                                 child: Container(
-                                  padding: EdgeInsets.all(4.w),
+                                  padding: EdgeInsets.all(ResponsiveHelper.width(4)),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: AppColors.white,
                                     border: Border.all(
                                       color: AppColors.primaryColor,
-                                      width: 2,
+                                      width: ResponsiveHelper.width(2),
                                     ),
                                   ),
                                   child: CustomImage(
                                     imageSrc: AppAssets.camera,
-                                    height: 6.h,
-                                    width: 6.w,
+                                    height: ResponsiveHelper.iconSize(6),
+                                    width:ResponsiveHelper.iconSize(6),
                                     fit: BoxFit.contain,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(width: 8.w),
+                          SizedBox(width: ResponsiveHelper.width(8)),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -108,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
 
-                      SizedBox(height: 4.h),
+                      SizedBox(height: ResponsiveHelper.height(4)),
                       CustomDivider(),
 
                       // TabBar
@@ -308,9 +309,9 @@ class ProfileScreen extends StatelessWidget {
                                     },
                                   ),
                                   gap,
-                                  SizedBox(height: 8.h),
+                                  SizedBox(height: ResponsiveHelper.height(8)),
                                   CustomDivider(),
-                                  SizedBox(height: 4.h),
+                                  SizedBox(height: ResponsiveHelper.height(4)),
                                   OutlinedButton(
                                     onPressed: () {},
                                     child: Row(
@@ -322,20 +323,20 @@ class ProfileScreen extends StatelessWidget {
                                         CustomImage(
                                           imageSrc: AppAssets.updatePass,
                                         ),
-                                        SizedBox(width: 12.w),
+                                        SizedBox(width: ResponsiveHelper.width(12)),
                                         Text(AppText.updatePassword),
                                       ],
                                     ),
                                   ),
                                   gap,
-                                  SizedBox(height: 8.h),
+                                  SizedBox(height: ResponsiveHelper.height(8)),
                                   CustomDivider(),
-                                  SizedBox(height: 4.h),
+                                  SizedBox(height: ResponsiveHelper.height(4)),
 
                                   ListTile(
                                     contentPadding: EdgeInsets.zero,
                                     leading: Container(
-                                      padding: EdgeInsets.all(6.w),
+                                      padding: EdgeInsets.all(ResponsiveHelper.padding(6)),
                                       decoration: BoxDecoration(
                                         color: AppColors.twoFactorBg,
                                       ),
@@ -383,7 +384,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 38.h),
+          SizedBox(height: ResponsiveHelper.height(38)),
         ],
       ),
     );

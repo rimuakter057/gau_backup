@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/auth/presentation/widgets/password_field_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/title_widget.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 
 class InputPassFieldWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class InputPassFieldWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleWidget(title: title),
-        SizedBox(height: 8.h),
+        SizedBox(height: ResponsiveHelper.height(8)),
         PasswordFieldWidget(
           validator: validator,
           hint: hint,

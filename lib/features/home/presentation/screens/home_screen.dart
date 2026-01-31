@@ -5,6 +5,7 @@ import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/grade_gpa_widget.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -22,11 +23,8 @@ class HomeScreen extends StatelessWidget {
     {"code": "CS301", "name": "Data Structures"},
     {"code": "MATH202", "name": "Linear Algebra"},
     {"code": "ENG102", "name": "Academic Writing"},
-    {"code": "PHYS101", "name": "Physics I"},
-    {"code": "CS301", "name": "Data Structures"},
-    {"code": "MATH202", "name": "Linear Algebra"},
-    {"code": "ENG102", "name": "Academic Writing"},
-    {"code": "PHYS101", "name": "Physics I"},
+
+
   ];
 
   // Upcoming Deadlines
@@ -57,7 +55,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             /// My Grades============================================
             CustomContainer(
-              padding: EdgeInsets.all(24.w),
+              padding: EdgeInsets.all( ResponsiveHelper.padding(24)),
               width: double.infinity,
               borderColor: AppColors.inputBorderColor,
               backgroundColor: AppColors.containerGreyBgColor,
@@ -71,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                       color: AppColors.greyTextColor,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height:  ResponsiveHelper.height(16)),
                   Center(
                     child: GradGpaContainerWidget(
                       borderColor: AppColors.softRedBoarder,
@@ -83,20 +81,20 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 18.h),
+            SizedBox(height:  ResponsiveHelper.height(18)),
 
             CustomContainer(
               borderColor: AppColors.inputBorderColor,
               backgroundColor: AppColors.white,
-              radius: 12,
+              radius:  ResponsiveHelper.borderRadius(12),
               padding: EdgeInsets.all(0), // optional
               child: CourseTable(courses: courses),
             ),
 
-            SizedBox(height: 18.h),
+            SizedBox(height:  ResponsiveHelper.height(18)),
 
             SoftRedContainerWidget(),
-            SizedBox(height: 18.h),
+            SizedBox(height:  ResponsiveHelper.height(18)),
             // Quick Options Row 1
             Row(
               children: [
@@ -108,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                     context.push(RoutesPath.transcriptScreen.addBasePath);
                   },
                 ),
-                SizedBox(width: 8.w),
+                SizedBox(width:  ResponsiveHelper.width(8)),
                 _buildContainerOption(
                   context,
                   title: AppText.complaint,
@@ -119,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12.h),
+            SizedBox(height:  ResponsiveHelper.height(12)),
 
             // Quick Options Row 2
             Row(
@@ -132,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                     context.push(RoutesPath.profileScreen.addBasePath);
                   },
                 ),
-                Expanded(child: SizedBox(width: 12.w)),
+                Expanded(child: SizedBox(width:  ResponsiveHelper.width(12))),
 
                 // _buildContainerOption(
                 //   context,
@@ -147,7 +145,7 @@ class HomeScreen extends StatelessWidget {
 
               ],
             ),
-            SizedBox(height: 18.h),
+            SizedBox(height:  ResponsiveHelper.height(18)),
 
             /// Upcoming Deadlines=================================================
             CustomContainer(
@@ -164,11 +162,11 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 6.h,),
+                  SizedBox(height: ResponsiveHelper.height(6),),
                   CustomDivider(color: AppColors.dividerColor),
                   deadlines.isEmpty
                       ? Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          padding: EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(16)),
                           child: Text(
                             "No upcoming deadlines",
                             style: context.bodySmall.copyWith(
@@ -187,7 +185,7 @@ class HomeScreen extends StatelessWidget {
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                 vertical: 8.h,
-                                horizontal: 12,
+                                horizontal:  ResponsiveHelper.padding(12),
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                                   CircleAvatar(backgroundColor: AppColors.primaryColor,
                                     minRadius: 5,
                                   ),
-                                      SizedBox(width: 6,),
+                                      SizedBox(width: ResponsiveHelper.width(6),),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment:
@@ -226,7 +224,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 32.h),
+            SizedBox(height:  ResponsiveHelper.height(32)),
 
             ///academic progress===================================================
             CustomContainer(
@@ -249,7 +247,7 @@ class HomeScreen extends StatelessWidget {
                     title: AppText.degree,
                     progress: "32.5%",
                   ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height:  ResponsiveHelper.height(12)),
 
                   ///progress bar====================================================
 
@@ -259,8 +257,8 @@ class HomeScreen extends StatelessWidget {
                  LinearProgressIndicator(
                    value:  32 / 100,
                    color: AppColors.primaryColor,
-                   minHeight:12.h,
-                   borderRadius: BorderRadius.circular(6.r),
+                   minHeight: ResponsiveHelper.height(12),
+                   borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(6)),
                    backgroundColor: AppColors.dividerColor,
 
 
@@ -268,18 +266,18 @@ class HomeScreen extends StatelessWidget {
 
 
 
-                  SizedBox(height: 12.h),
+                  SizedBox(height:  ResponsiveHelper.height(12)),
                   Text(
                     AppText.recentSemesters,
-                    style: context.bodySmall.copyWith(fontSize: 16),
+                    style: context.bodySmall.copyWith(fontSize:  ResponsiveHelper.fontSize(16)),
                   ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height:  ResponsiveHelper.height(12)),
                   _buildAcademicProgressText(
                     context,
                     title: AppText.spring,
                     progress: "32.5%",
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(height:  ResponsiveHelper.height(8)),
                   _buildAcademicProgressText(
                     context,
                     title: AppText.spring,
@@ -289,7 +287,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 24.h,),
+            SizedBox(height:  ResponsiveHelper.height(24),),
           ],
         ),
       ),
@@ -328,13 +326,13 @@ class HomeScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: CustomContainer(
-          borderWidth: 2,
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+          borderWidth: ResponsiveHelper.width(2),
+          padding: EdgeInsets.symmetric(horizontal:  ResponsiveHelper.padding(24), vertical:  ResponsiveHelper.padding(24)),
           borderColor: AppColors.red,
           child: Column(
             children: [
               CustomImage(imageSrc: image),
-              SizedBox(height: 4.h),
+              SizedBox(height:  ResponsiveHelper.height(4)),
               Text(
                 title,
                 style: context.bodySmall.copyWith(
@@ -360,12 +358,15 @@ class CourseTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding:  EdgeInsets.symmetric(
+          horizontal:  ResponsiveHelper.width(16),
+          vertical:  ResponsiveHelper.height(16)
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppText.currentCourses, style: context.bodyMedium),
-          SizedBox(height: 12.h),
+          SizedBox(height:  ResponsiveHelper.height(12)),
           CustomDivider(),
           const _RowItem(code: 'Code', name: 'Course Name', isHeader: true),
           CustomDivider(),
@@ -373,7 +374,7 @@ class CourseTable extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: courses.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
+            separatorBuilder: (_, __) =>  Divider(height:  ResponsiveHelper.height(1)),
             itemBuilder: (context, index) {
               final course = courses[index];
               return _RowItem(code: course['code']!, name: course['name']!);
@@ -400,11 +401,11 @@ class _RowItem extends StatelessWidget {
     final style = TextStyle(
       color: isHeader ? Colors.blueGrey[400] : Colors.blueGrey[700],
       fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-      fontSize: 15,
+      fontSize:  ResponsiveHelper.fontSize(15),
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding:  EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(16)),
       child: Row(
         children: [
           Expanded(child: Text(code, style: style)),

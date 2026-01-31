@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/utils/app_const/app_const.dart';
-import 'package:gau_app/utils/color/app_colors.dart';
 
 class CustomProfileAvatar extends StatelessWidget {
   const CustomProfileAvatar({
@@ -15,8 +14,8 @@ class CustomProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width:width?? 38.r, // avatar size
-      height:height?? 38.r,
+      width:width?? ResponsiveHelper.height(38), // avatar size
+      height:height?? ResponsiveHelper.width(38),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
 

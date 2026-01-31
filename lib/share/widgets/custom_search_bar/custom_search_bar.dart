@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -12,9 +13,9 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      height: 48.h,
+      height: ResponsiveHelper.height(48),
       width: double.infinity,
-      radius: 12.r, // rounded corners,
+      radius: ResponsiveHelper.borderRadius(12), // rounded corners,
       backgroundColor: AppColors.searchBarBgColor,
       child: TextField(
         decoration: InputDecoration(
@@ -26,10 +27,10 @@ class CustomSearchBar extends StatelessWidget {
           ),
 
           prefixIconConstraints: BoxConstraints(
-            minHeight: 20.h,
-            minWidth: 20.w,
+            minHeight: ResponsiveHelper.height(20),
+            minWidth: ResponsiveHelper.width(20),
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16.w),
+          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: ResponsiveHelper.padding(16),),
           border: InputBorder.none,
         ),
       ),

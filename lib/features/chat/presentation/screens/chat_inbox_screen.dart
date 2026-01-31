@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/chat/presentation/widgets/message_double.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
@@ -38,7 +39,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
     ChatMessage(text: "Hi, how can I help you?", isMe: true),
     ChatMessage(
       text:
-      "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
+          "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
       isMe: false,
     ),
     ChatMessage(text: "Hi, how can I help you?", isMe: true),
@@ -46,14 +47,10 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
     ChatMessage(text: "Hi, how can I help you?", isMe: true),
     ChatMessage(
       text:
-      "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
+          "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
       isMe: false,
     ),
     ChatMessage(text: "Hi, how can I help you?", isMe: true),
-
-
-
-
   ];
 
   void _sendMessage() {
@@ -72,33 +69,33 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          context.pop();
-        }, icon: Icon(Icons.arrow_back_ios)),
-        title: Text("User Name",
-          style:   GoogleFonts.poppins(
-              fontSize: 14,
-              color: AppColors.titleColor,
-              fontWeight: FontWeight.w600
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
+        title: Text(
+          "User Name",
+          style: GoogleFonts.poppins(
+            fontSize: ResponsiveHelper.fontSize(14),
+            color: AppColors.titleColor,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [
-          CustomProfileAvatar()
-        ],
-
+        actions: [CustomProfileAvatar()],
       ),
 
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.padding(16)),
         child: Column(
           children: [
-            SizedBox(height: 8.h,),
+            SizedBox(height: ResponsiveHelper.height(8)),
 
-             TextField(
-               decoration: InputDecoration(
-                 hintText: AppText.searchConver
-               ),
-             ),
+            TextField(
+              decoration: InputDecoration(hintText: AppText.searchConver),
+            ),
+
             /// 🔹 Message list
             Expanded(
               child: ListView.builder(
@@ -114,8 +111,13 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
             SafeArea(
               child: CustomContainer(
                 borderColor: AppColors.inputBorderColor,
-                radius: 12.r,
-                padding: EdgeInsets.only(left: 4, right: 2, top: 8, bottom: 8),
+                radius: ResponsiveHelper.borderRadius(121),
+                padding: EdgeInsets.only(
+                    left: ResponsiveHelper.width(4),
+                    right: ResponsiveHelper.width(2),
+                    top: ResponsiveHelper.height(8),
+                    bottom:ResponsiveHelper.height(8),
+                ),
 
                 child: Row(
                   children: [

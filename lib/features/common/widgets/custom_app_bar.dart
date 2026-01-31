@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/share/widgets/custom_profile_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -55,12 +56,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
 
 
-        SizedBox(width: 24.w),
-        Container(height: 24.h, width: 1.w, color: AppColors.dividerColor),
-        SizedBox(width: 24.w),
-        CustomProfileAvatar(height: 28.h, width: 28.w),
+        SizedBox(width:  ResponsiveHelper.width(24),),
+        Container(height:  ResponsiveHelper.height(24), width: ResponsiveHelper.width(1), color: AppColors.dividerColor),
+        SizedBox(width: ResponsiveHelper.width(24),),
+        CustomProfileAvatar(height:  ResponsiveHelper.height(28), width:  ResponsiveHelper.width(28),),
 
-        SizedBox(width: 16.w),
+        SizedBox(width:  ResponsiveHelper.width(16),),
       ],
     );
   }
