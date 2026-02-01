@@ -4,6 +4,9 @@ import 'package:gau_app/core/router/routes.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'core/di/injection.dart';
 import 'core/theme/light_theme.dart' as AppTheme;
+import 'helper/responsive_helper/responsive_helper.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,17 +24,27 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) {
-        return GetMaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Gau',
-          theme: AppTheme.lightTheme,
-          routeInformationParser: AppRouter.initRoute.routeInformationParser,
-          routerDelegate: AppRouter.initRoute.routerDelegate,
-          routeInformationProvider:
+      builder: (_, __) {
+        return Builder(
+          builder: (context) {
+
+            // ✅ SAFE INIT
+            ResponsiveHelper.init(context);
+
+            return GetMaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'Gau',
+              theme: AppTheme.lightTheme,
+              routeInformationParser:
+              AppRouter.initRoute.routeInformationParser,
+              routerDelegate: AppRouter.initRoute.routerDelegate,
+              routeInformationProvider:
               AppRouter.initRoute.routeInformationProvider,
+            );
+          },
         );
       },
     );
   }
 }
+

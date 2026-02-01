@@ -45,6 +45,21 @@ class ResponsiveHelper {
     }
   }
 
+  ///all padding=============================================
+  static EdgeInsets all(double value) {
+    return EdgeInsets.all(padding(value));
+  }
+  /// padding symmetric==================================
+
+  static EdgeInsets symmetric({double horizontal = 0, double vertical = 0}) {
+    return EdgeInsets.symmetric(
+      horizontal: width(horizontal),
+      vertical: height(vertical),
+    );
+  }
+
+
+
   /// Get responsive spacing (for gaps between elements)
   static double spacing(double phoneSpacing) {
     if (_isTablet) {
