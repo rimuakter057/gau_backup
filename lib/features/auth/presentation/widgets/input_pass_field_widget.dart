@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/auth/presentation/widgets/password_field_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/title_widget.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';

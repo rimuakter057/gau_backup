@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
@@ -14,39 +13,59 @@ import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:go_router/go_router.dart';
 
-class GradeScreen extends StatelessWidget {
-  GradeScreen({super.key});
-  final List<Map<String, String>> courses = [
-    {"code": "CS301", "name": "Data Structures"},
-    {"code": "MATH202", "name": "Linear Algebra"},
-    {"code": "ENG102", "name": "Academic Writing"},
-    {"code": "PHYS101", "name": "Physics I"},
+class GradeScreen extends StatefulWidget {
+  const GradeScreen({super.key});
+
+  @override
+  State<GradeScreen> createState() => _GradeScreenState();
+}
+
+class _GradeScreenState extends State<GradeScreen> {
+  // Backend থেকে যেগুলো আসবে
+  List<String> semesters = [];
+  String? selectedSemester;
+
+  final List<Map<String, String>> coursesDetails = [
+    {"code": "CS301", "name": "Data Structures", "Instructor": "Dr. Smith"},
+    {"code": "MATH202", "name": "Linear Algebra", "Instructor": "Dr. Smith"},
+    {"code": "ENG102", "name": "Academic Writing", "Instructor": "Dr. Smith"},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSemestersFromBackend();
+  }
+
+  // Fake backend call
+  void fetchSemestersFromBackend() {
+    // Example: Backend return ['Semester 1', 'Semester 2', 'Semester 3']
+    semesters = ['Semester 1', 'Semester 2', 'Semester 3'];
+    selectedSemester = semesters.first; // default
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-
-
-        onNotificationTap: () {
-          // context.pushNamed(RoutePath.notificationScreen);
-        },
-      ),
+      appBar: CustomAppBar(),
       drawer: Drawer(
         backgroundColor: AppColors.drawerBgColor,
-
         child: const CustomDrawer(),
       ),
-
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all( ResponsiveHelper.padding(16)),
+          padding: EdgeInsets.all(ResponsiveHelper.padding(16)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+
+              SizedBox(height: ResponsiveHelper.height(18)),
+
+
               CustomContainer(
-                padding: EdgeInsets.all( ResponsiveHelper.padding(24)),
+                padding: EdgeInsets.all(ResponsiveHelper.padding(24)),
                 width: double.infinity,
                 borderColor: AppColors.inputBorderColor,
                 backgroundColor: AppColors.containerGreyBgColor,
@@ -60,7 +79,7 @@ class GradeScreen extends StatelessWidget {
                         color: AppColors.greyTextColor,
                       ),
                     ),
-                    SizedBox(height:  ResponsiveHelper.height(16)),
+                    SizedBox(height: ResponsiveHelper.height(16)),
 
                     Center(
                       child: IntrinsicHeight(
@@ -69,21 +88,27 @@ class GradeScreen extends StatelessWidget {
                             border: Border.all(
                               color: AppColors.inputBorderColor,
                             ),
-                            borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(16)),
+                            borderRadius: BorderRadius.circular(
+                              ResponsiveHelper.borderRadius(16),
+                            ),
                           ),
                           child: Row(
                             children: [
                               // Current GPA Section
                               Expanded(
                                 child: Container(
-                                  padding:  EdgeInsets.symmetric(
-                                    vertical:  ResponsiveHelper.height(20),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: ResponsiveHelper.height(20),
                                   ),
                                   decoration: BoxDecoration(
                                     color: AppColors.softRed,
-                                    borderRadius:  BorderRadius.only(
-                                      topLeft: Radius.circular( ResponsiveHelper.borderRadius(16)),
-                                      bottomLeft: Radius.circular( ResponsiveHelper.borderRadius(16)),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(
+                                        ResponsiveHelper.borderRadius(16),
+                                      ),
+                                      bottomLeft: Radius.circular(
+                                        ResponsiveHelper.borderRadius(16),
+                                      ),
                                     ),
                                   ),
                                   child: const StatColumn(
@@ -99,9 +124,11 @@ class GradeScreen extends StatelessWidget {
                                 color: AppColors.dividerColor,
                               ),
                               // Credits Section
-                               Expanded(
+                              Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(20)),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: ResponsiveHelper.height(20),
+                                  ),
                                   child: StatColumn(
                                     label: AppText.credits,
                                     value: '88',
@@ -116,47 +143,180 @@ class GradeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: ResponsiveHelper.height(18)),
 
-              Center(
-                child: Container(
-                  margin:  EdgeInsets.all( ResponsiveHelper.padding(20)),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(12)),
-                    border: Border.all(color: AppColors.inputBorderColor),
-                  ),
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TabBar(
-                          indicatorWeight: 3,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          labelColor: AppColors.darkRed,
-                          unselectedLabelColor: AppColors.labelTextColor,
-                          indicatorColor: AppColors.darkRed,
-                          tabs: const [
-                            Tab(text: "${AppText.fall}2024"),
-                            Tab(text: "${AppText.spring}2024"),
-                          ],
-                        ),
+              CustomContainer(
+                borderColor: AppColors.inputBorderColor,
+                backgroundColor: AppColors.white,
+                width: double.infinity,
+                radius: ResponsiveHelper.borderRadius(12),
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    SizedBox(height: ResponsiveHelper.height(16)),
 
-                        SizedBox(
-                          height:  ResponsiveHelper.height(400),
-                          child: TabBarView(
-                            children: [
-                              CourseTable(courses: courses),
-                              CourseTable(courses: courses),
-                            ],
+
+
+
+                    Padding(
+                      padding: ResponsiveHelper.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Left: Selected Semester Text
+                          Text(
+                            selectedSemester ?? "Semester 1", // or always fixed text if you want
+                            style: context.bodyMedium.copyWith(
+                              color: AppColors.primaryColor,
+                            ),
                           ),
-                        ),
-                      ],
+
+                          // Right: Dropdown
+                          CustomContainer(
+                            padding: ResponsiveHelper.symmetric(horizontal: 12, vertical: 4), // nice padding
+                            borderColor: AppColors.inputBorderColor,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: null, // fixed, UI text never changes
+                                items: semesters
+                                    .map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(
+                                    e,
+                                    style: context.bodySmall,
+                                  ),
+                                ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedSemester = value;
+                                    // backend call or courses update
+                                  });
+                                },
+                                hint: Row(
+                                  children: [
+                                    Text(
+                                      "Select Semester",
+                                      style: context.bodySmall.copyWith(
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                    SizedBox(width: ResponsiveHelper.width(8)), // gap between text & icon
+                                  ],
+                                ),
+                                icon: CustomImage(imageSrc: AppAssets.dropDown),
+                                dropdownColor: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+
+
+
+                    SizedBox(height: ResponsiveHelper.height(8)),
+                    CustomDivider(),
+
+                    // Course Table
+                    CustomContainer(
+                      backgroundColor: AppColors.containerGreyBgColor,
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppText.code,
+                            style: context.bodyMedium.copyWith(
+                              color: AppColors.greyTextColor,
+                            ),
+                          ),
+                          Text(
+                            AppText.courseName,
+                            style: context.bodyMedium.copyWith(
+                              color: AppColors.greyTextColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    CustomDivider(),
+
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: coursesDetails.length,
+                      itemBuilder: (context, index) {
+                        final course = coursesDetails[index];
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: ResponsiveHelper.all(12),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(course['code']!, style: context.bodySmall),
+                                      Text(course['name']!, style: context.bodySmall),
+                                    ],
+                                  ),
+                                  Text(course['Instructor']!, style: context.bodySmall),
+                                ],
+                              ),
+                            ),
+                            CustomDivider(),
+                          ],
+                        );
+                      },
+                    ),
+
+                    // Footer
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: ResponsiveHelper.padding(20),
+                        right: ResponsiveHelper.padding(20),
+                        bottom: ResponsiveHelper.padding(20),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${AppText.semesterGpa}3.72",
+                            style: context.bodyMedium,
+                          ),
+                          SizedBox(height: ResponsiveHelper.height(8)),
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(RoutesPath.gradeReqScreen);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CustomImage(imageSrc: AppAssets.reqGrade),
+                                SizedBox(width: ResponsiveHelper.width(4)),
+                                Text(
+                                  AppText.requestGradeVerification,
+                                  style: context.bodyMedium.copyWith(
+                                    color: AppColors.primaryColor,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.primaryColor,
+                                    decorationThickness: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
+              SizedBox(height: ResponsiveHelper.height(8),),
               SoftRedContainerWidget(),
             ],
           ),
@@ -164,136 +324,10 @@ class GradeScreen extends StatelessWidget {
       ),
     );
   }
-
-  ///drawer==================================================
 }
 
-//===========================================================================
-
-class CourseTable extends StatelessWidget {
-  final List<Map<String, String>> courses;
-
-  const CourseTable({super.key, required this.courses});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Header
-        const _RowItem(code: 'Code', name: 'Course Name', isHeader: true),
-        const CustomDivider(color: AppColors.inputBorderColor),
-
-        // List (takes remaining space)
-        Expanded(
-          child: ListView.builder(
-            padding:  EdgeInsets.only(bottom:  ResponsiveHelper.height(12)),
-            itemCount: courses.length + 1,
-            itemBuilder: (context, index) {
-              if (index == courses.length) {
-                return const CustomDivider(color: AppColors.inputBorderColor);
-              }
-
-              final course = courses[index];
-              return Column(
-                children: [
-                  _RowItem(code: course['code']!, name: course['name']!),
-                  const CustomDivider(color: AppColors.inputBorderColor),
-                ],
-              );
-            },
-          ),
-        ),
-
-        // Footer
-        Padding(
-          padding:  EdgeInsets.all( ResponsiveHelper.padding(20)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("${AppText.semesterGpa}3.72", style: context.bodyMedium),
-               SizedBox(height:  ResponsiveHelper.height(8)),
-              GestureDetector(
-                onTap: (){
-
-                  context.pushNamed(RoutesPath.gradeReqScreen);
-
-                },
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CustomImage(imageSrc: AppAssets.reqGrade),
-
-                    SizedBox(width:  ResponsiveHelper.width(4)),
 
 
-
-                    Text(
-                      AppText.requestGradeVerification,
-                      style: context.bodyMedium.copyWith(
-                        color: AppColors.primaryColor,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppColors.primaryColor,
-                        decorationThickness: 1.5,
-                      ),
-
-
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _RowItem extends StatelessWidget {
-  final String code;
-  final String name;
-  final bool isHeader;
-
-  const _RowItem({
-    required this.code,
-    required this.name,
-    this.isHeader = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: isHeader ? AppColors.containerGreyBgColor : AppColors.white,
-      child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal:  ResponsiveHelper.width(20), vertical:  ResponsiveHelper.height(18)),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                code,
-                style: context.bodySmall.copyWith(
-                  fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
-                  fontSize: isHeader ?  ResponsiveHelper.fontSize(14) :  ResponsiveHelper.fontSize(12),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                name,
-                style: context.bodySmall.copyWith(
-                  fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
-                  fontSize: isHeader ?  ResponsiveHelper.fontSize(14) :  ResponsiveHelper.fontSize(12),
-                ),
-                textAlign: TextAlign.right,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 ///===================================================================
 
@@ -305,9 +339,6 @@ class StatColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Matches the deep maroon color in the image
-    const Color brandColor = Color(0xFF7B1D1D);
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -318,7 +349,7 @@ class StatColumn extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-         SizedBox(height:  ResponsiveHelper.height(4)),
+        SizedBox(height: ResponsiveHelper.height(4)),
         Text(value, style: context.titleLarge),
       ],
     );

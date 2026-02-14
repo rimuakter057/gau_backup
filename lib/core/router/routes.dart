@@ -1,6 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:gau_app/features/auth/presentation/screens/password_reset_complete_screen.dart';
+import 'package:gau_app/features/auth/presentation/screens/create_new_password_screen.dart';
+import 'package:gau_app/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:gau_app/features/auth/presentation/screens/verification_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
@@ -23,7 +27,7 @@ class AppRouter {
       GlobalKey<NavigatorState>();
 
   static final GoRouter initRoute = GoRouter(
-    initialLocation: RoutesPath.splashScreen.addBasePath,
+    initialLocation: RoutesPath.loginScreen.addBasePath,
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
     routes: [
@@ -60,7 +64,59 @@ class AppRouter {
           );
         },
       ),
-          ///home===========================================
+
+
+
+      GoRoute(
+        name: RoutesPath.forgotScreen,
+        path: RoutesPath.forgotScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  ForgotPasswordScreen(),
+            state: state,
+          );
+        },
+      ),
+
+
+      GoRoute(
+        name: RoutesPath.verificationScreen,
+        path: RoutesPath.verificationScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  VerificationScreenScreen(),
+            state: state,
+          );
+        },
+      ),
+
+
+
+      GoRoute(
+        name: RoutesPath.createNewPassScreen,
+        path: RoutesPath.createNewPassScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  CreateNewPasswordScreen(),
+            state: state,
+          );
+        },
+      ),
+
+
+      GoRoute(
+        name: RoutesPath.passwordResetCompleteScreen,
+        path: RoutesPath.passwordResetCompleteScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  PasswordResetCompleteScreen(),
+            state: state,
+          );
+        },
+      ),
+
+
+      ///home===========================================
 
           GoRoute(
             name: RoutesPath.homeScreen,

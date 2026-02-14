@@ -12,6 +12,12 @@ class RoutesPath {
   ///Auth==================================================================================================
 
   static const String loginScreen = 'loginScreen';
+  static const String forgotScreen='forgotScreen';
+  static const String verificationScreen='verificationScreen';
+  static const String createNewPassScreen='createScreen';
+  static const String passwordResetCompleteScreen='passwordResetComplete';
+
+
     ///home==============================-===============
   static const String homeScreen = 'homeScreen';
   static const String complainScreen = 'complain';

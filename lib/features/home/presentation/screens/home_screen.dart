@@ -19,10 +19,10 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   // Courses
-  final List<Map<String, String>> courses = [
-    {"code": "CS301", "name": "Data Structures"},
-    {"code": "MATH202", "name": "Linear Algebra"},
-    {"code": "ENG102", "name": "Academic Writing"},
+  final List<Map<String, String>> coursesDetails = [
+    {"code": "CS301", "name": "Data Structures","Instructor":"Dr. Smith"},
+    {"code": "MATH202", "name": "Linear Algebra","Instructor":"Dr. Smith"},
+    {"code": "ENG102", "name": "Academic Writing","Instructor":"Dr. Smith"},
 
 
   ];
@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
 
-        onNotificationTap: () {},
+
       ),
       drawer: Drawer(
         backgroundColor: AppColors.drawerBgColor,
@@ -82,13 +82,80 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height:  ResponsiveHelper.height(18)),
-
+///current course=======================================
             CustomContainer(
               borderColor: AppColors.inputBorderColor,
               backgroundColor: AppColors.white,
+              width: double.infinity,
               radius:  ResponsiveHelper.borderRadius(12),
-              padding: EdgeInsets.all(0), // optional
-              child: CourseTable(courses: courses),
+              padding: EdgeInsets.zero,
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Padding(
+                  padding:  ResponsiveHelper.all(8.0),
+                  child: Text(AppText.currentCourses, style: context.bodyMedium),
+                ),
+                SizedBox(height:  ResponsiveHelper.height(12)),
+
+         CustomDivider(),
+                CustomContainer(
+
+    backgroundColor: AppColors.containerGreyBgColor,
+    width: double.infinity,
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(AppText.course, style: context.bodyMedium.copyWith(color: AppColors.greyTextColor)),
+          Text(AppText.instructor, style: context.bodyMedium.copyWith(color: AppColors.greyTextColor)),
+        ],
+      ),
+    ),
+                  CustomDivider(),
+
+/// course details apply listview builder========================================
+
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: coursesDetails.length,
+                    itemBuilder: (context, index) {
+                      final course = coursesDetails[index];
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: ResponsiveHelper.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(course['code']!, style: context.bodySmall),
+                                    Text(course['name']!, style: context.bodySmall),
+                                  ],
+                                ),
+                                Text(course['Instructor']!, style: context.bodySmall),
+                              ],
+                            ),
+                          ),
+                          // শেষ আইটেম না হলে divider দেখাবে
+                          if (index != coursesDetails.length - 1)
+                            CustomDivider(),
+                        ],
+                      );
+                    },
+                  )
+
+
+
+
+
+
+                ],)
+             // child: CourseTable(courses: courses),
             ),
 
             SizedBox(height:  ResponsiveHelper.height(18)),
@@ -350,70 +417,6 @@ class HomeScreen extends StatelessWidget {
 
 
 
-// Course Table
-class CourseTable extends StatelessWidget {
-  final List<Map<String, String>> courses;
-  const CourseTable({super.key, required this.courses});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:  EdgeInsets.symmetric(
-          horizontal:  ResponsiveHelper.width(16),
-          vertical:  ResponsiveHelper.height(16)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppText.currentCourses, style: context.bodyMedium),
-          SizedBox(height:  ResponsiveHelper.height(12)),
-          CustomDivider(),
-          const _RowItem(code: 'Code', name: 'Course Name', isHeader: true),
-          CustomDivider(),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: courses.length,
-            separatorBuilder: (_, __) =>  Divider(height:  ResponsiveHelper.height(1)),
-            itemBuilder: (context, index) {
-              final course = courses[index];
-              return _RowItem(code: course['code']!, name: course['name']!);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class _RowItem extends StatelessWidget {
-  final String code;
-  final String name;
-  final bool isHeader;
-  const _RowItem({
-    required this.code,
-    required this.name,
-    this.isHeader = false,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    final style = TextStyle(
-      color: isHeader ? Colors.blueGrey[400] : Colors.blueGrey[700],
-      fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-      fontSize:  ResponsiveHelper.fontSize(15),
-    );
-
-    return Padding(
-      padding:  EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(16)),
-      child: Row(
-        children: [
-          Expanded(child: Text(code, style: style)),
-          Expanded(
-            child: Text(name, style: style, textAlign: TextAlign.right),
-          ),
-        ],
-      ),
-    );
-  }
-}

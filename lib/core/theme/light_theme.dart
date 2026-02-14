@@ -14,7 +14,7 @@ final ThemeData lightTheme = ThemeData(
     backgroundColor: AppColors.backgroundColor,
     elevation: 0,
     centerTitle: true,
-    iconTheme: IconThemeData(color: AppColors.black),
+    iconTheme: IconThemeData(color: AppColors.black,size: 24),
   ),
 
   /// Elevated Button ======================================
@@ -98,11 +98,11 @@ final ThemeData lightTheme = ThemeData(
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(12)),
-      borderSide: BorderSide(color: AppColors.red, width: 2),
+      borderSide: BorderSide(color: AppColors.inputBorderColor, ),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(12)),
-      borderSide: BorderSide(color: AppColors.errorColor, width: 2),
+      borderSide: BorderSide(color: AppColors.inputBorderColor,),
     ),
     disabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(12)),

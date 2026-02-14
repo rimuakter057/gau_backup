@@ -20,6 +20,11 @@ class AppAssets {
    static String next = '$_icons/next_arrow.svg';
 
 
+  static String security = '$_icons/security.svg';
+  static String email = '$_icons/email.svg';
+  static String reset = '$_icons/reset.svg';
+  static String complete = '$_icons/complete.svg';
+  static String time = '$_icons/time.svg';
 
 
 
@@ -55,6 +60,7 @@ static String window = '$_icons/windows.svg';
 
   static String camera = '$_icons/camera.svg';
   static String back = '$_icons/back.svg';
+  static String backAuth = '$_icons/back_auth.svg';
   static String reqGrade = '$_icons/request_grade.svg';
   static String notificationTime = '$_icons/notification_time.svg';
   static String notificationMark = '$_icons/notification_mark.svg';

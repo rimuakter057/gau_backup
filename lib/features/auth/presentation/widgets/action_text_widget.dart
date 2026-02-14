@@ -15,7 +15,6 @@ class ActionTextWidget extends StatelessWidget {
     required this.prefixText,
     required this.actionText,
     required this.onActionTapped,
-
   });
 
   @override
@@ -24,26 +23,22 @@ class ActionTextWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
-          child: Text(prefixText,
-          style: context.bodySmall.copyWith(
-              color: AppColors.greyTextColor
+          child: Text(
+            prefixText,
+            style: context.bodySmall.copyWith(color: AppColors.greyTextColor),
           ),
-          )
         ),
         GestureDetector(
           onTap: onActionTapped,
           child: Padding(
-            padding:  EdgeInsets.only(left: ResponsiveHelper.width(12)),
-            child:Text(
+            padding: EdgeInsets.only(left: ResponsiveHelper.width(12)),
+            child: Text(
               actionText,
-              style:context.bodySmall.copyWith(
+              style: context.bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.darkRed
+                color: AppColors.darkRed,
               ),
-
-
             ),
-
           ),
         ),
       ],

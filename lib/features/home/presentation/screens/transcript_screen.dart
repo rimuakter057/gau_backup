@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
@@ -18,46 +17,41 @@ class TranscriptScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          context.pop();
-        }, icon: Icon(Icons.arrow_back_ios)),
-        
-        title: Text(AppText.transcript,
-        style:   GoogleFonts.poppins(
-              fontSize: ResponsiveHelper.fontSize(14),
-              color: AppColors.titleColor,
-              fontWeight: FontWeight.w600
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
+
+        title: Text(
+          AppText.transcript,
+          style: GoogleFonts.poppins(
+            fontSize: ResponsiveHelper.fontSize(14),
+            color: AppColors.titleColor,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        
       ),
 
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal:  ResponsiveHelper.padding(16)),
+        padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.padding(16)),
         child: Column(
           children: [
-
             CustomContainer(
-                backgroundColor: AppColors.containerGreyBgColor,
-                borderColor: AppColors.inputBorderColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                  Text(AppText.academicTranscript,style: context.titleMedium,),
+              backgroundColor: AppColors.containerGreyBgColor,
+              borderColor: AppColors.inputBorderColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(AppText.academicTranscript, style: context.titleMedium),
                   SizedBox(height: ResponsiveHelper.height(4)),
-                  Text(AppText.officialRecord,style: context.bodySmall,),
-                    SizedBox(height:  ResponsiveHelper.height(24)),
-                    OutlinedButton(onPressed: (){}, child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(AppText.print),
-                        SizedBox(width:  ResponsiveHelper.width(12)),
-                        CustomImage(imageSrc: AppAssets.print),
-                    ],)),
-                    SizedBox(height:   ResponsiveHelper.height(16)),
-                    ElevatedButton(onPressed: (){}, child: Row(
+                  Text(AppText.officialRecord, style: context.bodySmall),
+
+                  SizedBox(height: ResponsiveHelper.height(32)),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -65,17 +59,18 @@ class TranscriptScreen extends StatelessWidget {
 
                         SizedBox(width: ResponsiveHelper.width(12)),
                         Text(AppText.downloadPdf),
-                      ],))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-            ],)),
-
-            SizedBox(height:  ResponsiveHelper.height(24)),
-            CustomImage(imageSrc: AppAssets.pdf)
-
+            SizedBox(height: ResponsiveHelper.height(24)),
+            CustomImage(imageSrc: AppAssets.pdf),
           ],
         ),
       ),
-
     );
   }
 }

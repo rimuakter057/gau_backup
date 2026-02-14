@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
-import 'package:gau_app/features/auth/presentation/widgets/action_text_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_field_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_pass_field_widget.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
-import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
@@ -32,14 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final Widget gap = SizedBox(height: ResponsiveHelper.height(16));
     return Scaffold(
-
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              left:ResponsiveHelper.width(16),
-              right:ResponsiveHelper.width(16),
-              top: ResponsiveHelper.height(56),
-              bottom:ResponsiveHelper.height(16)
+            left: ResponsiveHelper.width(16),
+            right: ResponsiveHelper.width(16),
+            top: ResponsiveHelper.height(56),
+            bottom: ResponsiveHelper.height(16),
           ),
           child: Form(
             key: _key,
@@ -47,8 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
 
               children: [
-
-
                 /// heading logo and text==================================================
                 _buildHeadingLogoText(context),
                 gap,
@@ -59,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: AppText.email,
                   hint: AppText.enterEmail,
                   controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your email';
@@ -82,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: AppText.password,
                   hint: AppText.enterPassword,
                   controller: passwordController,
+
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your password';
@@ -96,11 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(),
-                    Text(
-                      AppText.forgotPassword,
-                      style: context.bodySmall.copyWith(
-                        color: AppColors.darkRed,
-                        fontWeight: FontWeight.w700,
+                    GestureDetector(
+                      onTap: (){
+
+                        context.pushNamed(RoutesPath.forgotScreen);
+                      },
+                      child: Text(
+                        AppText.forgotPassword,
+                        style: context.bodySmall.copyWith(
+                          color: AppColors.darkRed,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
@@ -111,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 /// sign in button==========================================================================
                 ElevatedButton(
-
                   onPressed: () {
                     context.pushNamed(RoutesPath.homeScreen);
                   },
@@ -119,26 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(AppText.signIn),
-                      SizedBox(width: 12.w),
+                      SizedBox(width: ResponsiveHelper.width(12)),
                       CustomImage(imageSrc: AppAssets.next),
                     ],
                   ),
                 ),
-                SizedBox(height: 12.h),
 
-                /// registration==========================================================================
-                ActionTextWidget(
-                  prefixText: AppText.staffWithoutAccount,
-                  actionText: AppText.registerHere,
-                  onActionTapped: () {
-                    // context.pushNamed(RoutePath.selectedScreen);
-                  },
-                ),
                 gap,
                 gap,
-
-                /// divider==========================================================================
-                CustomDivider(color: AppColors.dividerColor),
 
                 ///note text====================================================
                 Row(
@@ -151,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: ResponsiveHelper.width(12)),
                     Expanded(
                       child: Text(
                         maxLines: 2,
@@ -162,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 48.h),
+                SizedBox(height: ResponsiveHelper.height(48)),
 
                 /// footerLegalText==========================================================================
                 Text(
@@ -186,8 +175,8 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           CustomImage(
             imageSrc: AppAssets.appLogoImage,
-            height: 76.h,
-            width: 76.w,
+            height: ResponsiveHelper.height(76),
+            width: ResponsiveHelper.width(76),
           ),
           Text(
             textAlign: TextAlign.center,
@@ -195,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
             AppText.universityName,
             style: context.titleMedium,
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: ResponsiveHelper.height(8)),
           Text(
             textAlign: TextAlign.center,
             maxLines: 2,

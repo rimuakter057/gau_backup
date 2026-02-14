@@ -16,6 +16,7 @@ class AppText{
   static const String password =
       "Password";
   static const enterPassword = 'Enter your Password here';
+  static const enterNewPassword = 'Enter your New Password here';
   static const String forgotPassword =
       "Forgot your password?";
 
@@ -39,6 +40,76 @@ class AppText{
 
   static const String footerLegalText =
       "© 2024 Georgetown American University. \nAll rights reserved. Secure System \n• Authorized Access Only";
+
+  //forgot password===================
+
+  static const String resetYourPassword = "Reset Your Password";
+
+  static const String enterYourEmailInstruction =
+      "Enter your email to receive reset instruction";
+
+  static const String securityNotice =
+      "For your security, we'll send a verification code to your registered university email address.";
+
+  static const String universityEmailAddress =
+      "University Email Address";
+
+  static const String sendResetCode =
+      "Send Reset Code";
+
+  static const String backToSignIn =
+      "Back to sign in";
+
+
+  // ================= Email Verification =================
+
+  static const String checkYourEmail = "Check Your Email";
+
+  static const String verificationCodeSent =
+      "We sent a verification code to your email";
+
+  static const String weSent6DigitCode =
+      "We sent a 6-digit verification code to";
+
+  static const String verificationCode = "Verification Code";
+
+  static const String codeExpireNotice =
+      "This code will expire in 15 minutes. Didn't receive it?";
+
+  static const String resendCode = "Resend code";
+
+  static const String verifyCode = "Verify Code";
+
+  static const String useDifferentEmail = "Use different email";
+
+
+  //  Reset Password Screen
+  static const createNewPassword = "Create New Password";
+  static const chooseStrongPassword = "Choose a strong password for your account";
+  static const passwordRequirements = "Password Requirements :";
+  static const atLeast8Chars = "At least 8 characters long";
+  static const includeUpperLower = "Include uppercase and lowercase letters";
+  static const includeNumber = "Include at least one number";
+  static const includeSpecialChar = "Include at least one special character";
+  static const newPassword = "New Password";
+  static const confirmNewPassword = "Confirm New Password";
+  static const resetPassword = "Reset Password";
+
+//complete==============================================
+
+
+  // Password Reset Screen
+  static const String passwordResetComplete = "Password Reset Complete";
+  static const String passwordUpdatedSuccess = "Your password has been successfully updated";
+  static const String passwordResetSuccessful = "Password Reset Successful";
+  static const String passwordUpdatedMessage = "Your password has been updated. You can now sign in with your new password";
+  static const String continueToSignIn = "Continue to Sign In";
+  static const String contactSupport = "If you didn't request this password reset, please contact IT Support immediately at ";
+static const String supportEmail="support@gau.edu";
+
+
+
+
 
 ///=========================================================================================
 
@@ -312,11 +383,7 @@ class AppText{
   static const String currentPassword =
       "Current Password";
 
-  static const String newPassword =
-      "New Password";
 
-  static const String confirmNewPassword =
-      "Confirm New Password";
 
   static const String updatePassword =
       "Update Password";
