@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 
 class HomeController extends GetxController {
-  // var selectedCategory = ''.obs;
-  // var priorityLevel = ''.obs;
-  // var subject = ''.obs;
-  // var description = ''.obs;
+
 
 
 

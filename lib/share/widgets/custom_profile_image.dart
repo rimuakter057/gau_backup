@@ -20,7 +20,7 @@ class CustomProfileAvatar extends StatelessWidget {
         shape: BoxShape.circle,
 
         image: DecorationImage(
-          image: NetworkImage(image??AppConstant.unknown),
+          image: NetworkImage(image??AppConstants.unknown),
           fit: BoxFit.cover,
         ),
       ),

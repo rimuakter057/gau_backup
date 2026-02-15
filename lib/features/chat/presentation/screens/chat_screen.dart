@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/chat/presentation/widgets/user_chat_list_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';

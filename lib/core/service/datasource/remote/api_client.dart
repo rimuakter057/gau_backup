@@ -1,291 +1,395 @@
+// ignore_for_file: unrelated_type_equality_checks
+
+import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:mime/mime.dart';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:gau_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:gau_app/utils/api_urls/api_urls.dart';
+import 'package:gau_app/utils/app_const/app_const.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:gau_app/core/di/injection.dart';
-import 'package:gau_app/core/router/route_path.dart';
-import 'package:gau_app/core/router/routes.dart';
+import 'package:mime/mime.dart';
+import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:gau_app/core/service/datasource/local/local_service.dart';
-import 'package:gau_app/utils/multipart/multipart_body.dart';
-import 'network_checker.dart';
 
-class ApiClient {
-  final Dio dio;
-  final NetworkChecker networkChecker;
-  final LocalService localService;
+class ApiClient extends GetxService {
+  static var client = http.Client();
+  static final Logger logger = Logger();
 
-  ApiClient({
-    required this.dio,
-    required this.networkChecker,
-    required this.localService,
-  });
+  static const String somethingWentWrong = "Something Went Wrong";
+  static const int timeoutInSeconds = 30;
 
-  Future<Map<String, String>> _headers({
-    String? token,
-    bool isJson = true,
-  }) async {
-    final headers = <String, String>{};
-    final authToken = token ?? await localService.getToken();
+  static String bearerToken = "";
 
-    if (authToken.isNotEmpty) headers['Authorization'] = authToken;
-    if (isJson) headers['Content-Type'] = 'application/json';
-
-    return headers;
+  //============================= CHECK INTERNET =============================
+  static Future<bool> _checkConnection() async {
+    return await Connectivity().checkConnectivity() != ConnectivityResult.none;
   }
 
-  Future<bool> _hasConnection() async => await networkChecker.hasConnection();
-
-  Future<Response> get({
-    required String url,
-    Map<String, dynamic>? queryParams,
-    String? token,
-  }) async {
-    if (!await _hasConnection()) {
-      return _buildErrorResponse('No internet connection');
-    }
-
-    try {
-      final headers = await _headers(token: token);
-      final response = await dio.get(
-        url,
-        queryParameters: queryParams,
-        options: Options(headers: headers),
-      );
-      return response;
-    } catch (e) {
-      return _handleDioError(e);
-    }
-  }
-
-  Future<Response> post({
-    required String url,
-    required Map<String, dynamic> body,
-    String? token,
-  }) async {
-    if (!await _hasConnection()) {
-      return _buildErrorResponse('No internet connection');
-    }
-
-    try {
-      final headers = await _headers(token: token);
-      final response = await dio.post(
-        url,
-        data: body,
-        options: Options(headers: headers),
-      );
-      return response;
-    } catch (e) {
-      return _handleDioError(e);
-    }
-  }
-
-  Future<Response> put({
-    required String url,
-    Map<String, dynamic>? body,
-    String? token,
-  }) async {
-    if (!await _hasConnection()) {
-      return _buildErrorResponse('No internet connection');
-    }
-
-    try {
-      final headers = await _headers(token: token);
-      final response = await dio.put(
-        url,
-        data: body,
-        options: Options(headers: headers),
-      );
-      return response;
-    } catch (e) {
-      return _handleDioError(e);
-    }
-  }
-
-  Future<Response> patch({
-    required String url,
-    Map<String, dynamic>? body,
-    String? token,
-  }) async {
-    if (!await _hasConnection()) {
-      return _buildErrorResponse('No internet connection');
-    }
-
-    try {
-      final headers = await _headers(token: token);
-      final response = await dio.patch(
-        url,
-        data: body,
-        options: Options(headers: headers),
-      );
-      return response;
-    } catch (e) {
-      return _handleDioError(e);
-    }
-  }
-
-  Future<Response> delete({
-    required String url,
-    Map<String, dynamic>? body,
-    String? token,
-  }) async {
-    if (!await _hasConnection()) {
-      return _buildErrorResponse('No internet connection');
-    }
-
-    try {
-      final headers = await _headers(token: token, isJson: false);
-      final response = await dio.delete(
-        url,
-        data: body,
-        options: Options(headers: headers),
-      );
-      return response;
-    } catch (e) {
-      return _handleDioError(e);
-    }
-  }
-
-  Future<Response> uploadMultipart({
-    required String url,
-    required List<MultipartBody> files,
-    required String method,
-    required String token,
-    Map<String, String>? fields,
-  }) async {
-    if (!await _hasConnection()) {
-      return _buildErrorResponse('No internet connection');
-    }
-
-    try {
-      final headers = await _headers(token: token, isJson: false);
-      final formMap = <String, dynamic>{};
-      fields?.forEach((k, v) => formMap[k] = v);
-
-      for (final file in files) {
-        final mimeType =
-            lookupMimeType(file.file.path) ?? 'application/octet-stream';
-        final split = mimeType.split('/');
-        formMap[file.fieldKey] = await MultipartFile.fromFile(
-          file.file.path,
-          filename: file.file.uri.pathSegments.last,
-          contentType: MediaType(split[0], split[1]),
-        );
-      }
-
-      final formData = FormData.fromMap(formMap);
-      final response = await dio.request(
-        url,
-        data: formData,
-        options: Options(method: method, headers: headers),
-      );
-      return response;
-    } catch (e) {
-      return _handleDioError(e);
-    }
-  }
-
-  Response _buildErrorResponse(String message, {int statusCode = 500}) {
-    return Response(
-      requestOptions: RequestOptions(path: ''),
-      statusCode: statusCode,
-      data: {'success': false, 'message': message},
-    );
-  }
-
-  Response _handleDioError(dynamic error) {
-    if (error is Response) return error;
-
-    if (error is DioException) {
-      final requestOptions = error.requestOptions;
-      final statusCode = error.response?.statusCode ?? 500;
-      final data = error.response?.data ?? {};
-
-      if (statusCode == 401) {
-        try {
-          sl<LocalService>().logOut();
-          AppRouter.route.goNamed(RoutesPath.loginScreen);
-        } catch (_) {}
-        return Response(
-          requestOptions: requestOptions,
-          statusCode: 401,
-          data: {
-            'success': false,
-            'message': 'Session expired. Please login again.',
-          },
-        );
-      }
-
-      if ({
-        DioExceptionType.connectionTimeout,
-        DioExceptionType.sendTimeout,
-        DioExceptionType.receiveTimeout,
-      }.contains(error.type)) {
-        return Response(
-          requestOptions: requestOptions,
-          statusCode: 408,
-          data: {
-            'success': false,
-            'message': 'Connection timeout. Please try again later.',
-          },
-        );
-      }
-
-      if (error.type == DioExceptionType.unknown &&
-          error.error is SocketException) {
-        return Response(
-          requestOptions: requestOptions,
-          statusCode: 0,
-          data: {'success': false, 'message': 'No internet connection.'},
-        );
-      }
-
-      if (error.type == DioExceptionType.badResponse) {
-        return Response(
-          requestOptions: requestOptions,
-          statusCode: statusCode,
-          data: {
-            'success': false,
-            'message': data['message'] ?? 'Unexpected server response.',
-            'data': data,
-          },
-        );
-      }
-
-      if (error.type == DioExceptionType.cancel) {
-        return Response(
-          requestOptions: requestOptions,
-          statusCode: 499,
-          data: {'success': false, 'message': 'Request was cancelled.'},
-        );
-      }
-
-      return Response(
-        requestOptions: requestOptions,
-        statusCode: statusCode == 0 ? 500 : statusCode,
-        data: {
-          'success': false,
-          'message': error.message ?? 'Unexpected Dio error.',
-        },
-      );
-    }
-
-    if (error is SocketException) {
-      return Response(
-        requestOptions: RequestOptions(path: ''),
+  //============================= GET REQUEST ================================
+  static Future<Response> getData(
+      String uri, {
+        Map<String, String>? headers,
+      }) async {
+    if (!await _checkConnection()) {
+      return const Response(
         statusCode: 0,
-        data: {'success': false, 'message': 'No internet connection.'},
+        statusText: 'No Internet Connection',
       );
     }
 
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Accept': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    };
+
+    try {
+      logger.i(
+        "➡️ GET REQUEST=====================================\nURL:===================================== $uri\nHeaders:=========================================== ${headers ?? mainHeaders}",
+      );
+
+      http.Response response = await client
+          .get(Uri.parse(ApiUrl.baseUrl + uri), headers: headers ?? mainHeaders)
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      logger.e("❌ GET Error:==================================== $e");
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  //============================= POST REQUEST ================================
+  static Future<Response> postData(
+      String uri,
+      dynamic body, {
+        Map<String, String>? headers,
+        bool isJson = true,
+      }) async {
+    if (!await _checkConnection()) {
+      return const Response(
+        statusCode: 0,
+        statusText: 'No Internet Connection',
+      );
+    }
+
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders =
+    isJson
+        ? {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    }
+        : {
+      'Accept': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    };
+
+    try {
+      logger.i(
+        "User Create POST REQUEST==========================================\nURL:======================================= $uri\nHeaders:=================================== ${headers ?? mainHeaders}\nBody:================================================== $body",
+      );
+
+      http.Response response = await client
+          .post(
+        Uri.parse(ApiUrl.baseUrl + uri),
+        body: isJson ? jsonEncode(body) : body,
+        headers: headers ?? mainHeaders,
+      )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      ///server response here===================================================================
+      return handleResponse(response, uri);
+    } catch (e) {
+      logger.e(
+        "❌ POST Error server:================================================ $e",
+      );
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  //============================= PATCH REQUEST ================================
+  static Future<Response> patchData(
+      String uri,
+      dynamic body, {
+        Map<String, String>? headers,
+        bool isJson = true,
+      }) async {
+    if (!await _checkConnection()) {
+      return const Response(
+        statusCode: 0,
+        statusText: 'No Internet Connection',
+      );
+    }
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    bearerToken = (sharedPreferences.getString(AppConstants.bearerToken))!;
+
+    var mainHeaders =
+    isJson
+        ? {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    }
+        : {
+      'Accept': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    };
+
+    try {
+      logger.i(
+        "➡️ PATCH REQUEST===============================================\nURL:=============================================== $uri\nHeaders:========================================== ${headers ?? mainHeaders}\nBody:================================== $body",
+      );
+
+      http.Response response = await client
+          .patch(
+        Uri.parse(ApiUrl.baseUrl + uri),
+        body: isJson ? jsonEncode(body) : body,
+        headers: headers ?? mainHeaders,
+      )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      logger.e(
+        "❌ PATCH Error:============================================================== $e",
+      );
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  ///=========================multipart patch===================================================================
+
+  static Future<Response> patchMultipartData(
+      String uri,
+      Map<String, String> body, {
+        List<MultipartBody>? multipartBody,
+        Map<String, String>? headers,
+      }) async {
+    try {
+      bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+      var mainHeaders = {
+        'Accept': 'application/json',
+        'Authorization': "Bearer $bearerToken",
+      };
+
+      var request = http.MultipartRequest(
+        'PATCH',
+        Uri.parse(ApiUrl.baseUrl + uri),
+      );
+
+      request.fields.addAll(body);
+
+      if (multipartBody != null && multipartBody.isNotEmpty) {
+        for (var element in multipartBody) {
+          var mimeType =
+              lookupMimeType(element.file.path) ?? 'application/octet-stream';
+          var multipartImg = await http.MultipartFile.fromPath(
+            element.key,
+            element.file.path,
+            contentType: MediaType.parse(mimeType),
+          );
+          request.files.add(multipartImg);
+        }
+      }
+
+      request.headers.addAll(mainHeaders);
+
+      var streamedResponse = await request.send();
+      final responseString = await streamedResponse.stream.bytesToString();
+
+      debugPrint(
+        '====> API Response [${streamedResponse.statusCode}]: $uri\n$responseString',
+      );
+
+      return Response(
+        statusCode: streamedResponse.statusCode,
+        body: jsonDecode(responseString),
+      );
+    } catch (e) {
+      debugPrint('Multipart PATCH Error: $e');
+      return Response(
+        statusCode: 500,
+        body: {"message": "Something went wrong"},
+      );
+    }
+  }
+
+  //============================= MULTIPART POST ================================
+  static Future<Response> postMultipartData(
+      String uri,
+      Map<String, String> body, {
+        List<MultipartBody>? multipartBody,
+      }) async {
+    try {
+      bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': "Bearer $bearerToken",
+      };
+
+      var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(ApiUrl.baseUrl + uri),
+      );
+
+      request.fields.addAll(body);
+      request.headers.addAll(headers);
+
+      logger.i(
+        "➡️ MULTIPART POST==============================================================================\nURL:======================================================================== $uri\nBody Fields:============================================================= $body",
+      );
+
+      // Attach Files
+      if (multipartBody != null) {
+        for (var element in multipartBody) {
+          var mimeType = lookupMimeType(element.file.path) ?? "image/jpeg";
+
+          logger.i(
+            "📎 File Attached:=========================== ${element.file.path} → ${element.key}",
+          );
+
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              element.key,
+              element.file.path,
+              contentType: MediaType.parse(mimeType),
+            ),
+          );
+        }
+      }
+
+      http.StreamedResponse response = await request.send();
+      final content = await response.stream.bytesToString();
+
+      logger.i(
+        "⬅️ MULTIPART RESPONSE [$uri]:============================================ $content",
+      );
+
+      return Response(
+        statusCode: response.statusCode,
+        body: jsonDecode(content),
+        statusText: somethingWentWrong,
+      );
+    } catch (e) {
+      logger.e(
+        "❌ MULTIPART POST Error:====================================================== $e",
+      );
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  //============================= PUT REQUEST ================================
+  static Future<Response> putData(
+      String uri,
+      dynamic body, {
+        Map<String, String>? headers,
+      }) async {
+    if (!await _checkConnection()) {
+      return const Response(
+        statusCode: 0,
+        statusText: 'No Internet Connection',
+      );
+    }
+
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    };
+
+    try {
+      logger.i(
+        "➡️ PUT REQUEST========================================================\nURL:===================================================== $uri\nBody:===================================================== $body",
+      );
+
+      http.Response response = await client
+          .put(
+        Uri.parse(ApiUrl.baseUrl + uri),
+        body: jsonEncode(body),
+        headers: headers ?? mainHeaders,
+      )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      logger.e(
+        "❌ PUT Error:===================================================================== $e",
+      );
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  //============================= DELETE REQUEST ================================
+  static Future<Response> deleteData(
+      String uri, {
+        dynamic body,
+        Map<String, String>? headers,
+      }) async {
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    };
+
+    try {
+      logger.i(
+        "🗑️ DELETE REQUEST====================================================\nURL:======================================= $uri\nBody:==================================================== $body",
+      );
+
+      http.Response response = await client
+          .delete(
+        Uri.parse(ApiUrl.baseUrl + uri),
+        headers: headers ?? mainHeaders,
+        body: body,
+      )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      logger.e(
+        "❌ DELETE Error:================================================ $e",
+      );
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  //============================= HANDLE RESPONSE ================================
+  static Response handleResponse(http.Response response, String uri) {
+    dynamic data;
+
+    try {
+      data = jsonDecode(response.body);
+    } catch (_) {
+      data = response.body;
+    }
+
+    logger.i(
+      "⬅️ RESPONSE FOR Server=============================== [$uri]\nStatus:============================================= ${response.statusCode}\nBody:===================================== ${response.body}",
+    );
+
     return Response(
-      requestOptions: RequestOptions(path: ''),
-      statusCode: 500,
-      data: {
-        'success': false,
-        'message': 'An unexpected error occurred.',
-        'details': error.toString(),
-      },
+      statusCode: response.statusCode,
+      body: data,
+      statusText: response.reasonPhrase,
+      headers: response.headers,
     );
   }
+}
+
+class MultipartBody {
+  String key;
+  File file;
+  MultipartBody(this.key, this.file);
 }

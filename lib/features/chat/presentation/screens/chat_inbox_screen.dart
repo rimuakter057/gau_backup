@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/chat/presentation/widgets/message_double.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 

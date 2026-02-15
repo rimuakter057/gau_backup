@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/routes.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'core/di/injection.dart';
+
+import 'core/dependency/dependency_injection.dart';
 import 'core/theme/light_theme.dart' as AppTheme;
 import 'helper/responsive_helper/responsive_helper.dart';
 
@@ -10,10 +11,17 @@ import 'helper/responsive_helper/responsive_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
-
+ // await initDependencies();
+  DependencyInjection di = DependencyInjection();
+  di.dependencies();
   runApp(const MyApp());
 }
+
+
+
+
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
