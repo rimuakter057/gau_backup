@@ -27,7 +27,7 @@ class AppRouter {
       GlobalKey<NavigatorState>();
 
   static final GoRouter initRoute = GoRouter(
-    initialLocation: RoutesPath.loginScreen.addBasePath,
+    initialLocation: RoutesPath.splashScreen.addBasePath,
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
     routes: [
@@ -83,13 +83,15 @@ class AppRouter {
         name: RoutesPath.verificationScreen,
         path: RoutesPath.verificationScreen.addBasePath,
         pageBuilder: (context, state) {
+
+          final String email = state.extra as String? ??"";
+
           return _buildPageWithAnimation(
-            child:  VerificationScreenScreen(),
+            child: VerificationScreenScreen(email: email),
             state: state,
           );
         },
       ),
-
 
 
       GoRoute(
@@ -104,16 +106,28 @@ class AppRouter {
       ),
 
 
+
+
+
+
       GoRoute(
         name: RoutesPath.passwordResetCompleteScreen,
         path: RoutesPath.passwordResetCompleteScreen.addBasePath,
         pageBuilder: (context, state) {
+
+          final String email = state.extra as String? ??"";
+
           return _buildPageWithAnimation(
-            child:  PasswordResetCompleteScreen(),
+            child: PasswordResetCompleteScreen(email: email),
             state: state,
           );
         },
       ),
+
+
+
+
+
 
 
       ///home===========================================

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gau_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:gau_app/utils/app_const/app_const.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:gau_app/core/router/route_path.dart';
@@ -23,11 +25,29 @@ class _SplashScreenState extends State<SplashScreen> {
     _handleNavigation();
   }
 
+
+
   Future<void> _handleNavigation() async {
+
     await Future.delayed(const Duration(seconds: 2));
 
-    context.go(RoutesPath.loginScreen.addBasePath);
+    String token =
+    await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    print("TOKEN IS============================: $token");
+
+    if (token.isNotEmpty) {
+
+      context.go(RoutesPath.homeScreen.addBasePath);
+
+    } else {
+
+      context.go(RoutesPath.loginScreen.addBasePath);
+
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

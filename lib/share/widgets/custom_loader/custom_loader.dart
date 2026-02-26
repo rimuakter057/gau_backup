@@ -13,7 +13,7 @@ class CustomLoader extends StatelessWidget {
   Widget build(BuildContext context)
   {
     return SpinKitCircle(
-      color: AppColors.primaryColor,
+      color: AppColors.white,
       // color: AppColors.appBarBackground,
       size: ResponsiveHelper.height(60),
     );

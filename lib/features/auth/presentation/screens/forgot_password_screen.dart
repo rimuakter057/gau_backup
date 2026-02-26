@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/features/auth/controller/auth_controller.dart';
 import 'package:gau_app/features/auth/presentation/widgets/input_field_widget.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
+import 'package:gau_app/share/widgets/custom_loader/custom_loader.dart';
+import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -21,7 +25,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-
+final AuthController authController =Get.find<AuthController>();
   bool rememberMe = false;
 
   @override
@@ -141,11 +145,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         gap,
                   
                         /// sign in button==========================================================================
-                        ElevatedButton(
-                          onPressed: () {
-                            context.pushNamed(RoutesPath.verificationScreen);
-                          },
-                          child: Row(
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     context.pushNamed(RoutesPath.verificationScreen);
+                        //   },
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       Text(AppText.sendResetCode),
+                        //       SizedBox(width: ResponsiveHelper.width(12)),
+                        //       CustomImage(imageSrc: AppAssets.next),
+                        //     ],
+                        //   ),
+                        // ),
+
+                        Obx(() => ElevatedButton(
+
+                          onPressed: authController.inProgressForgot.value
+                              ? null
+                              : onTapForgot,
+
+                          child: authController.inProgressForgot.value
+                              ? SizedBox(
+                              height: ResponsiveHelper.iconSize(30),
+                              width: ResponsiveHelper.iconSize(30),
+                              child: CircularProgressIndicator(
+                                backgroundColor: AppColors.white,
+                              ))
+                              : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(AppText.sendResetCode),
@@ -153,7 +180,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               CustomImage(imageSrc: AppAssets.next),
                             ],
                           ),
-                        ),
+
+                        )),
+
+
+
+
+
+
+
+
+
+
+
                   
                         gap,
                         GestureDetector(
@@ -183,6 +222,50 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
   }
+
+
+
+
+
+
+  Future<void> onTapForgot() async {
+
+    // email empty check
+    if (emailController.text.trim().isEmpty) {
+
+      CustomSnackbar.error(context, "Email cannot be empty");
+
+      return;
+
+    }
+
+    if (!_key.currentState!.validate()) return;
+
+
+
+    bool success = await authController.forgot(
+      email: emailController.text.trim(),
+    );
+
+    if (success) {
+
+      context.pushNamed(RoutesPath.verificationScreen,
+        extra: emailController.text.trim(),
+      );
+
+      emailController.clear();
+
+    } else {
+
+      CustomSnackbar.error(
+        context,
+        authController.errorMessage.value,
+      );
+
+    }
+
+  }
+
 
 
 }

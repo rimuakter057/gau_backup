@@ -1,6 +1,7 @@
 class ApiUrl {
   //Live Server
-  static const String primaryUrl = "http://56.228.56.225:5000"; // ////
+  static const String primaryUrl = "http://10.10.20.45:5000"; // ////
+
 
   //local Server
   // static const String primaryUrl = "http://10.10.20.45:5000";
@@ -18,6 +19,9 @@ class ApiUrl {
 
 ///app url================================================
   static const String login = "/auth/signin";
+  static const String forgot = "/auth/forget-password";
+  static const String verifyOtp = "/auth/verify-reset-otp";
+  static const String resetPassword = "/auth/reset-password";
 
 
 

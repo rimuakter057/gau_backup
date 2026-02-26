@@ -5,55 +5,104 @@ import 'package:get/get.dart';
 import '../../../utils/app_const/app_const.dart';
 
 class AuthController extends GetxController {
-
-  RxBool inProgress = false.obs;
+  ///log in ======================================================
+  RxBool inProgressLogIn = false.obs;
   RxString errorMessage = ''.obs;
 
   Future<bool> login({required String email, required String password}) async {
-    inProgress.value = true;
+    inProgressLogIn.value = true;
+    errorMessage.value = ''; // ✅ Clear previous error message
 
-    final Response response = await ApiClient.postData(
-      ApiUrl.login,
-      {
-        "email": email,
-        "password": password,
-      },
-    );
+    final Response response = await ApiClient.postData(ApiUrl.login, {
+      "email": email,
+      "password": password,
+    });
 
-    inProgress.value = false;
+    inProgressLogIn.value = false;
 
     if (response.statusCode == 200) {
-      final data = response.body;
-
-      // ✅ Save token
-      await SharePrefsHelper.setString(
-        AppConstants.bearerToken,
-        data['data']['accessToken'], // token thik path
-      );
-
+      final data = response.body['data'];
+      await Future.wait([
+        SharePrefsHelper.setString(
+          AppConstants.bearerToken,
+          data['accessToken'],
+        ),
+        SharePrefsHelper.setString(
+          AppConstants.refreshToken,
+          data['refreshToken'],
+        ),
+        SharePrefsHelper.setString(AppConstants.userId, data['id']),
+      ]);
       return true;
     } else {
-      // ✅ Properly set RxString
-      final msg = response.body['message'] ?? 'Something went wrong';
+      final msg = response.body?['message'] ?? 'Something went wrong';
       errorMessage.value = msg;
+      return false;
+    }
+  }
+
+  ///forgot password==========================================================
+
+  RxBool inProgressForgot = false.obs;
+
+  Future<bool> forgot({required String email}) async {
+    inProgressForgot.value = true;
+
+    final Response response = await ApiClient.postData(ApiUrl.forgot, {
+      "email": email,
+    });
+
+    inProgressForgot.value = false;
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      errorMessage.value = response.body?['message'] ?? 'Something went wrong';
 
       return false;
     }
   }
 
+  ///otp verification================================================
+  RxBool inProgressVerification = false.obs;
+  Future<bool> verifyOtp({required String email, required int otp}) async {
+    inProgressVerification.value = true;
+    final Response response = await ApiClient.postData(ApiUrl.verifyOtp, {
+      "email": email,
+      "resetCode": otp,
+    });
 
+    inProgressVerification.value = false;
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      errorMessage.value = response.body?["message"] ?? "email does not exit";
+      return false;
+    }
   }
 
+  ///reset password================================================
+  RxBool inProgressResetPass = false.obs;
+  Future<bool> resetPassword({
+    required String email,
+    required dynamic newPassword,
+    required dynamic confirmedPassword,
+  }) async {
+    inProgressResetPass.value = true;
+    final Response response = await ApiClient.postData(ApiUrl.resetPassword, {
+      "email": email,
+      "password": newPassword,
+      "confirmPassword": confirmedPassword,
+    });
 
+    inProgressResetPass.value = false;
 
-
-
-
-
-
-
-
-
-
-
-
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      errorMessage.value = response.body?["message"] ?? "email does not exit";
+      return false;
+    }
+  }
+}
