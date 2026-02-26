@@ -45,21 +45,6 @@ class ResponsiveHelper {
     }
   }
 
-  ///all padding=============================================
-  static EdgeInsets all(double value) {
-    return EdgeInsets.all(padding(value));
-  }
-  /// padding symmetric==================================
-
-  static EdgeInsets symmetric({double horizontal = 0, double vertical = 0}) {
-    return EdgeInsets.symmetric(
-      horizontal: width(horizontal),
-      vertical: height(vertical),
-    );
-  }
-
-
-
   /// Get responsive spacing (for gaps between elements)
   static double spacing(double phoneSpacing) {
     if (_isTablet) {
@@ -80,6 +65,20 @@ class ResponsiveHelper {
       return phonePadding * 1.5; // iPad regular - reduced from 2.5
     }
     return phonePadding;
+  }
+
+
+  /// EdgeInsets.all responsive
+  static EdgeInsets all(double value) {
+    return EdgeInsets.all(padding(value));
+  }
+
+  /// EdgeInsets.symmetric responsive
+  static EdgeInsets symmetric({double horizontal = 0, double vertical = 0}) {
+    return EdgeInsets.symmetric(
+      horizontal: padding(horizontal),
+      vertical: padding(vertical),
+    );
   }
 
   /// Get max content width

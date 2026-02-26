@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gau_app/helper/shared_prefe/shared_prefe.dart';
-import 'package:gau_app/utils/api_urls/api_urls.dart';
+
 import 'package:gau_app/utils/app_const/app_const.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +14,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'api_urls/api_urls.dart';
 
 
 class ApiClient extends GetxService {
@@ -34,7 +36,8 @@ class ApiClient extends GetxService {
   static Future<Response> getData(
       String uri, {
         Map<String, String>? headers,
-      }) async {
+      }) async
+  {
     if (!await _checkConnection()) {
       return const Response(
         statusCode: 0,
@@ -71,7 +74,8 @@ class ApiClient extends GetxService {
       dynamic body, {
         Map<String, String>? headers,
         bool isJson = true,
-      }) async {
+      }) async
+  {
     if (!await _checkConnection()) {
       return const Response(
         statusCode: 0,
@@ -114,6 +118,16 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: somethingWentWrong);
     }
   }
+
+
+
+
+
+
+
+
+
+
 
   //============================= PATCH REQUEST ================================
   static Future<Response> patchData(

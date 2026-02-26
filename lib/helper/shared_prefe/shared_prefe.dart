@@ -62,4 +62,6 @@ class SharePrefsHelper {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.remove(key);
   }
+
+
 }

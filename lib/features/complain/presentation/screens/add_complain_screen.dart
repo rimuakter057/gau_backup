@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/features/common/widgets/cancel_save_button_row.dart';
 import 'package:gau_app/features/home/controller/home_controller.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
@@ -10,13 +9,13 @@ import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddComplainScreen extends StatelessWidget {
-   AddComplainScreen({super.key});
-  final controller = GetIt.instance<HomeController>();
+  AddComplainScreen({super.key});
+  final HomeController controller = Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +30,7 @@ class AddComplainScreen extends StatelessWidget {
         title: Text(
           AppText.complaint,
           style: GoogleFonts.poppins(
-            fontSize:  ResponsiveHelper.fontSize(14),
+            fontSize: ResponsiveHelper.fontSize(14),
             color: AppColors.titleColor,
             fontWeight: FontWeight.w600,
           ),
@@ -40,11 +39,11 @@ class AddComplainScreen extends StatelessWidget {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal:  ResponsiveHelper.width(16)),
+          padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.width(16)),
           child: Column(
             children: [
               CustomContainer(
-                padding: EdgeInsets.all( ResponsiveHelper.padding(24)),
+                padding: EdgeInsets.all(ResponsiveHelper.padding(24)),
                 width: double.infinity,
                 backgroundColor: AppColors.containerGreyBgColor,
                 borderColor: AppColors.inputBorderColor,
@@ -52,16 +51,16 @@ class AddComplainScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(AppText.submitAComplaint, style: context.titleMedium),
-                    SizedBox(height:  ResponsiveHelper.height(4)),
+                    SizedBox(height: ResponsiveHelper.height(4)),
                     Text(AppText.complaintSubtitle, style: context.bodySmall),
                   ],
                 ),
               ),
 
               /// add complain form =======================================================================================
-              SizedBox(height:  ResponsiveHelper.height(20)),
+              SizedBox(height: ResponsiveHelper.height(20)),
               CustomContainer(
-                padding: EdgeInsets.all( ResponsiveHelper.padding(16)),
+                padding: EdgeInsets.all(ResponsiveHelper.padding(16)),
                 width: double.infinity,
                 backgroundColor: AppColors.white,
                 borderColor: AppColors.inputBorderColor,
@@ -70,7 +69,7 @@ class AddComplainScreen extends StatelessWidget {
                   children: [
                     // Category Selection
                     Text(AppText.category, style: context.bodyMedium),
-                    SizedBox(height:  ResponsiveHelper.height(8)),
+                    SizedBox(height: ResponsiveHelper.height(8)),
                     _buildDropdownField(
                       context,
                       hint: AppText.selectCategory,
@@ -79,8 +78,7 @@ class AddComplainScreen extends StatelessWidget {
                       onChanged: controller.setCategory,
                     ),
 
-
-                    SizedBox(height:  ResponsiveHelper.height(16)),
+                    SizedBox(height: ResponsiveHelper.height(16)),
 
                     // Complaint Details
                     Text(AppText.priorityLevel, style: context.bodyMedium),
@@ -92,25 +90,25 @@ class AddComplainScreen extends StatelessWidget {
                       onChanged: controller.setPriority,
                     ),
 
-                    SizedBox(height:  ResponsiveHelper.height(16)),
+                    SizedBox(height: ResponsiveHelper.height(16)),
 
                     Text(AppText.subjectLine, style: context.bodyMedium),
-                    SizedBox(height:  ResponsiveHelper.height(4)),
+                    SizedBox(height: ResponsiveHelper.height(4)),
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: AppText.subjectHint,
                       ),
                     ),
-                    SizedBox(height:  ResponsiveHelper.height(16)),
+                    SizedBox(height: ResponsiveHelper.height(16)),
                     Text(AppText.description, style: context.bodyMedium),
-                    SizedBox(height:  ResponsiveHelper.height(4)),
+                    SizedBox(height: ResponsiveHelper.height(4)),
                     TextFormField(
                       maxLines: 5,
                       decoration: InputDecoration(
                         hintText: AppText.descriptionHint,
                       ),
                     ),
-                    SizedBox(height:  ResponsiveHelper.height(16)),
+                    SizedBox(height: ResponsiveHelper.height(16)),
 
                     // Attachment Section
                     Text(
@@ -120,19 +118,13 @@ class AddComplainScreen extends StatelessWidget {
                     SizedBox(height: ResponsiveHelper.height(8)),
 
                     ///add file =====================================
-
-
-
-
-
-
                     GestureDetector(
                       onTap: () {
                         controller.pickFile();
                       },
                       child: Obx(() {
                         return CustomContainer(
-                          padding: EdgeInsets.all( ResponsiveHelper.padding(16)),
+                          padding: EdgeInsets.all(ResponsiveHelper.padding(16)),
                           width: double.infinity,
                           backgroundColor: AppColors.containerGreyBgColor,
                           borderColor: AppColors.inputBorderColor,
@@ -149,9 +141,11 @@ class AddComplainScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                 )
                               else
-                                CustomImage(imageSrc: AppAssets.updateDoc), // default icon
+                                CustomImage(
+                                  imageSrc: AppAssets.updateDoc,
+                                ), // default icon
 
-                              SizedBox(height:  ResponsiveHelper.height(4)),
+                              SizedBox(height: ResponsiveHelper.height(4)),
 
                               Text(
                                 AppText.clickToUpload,
@@ -159,7 +153,7 @@ class AddComplainScreen extends StatelessWidget {
                                   color: AppColors.primaryColor,
                                 ),
                               ),
-                              SizedBox(height:  ResponsiveHelper.height(2)),
+                              SizedBox(height: ResponsiveHelper.height(2)),
                               Text(
                                 textAlign: TextAlign.center,
                                 AppText.acceptedFormats,
@@ -170,8 +164,6 @@ class AddComplainScreen extends StatelessWidget {
                         );
                       }),
                     ),
-
-
 
                     SizedBox(height: ResponsiveHelper.height(30)),
 
@@ -193,41 +185,38 @@ class AddComplainScreen extends StatelessWidget {
     );
   }
 
-   Widget _buildDropdownField(
-       BuildContext context, {
-         required List<String> list,
-         required String hint,
-         required RxnString selectedValue,
-         required Function(String) onChanged,
-       }) {
-     return Obx(() {
-       return CustomContainer(
-         backgroundColor: AppColors.containerGreyBgColor,
-         padding: EdgeInsets.symmetric(horizontal:  ResponsiveHelper.width(12)),
-         borderColor: AppColors.inputBorderColor,
-         child: DropdownButtonHideUnderline(
-           child: DropdownButton<String>(
-             isExpanded: true,
-             value: selectedValue.value,
-             icon: CustomImage(imageSrc: AppAssets.dropDown),
-             hint: Text(hint, style: context.bodySmall),
-             items: list.map((String value) {
-               return DropdownMenuItem<String>(
-                 value: value,
-                 child: Text(value, style: context.bodyMedium),
-               );
-             }).toList(),
-             onChanged: (value) {
-               if (value != null) {
-                 onChanged(value);
-               }
-             },
-           ),
-         ),
-       );
-     });
-   }
-
-
-
+  Widget _buildDropdownField(
+    BuildContext context, {
+    required List<String> list,
+    required String hint,
+    required RxnString selectedValue,
+    required Function(String) onChanged,
+  }) {
+    return Obx(() {
+      return CustomContainer(
+        backgroundColor: AppColors.containerGreyBgColor,
+        padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.width(12)),
+        borderColor: AppColors.inputBorderColor,
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: selectedValue.value,
+            icon: CustomImage(imageSrc: AppAssets.dropDown),
+            hint: Text(hint, style: context.bodySmall),
+            items: list.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: context.bodyMedium),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                onChanged(value);
+              }
+            },
+          ),
+        ),
+      );
+    });
+  }
 }

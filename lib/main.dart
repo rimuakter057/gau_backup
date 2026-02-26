@@ -11,7 +11,7 @@ import 'helper/responsive_helper/responsive_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- // await initDependencies();
+
   DependencyInjection di = DependencyInjection();
   di.dependencies();
   runApp(const MyApp());
@@ -40,6 +40,8 @@ class MyApp extends StatelessWidget {
             ResponsiveHelper.init(context);
 
             return GetMaterialApp.router(
+
+              initialBinding: DependencyInjection(),
               debugShowCheckedModeBanner: false,
               title: 'Gau',
               theme: AppTheme.lightTheme,
