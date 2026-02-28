@@ -11,7 +11,7 @@ class AuthController extends GetxController {
 
   Future<bool> login({required String email, required String password}) async {
     inProgressLogIn.value = true;
-    errorMessage.value = ''; // ✅ Clear previous error message
+    errorMessage.value = '';
 
     final Response response = await ApiClient.postData(ApiUrl.login, {
       "email": email,
@@ -34,7 +34,8 @@ class AuthController extends GetxController {
         SharePrefsHelper.setString(AppConstants.userId, data['id']),
       ]);
       return true;
-    } else {
+    }
+    else {
       final msg = response.body?['message'] ?? 'Something went wrong';
       errorMessage.value = msg;
       return false;

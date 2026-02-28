@@ -21,7 +21,7 @@ class GradeScreen extends StatefulWidget {
 }
 
 class _GradeScreenState extends State<GradeScreen> {
-  // Backend থেকে যেগুলো আসবে
+
   List<String> semesters = [];
   String? selectedSemester;
 
@@ -39,7 +39,7 @@ class _GradeScreenState extends State<GradeScreen> {
 
   // Fake backend call
   void fetchSemestersFromBackend() {
-    // Example: Backend return ['Semester 1', 'Semester 2', 'Semester 3']
+
     semesters = ['Semester 1', 'Semester 2', 'Semester 3'];
     selectedSemester = semesters.first; // default
     setState(() {});
