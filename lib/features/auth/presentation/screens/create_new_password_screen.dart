@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/features/auth/controller/auth_controller.dart';
 
 import 'package:gau_app/features/auth/presentation/widgets/input_pass_field_widget.dart';
 import 'package:gau_app/features/auth/presentation/widgets/password_requirement_widget.dart';
@@ -7,16 +8,18 @@ import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
+import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {
-  const CreateNewPasswordScreen({super.key});
-
+  const CreateNewPasswordScreen({super.key, required this.email,});
+  final String email;
   @override
   State<CreateNewPasswordScreen> createState() =>
       _CreateNewPasswordScreenState();
@@ -25,9 +28,26 @@ class CreateNewPasswordScreen extends StatefulWidget {
 class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController newPassword = TextEditingController();
+  final TextEditingController confirmedPasswordController = TextEditingController();
+  final AuthController authController =Get.find<AuthController>();
+
+
+
+
+
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   bool rememberMe = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint("================${widget.email}====================");
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +137,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         InputPassFieldWidget(
                           title: AppText.newPassword,
                           hint: AppText.enterNewPassword,
-                          controller: passwordController,
+                          controller: newPassword,
 
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -132,7 +152,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         InputPassFieldWidget(
                           title: AppText.confirmNewPassword,
                           hint: AppText.enterPassword,
-                          controller: passwordController,
+                          controller: confirmedPasswordController,
 
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -146,11 +166,14 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
 
                         /// sign in button==========================================================================
                         ElevatedButton(
-                          onPressed: () {
-                            context.pushNamed(
-                              RoutesPath.passwordResetCompleteScreen,
-                            );
-                          },
+                          // onPressed: () {
+                          //   context.pushNamed(
+                          //     RoutesPath.passwordResetCompleteScreen,
+                          //   );
+                          // },
+
+                          onPressed: onTapResetPassword,
+
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -173,4 +196,52 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
       ),
     );
   }
+
+
+
+
+
+  Future<void> onTapResetPassword() async {
+    // check new password
+    if (newPassword.text.trim().isEmpty) {
+      CustomSnackbar.error(context, "New password cannot be empty");
+      return;
+    }
+
+    // check confirm password
+    if (confirmedPasswordController.text.trim().isEmpty) {
+      CustomSnackbar.error(context, "Confirm password cannot be empty");
+      return;
+    }
+
+    // check if passwords match
+    if (newPassword.text.trim() != confirmedPasswordController.text.trim()) {
+      CustomSnackbar.error(context, "Passwords do not match");
+      return;
+    }
+
+    if (!_key.currentState!.validate()) return;
+
+    bool success = await authController.resetPassword(
+      email: widget.email, // use email passed from previous screen
+      newPassword: newPassword.text.trim(),
+      confirmedPassword: confirmedPasswordController.text.trim(),
+    );
+
+    if (success) {
+      CustomSnackbar.success(context, "Password reset successful");
+      context.pushNamed(RoutesPath.loginScreen);
+
+      newPassword.clear();
+      confirmedPasswordController.clear();
+    } else {
+      CustomSnackbar.error(
+        context,
+        authController.errorMessage.value,
+      );
+    }
+  }
+
+
+
 }
