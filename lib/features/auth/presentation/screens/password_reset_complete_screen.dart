@@ -13,8 +13,8 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class PasswordResetCompleteScreen extends StatefulWidget {
-  const PasswordResetCompleteScreen({super.key, required this.email});
-final String email;
+  const PasswordResetCompleteScreen({super.key,});
+
   @override
   State<PasswordResetCompleteScreen> createState() =>
       _PasswordResetCompleteScreenState();
@@ -199,47 +199,47 @@ class _PasswordResetCompleteScreenState
 
 
 
-
-  Future<void> onTapResetPassword() async {
-    // check new password
-    if (newPassword.text.trim().isEmpty) {
-      CustomSnackbar.error(context, "New password cannot be empty");
-      return;
-    }
-
-    // check confirm password
-    if (confirmedPasswordController.text.trim().isEmpty) {
-      CustomSnackbar.error(context, "Confirm password cannot be empty");
-      return;
-    }
-
-    // check if passwords match
-    if (newPassword.text.trim() != confirmedPasswordController.text.trim()) {
-      CustomSnackbar.error(context, "Passwords do not match");
-      return;
-    }
-
-    if (!_key.currentState!.validate()) return;
-
-    bool success = await authController.resetPassword(
-      email: widget.email, // use email passed from previous screen
-      newPassword: newPassword.text.trim(),
-      confirmedPassword: confirmedPasswordController.text.trim(),
-    );
-
-    if (success) {
-      CustomSnackbar.success(context, "Password reset successful");
-      context.pushNamed(RoutesPath.loginScreen);
-
-      newPassword.clear();
-      confirmedPasswordController.clear();
-    } else {
-      CustomSnackbar.error(
-        context,
-        authController.errorMessage.value,
-      );
-    }
-  }
+  //
+  // Future<void> onTapResetPassword() async {
+  //   // check new password
+  //   if (newPassword.text.trim().isEmpty) {
+  //     CustomSnackbar.error(context, "New password cannot be empty");
+  //     return;
+  //   }
+  //
+  //   // check confirm password
+  //   if (confirmedPasswordController.text.trim().isEmpty) {
+  //     CustomSnackbar.error(context, "Confirm password cannot be empty");
+  //     return;
+  //   }
+  //
+  //   // check if passwords match
+  //   if (newPassword.text.trim() != confirmedPasswordController.text.trim()) {
+  //     CustomSnackbar.error(context, "Passwords do not match");
+  //     return;
+  //   }
+  //
+  //   if (!_key.currentState!.validate()) return;
+  //
+  //   bool success = await authController.resetPassword(
+  //     email: widget.email, // use email passed from previous screen
+  //     newPassword: newPassword.text.trim(),
+  //     confirmedPassword: confirmedPasswordController.text.trim(),
+  //   );
+  //
+  //   if (success) {
+  //     CustomSnackbar.success(context, "Password reset successful");
+  //     context.pushNamed(RoutesPath.loginScreen);
+  //
+  //     newPassword.clear();
+  //     confirmedPasswordController.clear();
+  //   } else {
+  //     CustomSnackbar.error(
+  //       context,
+  //       authController.errorMessage.value,
+  //     );
+  //   }
+  // }
 
 
 

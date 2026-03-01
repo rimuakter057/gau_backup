@@ -98,8 +98,10 @@ class AppRouter {
         name: RoutesPath.createNewPassScreen,
         path: RoutesPath.createNewPassScreen.addBasePath,
         pageBuilder: (context, state) {
+
+          final String email = state.extra as String? ??"";
           return _buildPageWithAnimation(
-            child:  CreateNewPasswordScreen(),
+            child:  CreateNewPasswordScreen(email: email,),
             state: state,
           );
         },
@@ -115,10 +117,9 @@ class AppRouter {
         path: RoutesPath.passwordResetCompleteScreen.addBasePath,
         pageBuilder: (context, state) {
 
-          final String email = state.extra as String? ??"";
 
           return _buildPageWithAnimation(
-            child: PasswordResetCompleteScreen(email: email),
+            child: PasswordResetCompleteScreen(),
             state: state,
           );
         },
