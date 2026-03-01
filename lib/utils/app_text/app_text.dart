@@ -9,6 +9,20 @@ class AppText{
   static const String signInSubtitle =
       "Sign in to access the university\ndigital platform";
 
+  ///status================================
+
+
+  static const String pending = "Pending";
+  static const String inProgress = "In Progress";
+  static const String resolved = "Resolved";
+  static const String rejected = "Rejected";
+
+  static const String pendingServer = "pending";
+  static const String inProgressServer = "in_progress";
+  static const String resolvedServer = "resolved";
+  static const String rejectedServer = "rejected";
+
+
   // ===== Auth Fields =====
   static const String emailAddress =
       "Email Address";
@@ -243,8 +257,8 @@ static const String supportEmail="support@gau.edu";
   static const String roommateIssue =
       "Roommate Issue";
 
-  static const String inProgress =
-      "In Progress";
+
+
 
   static const String idLabel =
       "ID :";
@@ -262,8 +276,7 @@ static const String supportEmail="support@gau.edu";
   static const String statusTimeline =
       "Status Timeline";
 
-  static const String pending =
-      "Pending";
+
 
   static const String inProgressStatus =
       "In Progress Assigned to housing coordinator";
@@ -462,13 +475,13 @@ static const String supportEmail="support@gau.edu";
 
   // ===== Priority Levels =====
   static const String lowGeneralInquiry =
-      "Low - General Inquiry";
+      "low";
 
   static const String mediumNeedsAttention =
-      "Medium - Needs Attention";
+      "medium";
 
   static const String highUrgentIssue =
-      "High - Urgent Issue";
+      "high";
 
 
   static List <String> priorityList= [
@@ -516,6 +529,11 @@ static const String supportEmail="support@gau.edu";
 
 ///=======================
   static const searchConver = 'Search conversations...';
+
+
+
+
+
 
 
 

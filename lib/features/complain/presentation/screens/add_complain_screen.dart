@@ -4,6 +4,7 @@ import 'package:gau_app/features/home/controller/home_controller.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
+import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
@@ -15,6 +16,9 @@ import 'package:google_fonts/google_fonts.dart';
 class AddComplainScreen extends StatelessWidget {
   AddComplainScreen({super.key});
   final HomeController controller = Get.find<HomeController>();
+  final TextEditingController subjectController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +98,9 @@ class AddComplainScreen extends StatelessWidget {
 
                     Text(AppText.subjectLine, style: context.bodyMedium),
                     SizedBox(height: ResponsiveHelper.height(4)),
+                    //subject===============================
                     TextFormField(
+                      controller: subjectController,
                       decoration: InputDecoration(
                         hintText: AppText.subjectHint,
                       ),
@@ -102,8 +108,10 @@ class AddComplainScreen extends StatelessWidget {
                     SizedBox(height: ResponsiveHelper.height(16)),
                     Text(AppText.description, style: context.bodyMedium),
                     SizedBox(height: ResponsiveHelper.height(4)),
+                    //description=====================
                     TextFormField(
                       maxLines: 5,
+                      controller: descriptionController,
                       decoration: InputDecoration(
                         hintText: AppText.descriptionHint,
                       ),
@@ -168,11 +176,43 @@ class AddComplainScreen extends StatelessWidget {
                     SizedBox(height: ResponsiveHelper.height(30)),
 
                     // Submit Button
-                    CancelSaveRowButtonWidget(
-                      onTapTitle: () {},
+                    // CancelSaveRowButtonWidget(
+                    //   onTapTitle: () {},
+                    //
+                    //   title: AppText.submitRequest,
+                    // ),
+                    //
 
-                      title: AppText.submitRequest,
-                    ),
+                    Obx(() {
+                      return CancelSaveRowButtonWidget(
+                        onTapTitle: () async {
+
+                          if (subjectController.text.isEmpty ||
+                              descriptionController.text.isEmpty) {
+                            CustomSnackbar.error(context, 'Please fill all required fields');
+                            return;
+                          }
+
+                          final success = await controller.createComplain(
+                            subject: subjectController.text.trim(),
+                            description: descriptionController.text.trim(),
+                            context: context
+                          );
+
+                          if (success) {
+                            CustomSnackbar.success(context, 'Complaint submitted successfully');
+                            context.pop();
+                          }
+                        },
+                        title: controller.inProgressCreateComplain.value
+                            ? 'Submitting...'
+                            : AppText.submitRequest,
+                      );
+                    }),
+
+
+
+
                   ],
                 ),
               ),

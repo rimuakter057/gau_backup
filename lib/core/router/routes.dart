@@ -8,6 +8,7 @@ import 'package:gau_app/features/auth/presentation/screens/verification_screen.d
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
+import 'package:gau_app/features/complain/presentation/screens/complain_details_screen.dart';
 import 'package:gau_app/features/grade/presentation/screens/grade_request_screen.dart';
 import 'package:gau_app/features/grade/presentation/screens/grade_screen.dart';
 import 'package:gau_app/features/complain/presentation/screens/add_complain_screen.dart';
@@ -165,14 +166,16 @@ class AppRouter {
         },
       ),
 
+
+
       ///grade===========================================
 
       GoRoute(
-        name: RoutesPath.gradeScreen,
-        path: RoutesPath.gradeScreen.addBasePath,
+        name: RoutesPath.complainDetailsScreen,
+        path: RoutesPath.complainDetailsScreen.addBasePath,
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
-            child:  GradeScreen(),
+            child:  ComplainDetailsScreen(),
             state: state,
           );
         },

@@ -22,6 +22,7 @@ class RoutesPath {
   static const String homeScreen = 'homeScreen';
   static const String complainScreen = 'complain';
   static const String addComplainScreen = 'addComplain';
+  static const String complainDetailsScreen = 'complainDetails';
 
   ///grade====================================================================================
   static const String gradeScreen = 'gradeScreen';

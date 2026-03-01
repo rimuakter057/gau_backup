@@ -32,42 +32,6 @@ class ApiClient extends GetxService {
     return await Connectivity().checkConnectivity() != ConnectivityResult.none;
   }
 
-  //============================= GET REQUEST ================================
-  static Future<Response> getData(
-      String uri, {
-        Map<String, String>? headers,
-      }) async
-  {
-    if (!await _checkConnection()) {
-      return const Response(
-        statusCode: 0,
-        statusText: 'No Internet Connection',
-      );
-    }
-
-    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
-
-    var mainHeaders = {
-      'Accept': 'application/json',
-      'Authorization': "Bearer $bearerToken",
-    };
-
-    try {
-      logger.i(
-        "➡️ GET REQUEST=====================================\nURL:===================================== $uri\nHeaders:=========================================== ${headers ?? mainHeaders}",
-      );
-
-      http.Response response = await client
-          .get(Uri.parse(ApiUrl.baseUrl + uri), headers: headers ?? mainHeaders)
-          .timeout(const Duration(seconds: timeoutInSeconds));
-
-      return handleResponse(response, uri);
-    } catch (e) {
-      logger.e("❌ GET Error:==================================== $e");
-      return const Response(statusCode: 1, statusText: somethingWentWrong);
-    }
-  }
-
   //============================= POST REQUEST ================================
   static Future<Response> postData(
       String uri,
@@ -124,6 +88,42 @@ class ApiClient extends GetxService {
 
 
 
+
+  //============================= GET REQUEST ================================
+  static Future<Response> getData(
+      String uri, {
+        Map<String, String>? headers,
+      }) async
+  {
+    if (!await _checkConnection()) {
+      return const Response(
+        statusCode: 0,
+        statusText: 'No Internet Connection',
+      );
+    }
+
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Accept': 'application/json',
+      'Authorization': "Bearer $bearerToken",
+    };
+
+    try {
+      logger.i(
+        "➡️ GET REQUEST=====================================\nURL:===================================== $uri\nHeaders:=========================================== ${headers ?? mainHeaders}",
+      );
+
+      http.Response response = await client
+          .get(Uri.parse(ApiUrl.baseUrl + uri), headers: headers ?? mainHeaders)
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      logger.e("❌ GET Error:==================================== $e");
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
 
 
 
@@ -242,7 +242,9 @@ class ApiClient extends GetxService {
       String uri,
       Map<String, String> body, {
         List<MultipartBody>? multipartBody,
-      }) async {
+      }) async
+  {
+
     try {
       bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
 
@@ -301,6 +303,9 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: somethingWentWrong);
     }
   }
+
+
+
 
   //============================= PUT REQUEST ================================
   static Future<Response> putData(

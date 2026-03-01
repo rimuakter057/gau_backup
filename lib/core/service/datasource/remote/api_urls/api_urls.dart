@@ -28,6 +28,8 @@ class ApiUrl {
 static const String createComplain="/complaints/create-request";
 static  String getSingleComplain({complainId})=>"/complaints/get-single/{{$complainId}}";
 
+static  String getAllComplain({complainId})=>"/complaints/my?status=pending&page=1&limit=10";
+
 
 
 
