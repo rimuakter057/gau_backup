@@ -7,7 +7,7 @@ class CreateComplainModel {
   String? description;
   String? status;
   bool? isDeleted;
-  String? sId;
+  String? id;
   List<StatusTimeline>? statusTimeline;
   String? createdAt;
   String? updatedAt;
@@ -21,7 +21,7 @@ class CreateComplainModel {
         this.description,
         this.status,
         this.isDeleted,
-        this.sId,
+        this.id,
         this.statusTimeline,
         this.createdAt,
         this.updatedAt,
@@ -35,7 +35,7 @@ class CreateComplainModel {
     description = json['description'];
     status = json['status'];
     isDeleted = json['isDeleted'];
-    sId = json['_id'];
+    id = json['_id'];
     if (json['statusTimeline'] != null) {
       statusTimeline = <StatusTimeline>[];
       json['statusTimeline'].forEach((v) {
@@ -56,7 +56,7 @@ class CreateComplainModel {
     data['description'] = description;
     data['status'] = status;
     data['isDeleted'] = isDeleted;
-    data['_id'] = sId;
+    data['_id'] = id;
     if (statusTimeline != null) {
       data['statusTimeline'] =
           statusTimeline!.map((v) => v.toJson()).toList();

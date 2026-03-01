@@ -2,16 +2,7 @@ class ApiUrl {
   //Live Server
   static const String primaryUrl = "http://10.10.20.45:5000"; // ////
 
-
-  //local Server
-  // static const String primaryUrl = "http://10.10.20.45:5000";
-
-  // static const String primaryUrl = "https://sg6hn18x-5555.inc1.devtunnels.ms";
-  //static const String primaryUrl = "https://sg6hn18x-5000.inc1.devtunnels.ms";
-
-  //static const String primaryUrl = "http://10.10.20.45:5555"; //local
   static const String baseUrl = "$primaryUrl/api/v1";
-  // static const String baseUrl = "https://sta-map-point-2.onrender.com/api/v1";
   static const String imageUrl = "$primaryUrl/";
 
 
@@ -26,14 +17,16 @@ class ApiUrl {
   ///create complain========================================
 
 static const String createComplain="/complaints/create-request";
-static  String getSingleComplain({complainId})=>"/complaints/get-single/{{$complainId}}";
+static  String getSingleComplain({complainId})=>"/complaints/get-single/$complainId";
+  static String getAllComplain({
+    required String status,
+    required int page,
+    required int limit,
+  }) =>
+      "/complaints/my?status=$status&page=$page&limit=$limit";
 
-static  String getAllComplain({complainId})=>"/complaints/my?status=pending&page=1&limit=10";
 
 
 
 
-  //
-  // static String deleteNotifications({required String id}) =>
-  //     "/notification/delete-notification/$id";
 }

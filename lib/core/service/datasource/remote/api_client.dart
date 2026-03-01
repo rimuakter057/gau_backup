@@ -32,6 +32,14 @@ class ApiClient extends GetxService {
     return await Connectivity().checkConnectivity() != ConnectivityResult.none;
   }
 
+
+
+
+
+
+
+
+
   //============================= POST REQUEST ================================
   static Future<Response> postData(
       String uri,
@@ -124,7 +132,6 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: somethingWentWrong);
     }
   }
-
 
 
 

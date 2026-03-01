@@ -126,7 +126,18 @@ class AppRouter {
         },
       ),
 
+      GoRoute(
+        name: RoutesPath.gradeScreen,
+        path: RoutesPath.gradeScreen.addBasePath,
+        pageBuilder: (context, state) {
 
+
+          return _buildPageWithAnimation(
+            child: GradeScreen(),
+            state: state,
+          );
+        },
+      ),
 
 
 
@@ -174,8 +185,10 @@ class AppRouter {
         name: RoutesPath.complainDetailsScreen,
         path: RoutesPath.complainDetailsScreen.addBasePath,
         pageBuilder: (context, state) {
+
+          final String complainId=state.extra as String? ??"";
           return _buildPageWithAnimation(
-            child:  ComplainDetailsScreen(),
+            child:  ComplainDetailsScreen(complainId: complainId,),
             state: state,
           );
         },
