@@ -23,6 +23,11 @@ class ApiUrl {
   static const String verifyOtp = "/auth/verify-reset-otp";
   static const String resetPassword = "/auth/reset-password";
 
+  ///create complain========================================
+
+static const String createComplain="/complaints/create-request";
+static  String getSingleComplain({complainId})=>"/complaints/get-single/{{$complainId}}";
+
 
 
 
