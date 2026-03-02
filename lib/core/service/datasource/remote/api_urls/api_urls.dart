@@ -24,6 +24,7 @@ static  String getSingleComplain({complainId})=>"/complaints/get-single/$complai
     required int limit,
   }) =>
       "/complaints/my?status=$status&page=$page&limit=$limit";
+  static String upcomingDeadline ="/upcoming-deadlines/student?sectionIds=69919b90a39db2efefc243ea";
 
 
 

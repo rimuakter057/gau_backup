@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gau_app/core/service/datasource/remote/api_urls/api_urls.dart';
 import 'package:gau_app/features/complain/models/complain_model.dart';
 import 'package:gau_app/features/complain/models/create_complain_model.dart';
+import 'package:gau_app/features/home/models/upcoming_deadline_model.dart';
 import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:get/get.dart';
@@ -180,30 +181,76 @@ class HomeController extends GetxController {
   }
 
 
-  ///get single complain==============================================
+  // ///get single complain==============================================
+  //
+  // // Observable list to hold single complaint
+  // var complainDetails = <ComplainModel>[].obs;
+  //
+  // /// Fetch single complaint by ID==================================
+  // Future<void> fetchComplainDetails({required String id}) async {
+  //   final uri = ApiUrl.getSingleComplain(complainId: id);
+  //
+  //   final response = await ApiClient.getData(uri);
+  //
+  //   if (response.statusCode == 200) {
+  //     final data = response.body['data'];
+  //     if (data != null) {
+  //       final complain = ComplainModel.fromJson(data);
+  //       complainDetails.clear();
+  //       complainDetails.add(complain);
+  //     }
+  //   } else {
+  //     print("Failed to fetch complaint. Status: ${response.statusCode}");
+  //   }
+  // }
 
-  // Observable list to hold single complaint
-  var complainDetails = <ComplainModel>[].obs;
+///get single model=================================
 
-  /// Fetch single complaint by ID
+
+  Rxn<ComplainModel> complainDetails = Rxn<ComplainModel>();
+  RxBool isDetailsLoading = false.obs;
+
   Future<void> fetchComplainDetails({required String id}) async {
-    final uri = ApiUrl.getSingleComplain(complainId: id);
 
+    isDetailsLoading.value = true;
+    complainDetails.value = null;
+
+    final uri = ApiUrl.getSingleComplain(complainId: id);
     final response = await ApiClient.getData(uri);
 
     if (response.statusCode == 200) {
       final data = response.body['data'];
+
       if (data != null) {
-        final complain = ComplainModel.fromJson(data);
-        complainDetails.clear();
-        complainDetails.add(complain);
+        complainDetails.value = ComplainModel.fromJson(data);
       }
-    } else {
-      print("Failed to fetch complaint. Status: ${response.statusCode}");
     }
+
+    isDetailsLoading.value = false;
   }
 
 
+///fetch upcoming data==================================================
+
+
+  RxList<UpcomingDeadlineModel> upcomingDeadlines = <UpcomingDeadlineModel>[].obs;
+  RxBool isDeadlineLoading = false.obs;
+
+  Future<void> fetchUpcomingDeadlines() async {
+    isDeadlineLoading.value = true;
+
+    final response = await ApiClient.getData(ApiUrl.upcomingDeadline);
+
+    if (response.statusCode == 200) {
+      List data = response.body['data'] ?? [];
+
+
+      upcomingDeadlines.value =
+          data.map((e) => UpcomingDeadlineModel.fromJson(e)).toList();
+    }
+
+    isDeadlineLoading.value = false;
+  }
 
 
 

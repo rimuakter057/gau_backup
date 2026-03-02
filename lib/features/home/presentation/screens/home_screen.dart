@@ -5,6 +5,8 @@ import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/grade_gpa_widget.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
+import 'package:gau_app/features/home/controller/home_controller.dart';
+import 'package:gau_app/helper/date_converter/date_converter.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_divider/custom_divider.dart';
@@ -13,11 +15,17 @@ import 'package:gau_app/utils/app_assets/app_assets.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   // Courses
   final List<Map<String, String>> coursesDetails = [
     {"code": "CS301", "name": "Data Structures","Instructor":"Dr. Smith"},
@@ -36,6 +44,23 @@ class HomeScreen extends StatelessWidget {
     {"title": "Midterm Exam", "date": "18 Feb 2026"},
     {"title": "Project Submission", "date": "25 Feb 2026"},
   ];
+
+  final HomeController controller=Get.find<HomeController>();
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+
+      controller.fetchUpcomingDeadlines();
+
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -215,82 +240,138 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height:  ResponsiveHelper.height(18)),
 
             /// Upcoming Deadlines=================================================
-            CustomContainer(
-              width: double.infinity,
-              backgroundColor: AppColors.containerGreyBgColor,
-              borderColor: AppColors.inputBorderColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppText.upcomingDeadlines,
-                    style: context.bodyMedium.copyWith(
-                      color: AppColors.titleColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: ResponsiveHelper.height(6),),
-                  CustomDivider(color: AppColors.dividerColor),
-                  deadlines.isEmpty
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(16)),
-                          child: Text(
-                            "No upcoming deadlines",
-                            style: context.bodySmall.copyWith(
-                              color: AppColors.greyTextColor,
-                            ),
-                          ),
-                        )
-                      : ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: deadlines.length,
-                          separatorBuilder: (_, __) =>
-                              CustomDivider(color: AppColors.dividerColor),
-                          itemBuilder: (context, index) {
-                            final item = deadlines[index];
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8.h,
-                                horizontal:  ResponsiveHelper.padding(12),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
 
-                                  CircleAvatar(backgroundColor: AppColors.primaryColor,
-                                    minRadius: 5,
+            Obx((){
+
+              if(controller.isDeadlineLoading.value){
+                return const Center(child: CircularProgressIndicator(),);
+              }
+
+              if(controller.upcomingDeadlines.isEmpty){
+                return const Center(child: Text("No Upcoming Deadlines"),);
+
+              }
+
+
+
+
+              return   CustomContainer(
+                width: double.infinity,
+                backgroundColor: AppColors.containerGreyBgColor,
+                borderColor: AppColors.inputBorderColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppText.upcomingDeadlines,
+                      style: context.bodyMedium.copyWith(
+                        color: AppColors.titleColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: ResponsiveHelper.height(6),),
+                    CustomDivider(color: AppColors.dividerColor),
+                    deadlines.isEmpty
+                        ? Padding(
+                      padding: EdgeInsets.symmetric(vertical:  ResponsiveHelper.height(16)),
+                      child: Text(
+                        "No upcoming deadlines",
+                        style: context.bodySmall.copyWith(
+                          color: AppColors.greyTextColor,
+                        ),
+                      ),
+                    )
+                        : ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                     // itemCount: deadlines.length,
+                     itemCount:  controller.upcomingDeadlines.length,
+                      separatorBuilder: (_, __) =>
+                          CustomDivider(color: AppColors.dividerColor),
+                      itemBuilder: (context, index) {
+                        //final item = deadlines[index];
+
+                        final deadline = controller.upcomingDeadlines[index];
+                        final String? dateStr = deadline.dueDate; // "2026-02-12"
+                        final String? timeStr = deadline.dueTime; // "15:45:00"
+
+                        DateTime? dateTime;
+                        if (dateStr != null && timeStr != null) {
+                          dateTime = DateTime.tryParse('$dateStr $timeStr');
+                        }
+
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 8.h,
+                            horizontal:  ResponsiveHelper.padding(12),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              CircleAvatar(backgroundColor: AppColors.primaryColor,
+                                minRadius: 5,
+                              ),
+                              SizedBox(width: ResponsiveHelper.width(6),),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+
+                                    deadline.title ?? "",
+                                    style: context.bodySmall.copyWith(
+                                      color: AppColors.titleColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                      SizedBox(width: ResponsiveHelper.width(6),),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+
+
+
+                                  /// DATE
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min, // shrink to fit children
                                     children: [
-                                      Text(
-                                        item['title']!,
-                                        style: context.bodySmall.copyWith(
-                                          color: AppColors.titleColor,
-                                          fontWeight: FontWeight.w500,
+                                      Flexible(
+                                        child: Text(
+                                          deadline.deadlineType ?? "",
+                                          style: context.bodySmall.copyWith(fontSize: ResponsiveHelper.fontSize(14))
                                         ),
                                       ),
-                                      Text(
-                                        item['date']!,
-                                        style: context.bodySmall.copyWith(
-                                          color: AppColors.greyTextColor,
-                                          fontWeight: FontWeight.w500,
+                                      SizedBox(width: ResponsiveHelper.spacing(6),),
+
+
+
+                                      Flexible(
+                                        child: Text(
+                                          '(${DateConverter.formatDateTime(dateTime: dateTime)})',
+                                          style: context.bodySmall,
                                         ),
-                                      ),
+                                      )
+
+
                                     ],
                                   ),
+
                                 ],
                               ),
-                            );
-                          },
-                        ),
-                ],
-              ),
-            ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+
+
+            }),
+
+
+
+
+
             SizedBox(height:  ResponsiveHelper.height(32)),
 
             ///academic progress===================================================

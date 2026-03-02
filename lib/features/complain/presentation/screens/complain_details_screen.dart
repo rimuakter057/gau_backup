@@ -56,12 +56,131 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
         ),
         title: Text("Complain Details", style: context.bodyMedium.copyWith(fontSize: 18)),
       ),
+      // body: Obx(() {
+      //   if (controller.complainDetails.isEmpty) {
+      //     return const Center(child: CircularProgressIndicator());
+      //   }
+      //
+      //   final complain = controller.complainDetails.first;
+      //
+      //   return SingleChildScrollView(
+      //     child: Padding(
+      //       padding: EdgeInsets.symmetric(
+      //         horizontal: ResponsiveHelper.height(16),
+      //       ),
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           SizedBox(height: ResponsiveHelper.height(24)),
+      //
+      //           CustomContainer(
+      //             padding: EdgeInsets.symmetric(
+      //               horizontal: ResponsiveHelper.width(16),
+      //               vertical: ResponsiveHelper.height(33),
+      //             ),
+      //             backgroundColor: AppColors.containerGreyBgColor,
+      //             width: double.infinity,
+      //             child: Column(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: [
+      //                 Text(
+      //                   complain.subject ?? "",
+      //                   style: context.bodyMedium.copyWith(
+      //                     fontFamily: "inter",
+      //                     fontWeight: FontWeight.w500,
+      //                     fontSize: ResponsiveHelper.fontSize(16),
+      //                   ),
+      //                 ),
+      //                 SizedBox(height: ResponsiveHelper.height(4)),
+      //
+      //                 Row(
+      //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                   children: [
+      //                     SizedBox(),
+      //                     CustomContainer(
+      //                       radius: ResponsiveHelper.height(50),
+      //                       backgroundColor: AppColors.softBlueBg,
+      //                       borderColor: AppColors.softBlueBorder,
+      //                       child: Text(
+      //                         complain.status ?? "",
+      //                         style: context.bodySmall.copyWith(
+      //                           fontWeight: FontWeight.w700,
+      //                           color: AppColors.blueColor,
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //                 SizedBox(height: ResponsiveHelper.height(8)),
+      //                 _buildRowText(
+      //                   context,
+      //                   title: AppText.idLabel,
+      //                   text: complain.id ?? "",
+      //                 ),
+      //                 SizedBox(height: ResponsiveHelper.height(8)),
+      //                 _buildRowText(
+      //                   context,
+      //                   title: AppText.categoryLabel,
+      //                   text: complain.category ?? "",
+      //                 ),
+      //                 SizedBox(height: ResponsiveHelper.height(8)),
+      //                 _buildRowText(
+      //                   context,
+      //                   title: AppText.submittedLabel,
+      //                   text: complain.createdAt?.split("T").first ?? "",
+      //                 ),
+      //
+      //                 SizedBox(height: ResponsiveHelper.height(16)),
+      //                 CustomContainer(
+      //                   margin: EdgeInsets.symmetric(
+      //                     horizontal: ResponsiveHelper.padding(0),
+      //                     vertical: ResponsiveHelper.padding(16),
+      //                   ),
+      //                   backgroundColor: AppColors.containerGreyBgColor,
+      //                   width: double.infinity,
+      //                   borderColor: AppColors.softBlueBorder,
+      //                   child: Text(
+      //                     complain.description ?? "",
+      //                     maxLines: 5,
+      //                     style: context.bodySmall,
+      //                   ),
+      //                 ),
+      //
+      //                 SizedBox(height: ResponsiveHelper.height(16)),
+      //                 Text(AppText.statusTimeline,
+      //                   style: context.bodyMedium.copyWith(
+      //                     fontFamily: "inter",
+      //                     fontWeight: FontWeight.w500,
+      //                     fontSize: ResponsiveHelper.fontSize(16),
+      //                     color: AppColors.black
+      //                   ),
+      //                 ),
+      //                 SizedBox(height: ResponsiveHelper.height(8)),
+      //                 ..._buildStatusTimeline(
+      //                   complain: complain,
+      //                   context: context,
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   );
+      // }),
+
+
       body: Obx(() {
-        if (controller.complainDetails.isEmpty) {
+
+        if (controller.isDetailsLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final complain = controller.complainDetails.first;
+        final complain = controller.complainDetails.value;
+
+        if (complain == null) {
+          return const Center(child: Text("No Data Found"));
+        }
 
         return SingleChildScrollView(
           child: Padding(
@@ -83,6 +202,8 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
+                      /// SUBJECT (same design)
                       Text(
                         complain.subject ?? "",
                         style: context.bodyMedium.copyWith(
@@ -91,12 +212,14 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
                           fontSize: ResponsiveHelper.fontSize(16),
                         ),
                       ),
+
                       SizedBox(height: ResponsiveHelper.height(4)),
 
+                      /// STATUS (same design)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(),
+                          const SizedBox(),
                           CustomContainer(
                             radius: ResponsiveHelper.height(50),
                             backgroundColor: AppColors.softBlueBg,
@@ -111,19 +234,25 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
                           ),
                         ],
                       ),
+
                       SizedBox(height: ResponsiveHelper.height(8)),
+
                       _buildRowText(
                         context,
                         title: AppText.idLabel,
                         text: complain.id ?? "",
                       ),
+
                       SizedBox(height: ResponsiveHelper.height(8)),
+
                       _buildRowText(
                         context,
                         title: AppText.categoryLabel,
                         text: complain.category ?? "",
                       ),
+
                       SizedBox(height: ResponsiveHelper.height(8)),
+
                       _buildRowText(
                         context,
                         title: AppText.submittedLabel,
@@ -131,6 +260,8 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
                       ),
 
                       SizedBox(height: ResponsiveHelper.height(16)),
+
+                      /// DESCRIPTION (same)
                       CustomContainer(
                         margin: EdgeInsets.symmetric(
                           horizontal: ResponsiveHelper.padding(0),
@@ -147,15 +278,20 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
                       ),
 
                       SizedBox(height: ResponsiveHelper.height(16)),
-                      Text(AppText.statusTimeline,
+
+                      /// STATUS TIMELINE TITLE
+                      Text(
+                        AppText.statusTimeline,
                         style: context.bodyMedium.copyWith(
                           fontFamily: "inter",
                           fontWeight: FontWeight.w500,
                           fontSize: ResponsiveHelper.fontSize(16),
-                          color: AppColors.black
+                          color: AppColors.black,
                         ),
                       ),
+
                       SizedBox(height: ResponsiveHelper.height(8)),
+
                       ..._buildStatusTimeline(
                         complain: complain,
                         context: context,
@@ -168,6 +304,12 @@ class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
           ),
         );
       }),
+
+
+
+
+
+
     );
   }
 
