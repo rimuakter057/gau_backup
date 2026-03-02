@@ -54,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_){
 
-
       controller.fetchUpcomingDeadlines();
 
     });
@@ -107,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height:  ResponsiveHelper.height(18)),
-///current course=======================================
+           ///current course=======================================
             CustomContainer(
               borderColor: AppColors.inputBorderColor,
               backgroundColor: AppColors.white,
