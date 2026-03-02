@@ -85,8 +85,9 @@ class HomeController extends GetxController {
         selectedFile.value = null;
         selectedCategory.value = null;
         selectedPriority.value = null;
-
+      //  fetchAllComplaints();
         return true;
+
       }
 
       CustomSnackbar.error(
@@ -110,22 +111,20 @@ class HomeController extends GetxController {
   final int limit = 10;
   var status = "".obs;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchAllComplaints(isRefresh: true); // প্রথম লোড
-  // }
+
 
   // ================== fetch complaints ==================
   Future<void> fetchAllComplaints({
     bool isRefresh = false,
     bool resetPage = false,
-  }) async {
+  }) async
+  {
     if (isRefresh) {
-      if (resetPage) currentPage.value = 1;
-      complaintsList.clear();
+      currentPage.value = 1;        // 🔥 ALWAYS reset
+      complaintsList.clear();       // 🔥 clear old data
       hasMore.value = true;
     }
+
 
     if (!hasMore.value) return;
 

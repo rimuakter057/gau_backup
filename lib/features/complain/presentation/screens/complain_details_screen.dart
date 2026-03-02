@@ -10,16 +10,31 @@ import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
 
-class ComplainDetailsScreen extends StatelessWidget {
+class ComplainDetailsScreen extends StatefulWidget {
   final String complainId;
   ComplainDetailsScreen({super.key, required this.complainId});
 
+  @override
+  State<ComplainDetailsScreen> createState() => _ComplainDetailsScreenState();
+}
+
+class _ComplainDetailsScreenState extends State<ComplainDetailsScreen> {
   final HomeController controller = Get.find<HomeController>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     // fetch complaint when screen builds
-    controller.fetchComplainDetails(id: complainId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchComplainDetails(id: widget.complainId);
+    });
+
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
