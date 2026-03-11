@@ -60,6 +60,7 @@ dependencies:
   progress_indicator: ^0.2.2
   file_picker: ^10.3.8
   logger: ^2.6.2
+  syncfusion_flutter_pdfviewer: ^32.2.9
 
 dev_dependencies:
   flutter_test:
