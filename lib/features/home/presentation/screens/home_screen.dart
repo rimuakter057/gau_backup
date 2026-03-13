@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_){
 
       controller.fetchUpcomingDeadlines();
+      controller.fetchAcademicProgress();
 
     });
 
@@ -366,65 +367,168 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height:  ResponsiveHelper.height(32)),
 
             ///academic progress===================================================
-            CustomContainer(
-              width: double.infinity,
-              backgroundColor: AppColors.containerGreyBgColor,
+            // CustomContainer(
+            //   width: double.infinity,
+            //   backgroundColor: AppColors.containerGreyBgColor,
+            //
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         AppText.academicProgress,
+            //         style: context.bodyMedium.copyWith(
+            //           color: AppColors.titleColor,
+            //           fontWeight: FontWeight.w500,
+            //         ),
+            //       ),
+            //       CustomDivider(color: AppColors.dividerColor),
+            //       _buildAcademicProgressText(
+            //         context,
+            //         title: AppText.degree,
+            //         progress: "32.5%",
+            //       ),
+            //       SizedBox(height:  ResponsiveHelper.height(12)),
+            //
+            //       ///progress bar====================================================
+            //
+            //
+            //
+            //
+            //      LinearProgressIndicator(
+            //        value:  32 / 100,
+            //        color: AppColors.primaryColor,
+            //        minHeight: ResponsiveHelper.height(12),
+            //        borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(6)),
+            //        backgroundColor: AppColors.dividerColor,
+            //
+            //
+            //      ),
+            //
+            //
+            //
+            //       SizedBox(height:  ResponsiveHelper.height(12)),
+            //       Text(
+            //         AppText.recentSemesters,
+            //         style: context.bodySmall.copyWith(fontSize:  ResponsiveHelper.fontSize(16)),
+            //       ),
+            //       SizedBox(height:  ResponsiveHelper.height(12)),
+            //       _buildAcademicProgressText(
+            //         context,
+            //         title: AppText.spring,
+            //         progress: "32.5%",
+            //       ),
+            //       SizedBox(height:  ResponsiveHelper.height(8)),
+            //       _buildAcademicProgressText(
+            //         context,
+            //         title: AppText.spring,
+            //         progress: "32.5%",
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppText.academicProgress,
-                    style: context.bodyMedium.copyWith(
-                      color: AppColors.titleColor,
-                      fontWeight: FontWeight.w500,
+
+
+
+            /// Academic Progress ===================================================
+            Obx(() {
+              if (controller.isProgressLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final progress = controller.academicProgress.value;
+              final degreePercent = progress?.degreeCompletionPercent ?? 0;
+
+              return CustomContainer(
+                width: double.infinity,
+                backgroundColor: AppColors.containerGreyBgColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppText.academicProgress,
+                      style: context.bodyMedium.copyWith(
+                        color: AppColors.titleColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  CustomDivider(color: AppColors.dividerColor),
-                  _buildAcademicProgressText(
-                    context,
-                    title: AppText.degree,
-                    progress: "32.5%",
-                  ),
-                  SizedBox(height:  ResponsiveHelper.height(12)),
+                    CustomDivider(color: AppColors.dividerColor),
 
-                  ///progress bar====================================================
+                    /// Degree Completion %
+                    _buildAcademicProgressText(
+                      context,
+                      title: AppText.degree,
+                      progress: "$degreePercent%",
+                    ),
+                    SizedBox(height: ResponsiveHelper.height(12)),
+
+                    /// Progress Bar
+                    LinearProgressIndicator(
+                      value: degreePercent / 100,
+                      color: AppColors.primaryColor,
+                      minHeight: ResponsiveHelper.height(12),
+                      borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(6)),
+                      backgroundColor: AppColors.dividerColor,
+                    ),
+
+                    SizedBox(height: ResponsiveHelper.height(12)),
+
+                    Text(
+                      AppText.recentSemesters,
+                      style: context.bodySmall.copyWith(
+                        fontSize: ResponsiveHelper.fontSize(16),
+                        color: AppColors.black
+                      ),
+                    ),
+                    SizedBox(height: ResponsiveHelper.height(12)),
+
+                    /// Recent Semesters - backend থেকে যতগুলো আসবে সব দেখাবে
+                    if (progress?.recentSemesters != null &&
+                        progress!.recentSemesters!.isNotEmpty)
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: progress.recentSemesters!.length,
+                        separatorBuilder: (_, __) =>
+                            SizedBox(height: ResponsiveHelper.height(8)),
+                        itemBuilder: (context, index) {
+                          final semester = progress.recentSemesters![index];
+                          return _buildAcademicProgressText(
+                            context,
+                            title: semester.label ?? "",
+                            progress: "GPA: ${semester.gpa ?? 0}",
+                          );
+                        },
+                      )
+                    else
+                      Text(
+                        "No recent semesters",
+                        style: context.bodySmall.copyWith(
+                          color: AppColors.greyTextColor,
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            }),
 
 
 
 
-                 LinearProgressIndicator(
-                   value:  32 / 100,
-                   color: AppColors.primaryColor,
-                   minHeight: ResponsiveHelper.height(12),
-                   borderRadius: BorderRadius.circular( ResponsiveHelper.borderRadius(6)),
-                   backgroundColor: AppColors.dividerColor,
-
-
-                 ),
 
 
 
-                  SizedBox(height:  ResponsiveHelper.height(12)),
-                  Text(
-                    AppText.recentSemesters,
-                    style: context.bodySmall.copyWith(fontSize:  ResponsiveHelper.fontSize(16)),
-                  ),
-                  SizedBox(height:  ResponsiveHelper.height(12)),
-                  _buildAcademicProgressText(
-                    context,
-                    title: AppText.spring,
-                    progress: "32.5%",
-                  ),
-                  SizedBox(height:  ResponsiveHelper.height(8)),
-                  _buildAcademicProgressText(
-                    context,
-                    title: AppText.spring,
-                    progress: "32.5%",
-                  ),
-                ],
-              ),
-            ),
+
+
+
+
+
+
+
+
+
+
+
 
             SizedBox(height:  ResponsiveHelper.height(24),),
           ],
@@ -442,7 +546,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: context.bodySmall),
+        Text(title, style: context.bodySmall.copyWith(color: AppColors.black)),
         Text(
           progress,
           style: context.bodySmall.copyWith(

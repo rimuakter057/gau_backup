@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gau_app/core/service/datasource/remote/api_urls/api_urls.dart';
 import 'package:gau_app/features/complain/models/complain_model.dart';
 import 'package:gau_app/features/complain/models/create_complain_model.dart';
+import 'package:gau_app/features/home/models/academic_progress_model.dart';
 import 'package:gau_app/features/home/models/upcoming_deadline_model.dart';
 import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
@@ -270,6 +271,31 @@ class HomeController extends GetxController {
 
     isDeadlineLoading.value = false;
   }
+
+///academic progress===============================================
+
+  /// Academic Progress =====================================================
+
+  Rxn<ProgressModel> academicProgress = Rxn<ProgressModel>();
+  RxBool isProgressLoading = false.obs;
+
+  Future<void> fetchAcademicProgress() async {
+    isProgressLoading.value = true;
+
+    final response = await ApiClient.getData(ApiUrl.academicProgress);
+
+    if (response.statusCode == 200) {
+      final data = response.body['data'];
+      if (data != null) {
+        academicProgress.value = ProgressModel.fromJson(data);
+      }
+    }
+
+    isProgressLoading.value = false;
+  }
+
+
+
 
 
 

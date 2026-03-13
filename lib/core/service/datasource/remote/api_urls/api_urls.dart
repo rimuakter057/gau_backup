@@ -26,6 +26,7 @@ static  String getSingleComplain({complainId})=>"/complaints/get-single/$complai
   }) =>
       "/complaints/my?status=$status&page=$page&limit=$limit";
   static String upcomingDeadline ="/upcoming-deadlines/student?sectionIds=69919b90a39db2efefc243ea";
+  static String academicProgress ="/final-grade/student/academic-progress?programId=699a9a3ed08a2c30363d8c98";
 
 
 
