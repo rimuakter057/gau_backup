@@ -12,6 +12,103 @@ import 'package:file_picker/file_picker.dart';
 import '../../../core/service/datasource/remote/api_client.dart';
 
 class HomeController extends GetxController {
+
+
+  ///get all complain==============================================
+
+  var complaintsList = <ComplainModel>[].obs;
+  var isLoading = false.obs;
+  var isMoreLoading = false.obs;
+  var currentPage = 1.obs;
+  var hasMore = true.obs;
+
+  final int limit = 10;
+  var status = "".obs;
+
+
+
+  // ================== fetch complaints ==================
+// ================== fetch complaints ==================
+  Future<void> fetchAllComplaints({
+    bool isRefresh = false,
+  }) async {
+    if (isRefresh) {
+      currentPage.value = 1;   // ✅ reset to page 1
+      complaintsList.clear();  // ✅ পুরনো data clear
+      hasMore.value = true;
+    }
+
+    if (!hasMore.value) return;
+
+    try {
+      isLoading.value = currentPage.value == 1;
+      isMoreLoading.value = currentPage.value > 1;
+
+      final uri = ApiUrl.getAllComplain(
+        status: status.value.isEmpty ? AppText.pendingServer : status.value,
+        page: currentPage.value,
+        limit: limit,
+      );
+
+      final response = await ApiClient.getData(uri);
+
+      if (response.statusCode == 200) {
+        List data = response.body['data'] ?? [];
+        final list = data.map((e) => ComplainModel.fromJson(e)).toList();
+
+        complaintsList.addAll(list);
+
+        // ✅ Bug 3 Fix: !isRefresh guard সরানো হয়েছে —
+        // refresh হোক বা scroll, fetch সফল হলে সবসময় page increment হবে
+        if (list.isNotEmpty) {
+          currentPage.value++;
+        }
+
+        if (list.length < limit) {
+          hasMore.value = false;
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+      isMoreLoading.value = false;
+    }
+  }
+
+// ================== scroll থেকে load more ==================
+  void loadMore() {
+    // ✅ isLoading চেক যোগ হয়েছে — initial load চলাকালীন loadMore call হবে না
+    if (!isLoading.value && !isMoreLoading.value && hasMore.value) {
+      fetchAllComplaints();
+    }
+  }
+
+
+
+
+  void addComplaint(ComplainModel newComplain) {
+    complaintsList.insert(0, newComplain); // list top e add
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+///add complain
+
+
+
+
+
+
   RxnString selectedCategory = RxnString();
   RxnString selectedPriority = RxnString();
 
@@ -101,84 +198,6 @@ class HomeController extends GetxController {
     }
   }
 
-  ///get all complain==============================================
-
-  var complaintsList = <ComplainModel>[].obs;
-  var isLoading = false.obs;
-  var isMoreLoading = false.obs;
-  var currentPage = 1.obs;
-  var hasMore = true.obs;
-
-  final int limit = 10;
-  var status = "".obs;
-
-
-
-  // ================== fetch complaints ==================
-  Future<void> fetchAllComplaints({
-    bool isRefresh = false,
-    bool resetPage = false,
-  }) async
-  {
-    if (isRefresh) {
-      currentPage.value = 1;        // 🔥 ALWAYS reset
-      complaintsList.clear();       // 🔥 clear old data
-      hasMore.value = true;
-    }
-
-
-    if (!hasMore.value) return;
-
-    try {
-      isLoading.value = currentPage.value == 1;
-      isMoreLoading.value = currentPage.value > 1;
-
-      final uri = ApiUrl.getAllComplain(
-        status: status.value.isEmpty ? AppText.pendingServer : status.value,
-        page: currentPage.value,
-        limit: limit,
-      );
-
-      final response = await ApiClient.getData(uri);
-
-      if (response.statusCode == 200) {
-        List data = response.body['data'] ?? [];
-        final list = data.map((e) => ComplainModel.fromJson(e)).toList();
-
-        if (list.isEmpty || list.length < limit) {
-          hasMore.value = false;
-        }
-
-        complaintsList.addAll(list);
-
-        // page increment শুধু তখনই যখন fresh fetch নয় (scroll)
-        if (list.isNotEmpty && !isRefresh) {
-          currentPage.value++;
-        }
-
-        // যদি list.length < limit → মানে আর data নেই
-        if (list.length < limit) {
-          hasMore.value = false;
-        }
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
-      isMoreLoading.value = false;
-    }
-  }
-
-  // ================== scroll থেকে load more ==================
-  void loadMore() {
-    if (!isMoreLoading.value && hasMore.value) {
-      fetchAllComplaints();
-    }
-  }
-
-  void addComplaint(ComplainModel newComplain) {
-    complaintsList.insert(0, newComplain); // list top e add
-  }
 
 
   // ///get single complain==============================================

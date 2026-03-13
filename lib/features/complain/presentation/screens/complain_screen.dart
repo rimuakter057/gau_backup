@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class ComplainScreen extends StatefulWidget {
-  ComplainScreen({super.key});
+  const ComplainScreen({super.key});
 
   @override
   State<ComplainScreen> createState() => _ComplainScreenState();
@@ -23,30 +23,36 @@ class ComplainScreen extends StatefulWidget {
 
 class _ComplainScreenState extends State<ComplainScreen> {
   final HomeController controller = Get.find<HomeController>();
-
   final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    // ✅ Bug 1 Fix: Listener একবারই initState-এ register হবে,
+    // build()-এ না — নাহলে প্রতিটি rebuild-এ duplicate listener যোগ হতো
+    scrollController.addListener(() {
+      if (!controller.isLoading.value &&   // ✅ Bug 2 Fix: initial load চলাকালীন trigger হবে না
+          scrollController.hasClients &&
+          scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent - 200) {
+        controller.loadMore();
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.fetchAllComplaints();
     });
   }
 
   @override
+  void dispose() {
+    scrollController.dispose(); // ✅ memory leak এড়াতে dispose করা হয়েছে
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-
-    // Scroll listener for pagination
-    scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent - 200) {
-        controller.loadMore();
-      }
-    });
-
     return Scaffold(
       appBar: CustomAppBar(
         onNotificationTap: () {
@@ -61,7 +67,6 @@ class _ComplainScreenState extends State<ComplainScreen> {
         onRefresh: () async {
           await controller.fetchAllComplaints(isRefresh: true);
         },
-
         child: SingleChildScrollView(
           controller: scrollController,
           child: Padding(
@@ -84,17 +89,16 @@ class _ComplainScreenState extends State<ComplainScreen> {
                         style: context.bodySmall,
                       ),
                       SizedBox(height: ResponsiveHelper.height(24)),
-        
                       ElevatedButton(
                         onPressed: () {
-                          context.push(RoutesPath.addComplainScreen.addBasePath);
+                          context.push(
+                              RoutesPath.addComplainScreen.addBasePath);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomImage(imageSrc: AppAssets.add),
-        
                             SizedBox(width: ResponsiveHelper.width(12)),
                             Text(AppText.complaint),
                           ],
@@ -103,25 +107,21 @@ class _ComplainScreenState extends State<ComplainScreen> {
                     ],
                   ),
                 ),
-        
                 SizedBox(height: ResponsiveHelper.height(24)),
-        
                 Obx(() {
-                  if (controller.complaintsList.isEmpty &&
-                      !controller.isLoading.value) {
-                    return Center(child: Text("No complaints found"));
-                  }
                   if (controller.isLoading.value &&
                       controller.complaintsList.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   }
-        
+
+                  if (controller.complaintsList.isEmpty) {
+                    return const Center(child: Text("No complaints found"));
+                  }
+
                   return ListView.builder(
-                  //  controller: scrollController,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount:
-                        controller.complaintsList.length +
+                    itemCount: controller.complaintsList.length +
                         (controller.isMoreLoading.value ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index < controller.complaintsList.length) {
@@ -130,8 +130,9 @@ class _ComplainScreenState extends State<ComplainScreen> {
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: GestureDetector(
                             onTap: () {
-                              context.pushNamed(RoutesPath.complainDetailsScreen,
-                              extra: item.id
+                              context.pushNamed(
+                                RoutesPath.complainDetailsScreen,
+                                extra: item.id,
                               );
                             },
                             child: Card(
@@ -143,11 +144,12 @@ class _ComplainScreenState extends State<ComplainScreen> {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(item.subject ?? "No Subject"),
                                         Container(
-                                          padding: ResponsiveHelper.symmetric(
+                                          padding:
+                                          ResponsiveHelper.symmetric(
                                             vertical: 4,
                                             horizontal: 8,
                                           ),
@@ -156,9 +158,8 @@ class _ComplainScreenState extends State<ComplainScreen> {
                                             border: Border.all(
                                               color: AppColors.primaryColor,
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
+                                            borderRadius:
+                                            BorderRadius.circular(8),
                                           ),
                                           child: Text(
                                             item.status ?? "pending",
@@ -169,7 +170,8 @@ class _ComplainScreenState extends State<ComplainScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: ResponsiveHelper.spacing(6)),
+                                    SizedBox(
+                                        height: ResponsiveHelper.spacing(6)),
                                     Text(
                                       item.description ?? "No Description",
                                       style: context.bodySmall.copyWith(
@@ -185,7 +187,6 @@ class _ComplainScreenState extends State<ComplainScreen> {
                           ),
                         );
                       } else {
-                        // Bottom loader for pagination
                         return const Padding(
                           padding: EdgeInsets.all(16),
                           child: Center(child: CircularProgressIndicator()),
