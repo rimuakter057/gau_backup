@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                          // শেষ আইটেম না হলে divider দেখাবে
+
                           if (index != coursesDetails.length - 1)
                             CustomDivider(),
                         ],
@@ -223,14 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(child: SizedBox(width:  ResponsiveHelper.width(12))),
 
-                // _buildContainerOption(
-                //   context,
-                //   title: AppText.badges,
-                //   image: AppAssets.badges,
-                //   onTap: () {
-                //    // context.push(RoutePath.profileScreen.addBasePath);
-                //   },
-                // ),
 
                 SizedBox(),
 

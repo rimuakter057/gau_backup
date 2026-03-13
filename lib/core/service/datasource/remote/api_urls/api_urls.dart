@@ -13,6 +13,7 @@ class ApiUrl {
   static const String forgot = "/auth/forget-password";
   static const String verifyOtp = "/auth/verify-reset-otp";
   static const String resetPassword = "/auth/reset-password";
+  static const String changePassword = "/auth/change-password";
 
   ///create complain========================================
 

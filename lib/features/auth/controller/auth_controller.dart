@@ -106,4 +106,37 @@ class AuthController extends GetxController {
       return false;
     }
   }
+
+
+
+
+
+  ///change password================================================
+  RxBool inProgressChangePass = false.obs;
+
+  Future<bool> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmNewPassword,
+  }) async {
+    inProgressChangePass.value = true;
+
+    final Response response = await ApiClient.postData(ApiUrl.changePassword, {
+      "oldPassword": oldPassword,
+      "newPassword": newPassword,
+      "confirmNewPassword": confirmNewPassword,
+    });
+
+    inProgressChangePass.value = false;
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      errorMessage.value = response.body?['message'] ?? 'Something went wrong';
+      return false;
+    }
+  }
+
+
+
 }

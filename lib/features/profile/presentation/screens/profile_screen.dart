@@ -280,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         /// SECURITY
 
-                        SecurityWidget(gap: gap, controller: controller),
+                        SecurityWidget(gap: gap, ),
 
                       ],
 
