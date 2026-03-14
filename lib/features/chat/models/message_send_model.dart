@@ -1,6 +1,6 @@
 
 
-class MessageModel {
+class MessageSendModel {
   String? id;
   List<Participants>? participants;
   List<UnreadCounts>? unreadCounts;
@@ -10,7 +10,7 @@ class MessageModel {
   String? lastMessage;
   String? lastMessageAt;
 
-  MessageModel(
+  MessageSendModel(
       {this.id,
         this.participants,
         this.unreadCounts,
@@ -20,7 +20,7 @@ class MessageModel {
         this.lastMessage,
         this.lastMessageAt});
 
-  MessageModel.fromJson(Map<String, dynamic> json) {
+  MessageSendModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     if (json['participants'] != null) {
       participants = <Participants>[];

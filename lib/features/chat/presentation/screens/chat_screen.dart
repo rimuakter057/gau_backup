@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gau_app/core/router/route_path.dart';
+import 'package:gau_app/core/service/datasource/remote/socket_service.dart';
 import 'package:gau_app/features/chat/controller/chat_controller.dart';
 import 'package:gau_app/features/chat/models/conversation_list_model.dart';
 import 'package:gau_app/features/chat/presentation/widgets/user_chat_list_widget.dart';
@@ -26,6 +27,17 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+
+      /// Socket init (ONLY ONCE)
+      if (!AppSocket.isConnected) {
+        AppSocket.init(
+          onSocketConnect: () {
+            debugPrint('Socket connected from ChatListScreen');
+          },
+        );
+      }
+
+
       controller.fetchConversationList().then((_) {
         if (controller.userChatList.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(

@@ -1,19 +1,15 @@
 class ApiUrl {
   //Live Server
   static const String primaryUrl = "http://10.10.20.45:5000"; // ////
-  static const baseSocketUrl = 'ws://127.0.0.1:59452/gZI-Cyf2ANg=/ws';
+  static const baseSocketUrl = 'ws://10.10.20.45:5000';
 
   static String socketUrl({required String userId}) =>
       "$baseSocketUrl?userId=$userId";
 
-
   static const String baseUrl = "$primaryUrl/api/v1";
   static const String imageUrl = "$primaryUrl/";
 
-
-
-
-///app url================================================
+  ///app url================================================
   static const String login = "/auth/signin";
   static const String forgot = "/auth/forget-password";
   static const String verifyOtp = "/auth/verify-reset-otp";
@@ -22,25 +18,29 @@ class ApiUrl {
 
   ///create complain========================================
 
-static const String createComplain="/complaints/create-request";
-static  String getSingleComplain({complainId})=>"/complaints/get-single/$complainId";
+  static const String createComplain = "/complaints/create-request";
+  static String getSingleComplain({complainId}) =>
+      "/complaints/get-single/$complainId";
   static String getAllComplain({
     required String status,
     required int page,
     required int limit,
-  }) =>
-      "/complaints/my?status=$status&page=$page&limit=$limit";
-  static String upcomingDeadline ="/upcoming-deadlines/student?sectionIds=69919b90a39db2efefc243ea";
-  static String academicProgress ="/final-grade/student/academic-progress?programId=699a9a3ed08a2c30363d8c98";
-
+  }) => "/complaints/my?status=$status&page=$page&limit=$limit";
+  static String upcomingDeadline =
+      "/upcoming-deadlines/student?sectionIds=69919b90a39db2efefc243ea";
+  static String academicProgress =
+      "/final-grade/student/academic-progress?programId=699a9a3ed08a2c30363d8c98";
 
   ///message====================================================
 
   static const String searchUsers = '/messages/search-users';
 
-static String conversationList="/messages/conversations";
+  static String conversationList = "/messages/conversations";
   static const String sendMessage = '/messages/conversations';
-  static String getMessage(String conversationId, {int page = 1, int limit = 30}) =>
+  static String getMessage(
+    String conversationId, {
+    int page = 1,
+    int limit = 30,
+  }) =>
       '/messages/conversations/$conversationId/messages?page=$page&limit=$limit';
-
 }
