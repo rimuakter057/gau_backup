@@ -1,6 +1,11 @@
 class ApiUrl {
   //Live Server
   static const String primaryUrl = "http://10.10.20.45:5000"; // ////
+  static const baseSocketUrl = 'ws://127.0.0.1:59452/gZI-Cyf2ANg=/ws';
+
+  static String socketUrl({required String userId}) =>
+      "$baseSocketUrl?userId=$userId";
+
 
   static const String baseUrl = "$primaryUrl/api/v1";
   static const String imageUrl = "$primaryUrl/";
@@ -31,7 +36,11 @@ static  String getSingleComplain({complainId})=>"/complaints/get-single/$complai
 
   ///message====================================================
 
-static String conversationList="/messages/conversations";
   static const String searchUsers = '/messages/search-users';
+
+static String conversationList="/messages/conversations";
+  static const String sendMessage = '/messages/conversations';
+  static String getMessage(String conversationId, {int page = 1, int limit = 30}) =>
+      '/messages/conversations/$conversationId/messages?page=$page&limit=$limit';
 
 }

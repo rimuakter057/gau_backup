@@ -82,7 +82,10 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [CustomProfileAvatar()],
+        actions: [Padding(
+          padding:  EdgeInsets.only(right: ResponsiveHelper.padding(16)),
+          child: CustomProfileAvatar(),
+        )],
       ),
 
       body: Padding(
@@ -90,10 +93,6 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
         child: Column(
           children: [
             SizedBox(height: ResponsiveHelper.height(8)),
-
-            TextField(
-              decoration: InputDecoration(hintText: AppText.searchConver),
-            ),
 
             /// 🔹 Message list
             Expanded(
