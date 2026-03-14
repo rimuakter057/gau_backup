@@ -12,8 +12,9 @@ import 'package:go_router/go_router.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNotificationTap;
   final VoidCallback? onCartTap;
+  final bool? isBack;
 
-  const CustomAppBar({super.key, this.onNotificationTap, this.onCartTap});
+  const CustomAppBar({super.key, this.onNotificationTap, this.onCartTap,  this.isBack = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +22,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.backgroundColor,
       elevation: 1,
       titleSpacing: 0,
-      leading: IconButton(
-        icon: CustomImage(imageSrc: AppAssets.drawer),
+     leading: isBack!
+        ? IconButton(
         onPressed: () {
-          Scaffold.of(context).openDrawer();
-        },
-      ),
-
+      context.pop();
+    },
+    icon: const Icon(Icons.arrow_back_outlined),
+    )
+        : IconButton(
+    icon: CustomImage(imageSrc: AppAssets.drawer),
+    onPressed: () {
+    Scaffold.of(context).openDrawer();
+    },
+    ),
       actions: [
         GestureDetector(
           onTap: (){

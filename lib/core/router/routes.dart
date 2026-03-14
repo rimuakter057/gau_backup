@@ -7,6 +7,7 @@ import 'package:gau_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:gau_app/features/auth/presentation/screens/verification_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_inbox_screen.dart';
 import 'package:gau_app/features/chat/presentation/screens/chat_screen.dart';
+import 'package:gau_app/features/chat/presentation/screens/search_screen.dart';
 import 'package:gau_app/features/common/splash/splash_screen.dart';
 import 'package:gau_app/features/complain/presentation/screens/complain_details_screen.dart';
 import 'package:gau_app/features/grade/presentation/screens/grade_request_screen.dart';
@@ -226,6 +227,17 @@ class AppRouter {
         pageBuilder: (context, state) {
           return _buildPageWithAnimation(
             child:  ChatInboxScreen(),
+            state: state,
+          );
+        },
+      ),
+
+      GoRoute(
+        name: RoutesPath.searchScreen,
+        path: RoutesPath.searchScreen.addBasePath,
+        pageBuilder: (context, state) {
+          return _buildPageWithAnimation(
+            child:  SearchScreen(),
             state: state,
           );
         },

@@ -29,54 +29,67 @@ class UserChatListWidget extends StatelessWidget {
       child: CustomContainer(
         backgroundColor: AppColors.backgroundColor,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomProfileAvatar(),
+            // ── Avatar ──
+            CustomProfileAvatar(),
+            SizedBox(width: ResponsiveHelper.width(8)),
 
-                SizedBox(width:  ResponsiveHelper.width(8),),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: context.bodySmall.copyWith(
-                        color: AppColors.titleColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+            // ── Name + Message ──
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.bodySmall.copyWith(
+                      color: AppColors.titleColor,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Text(
-                      message,
-                      style: context.bodySmall.copyWith(
-                        color: AppColors.titleColor,
-                      ),
+                  ),
+                  SizedBox(height: ResponsiveHelper.height(4)),
+                  Text(
+                    message,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.bodySmall.copyWith(
+                      color: AppColors.titleColor,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
 
-            ///time=========================================================================
+            SizedBox(width: ResponsiveHelper.width(8)),
+
+            // ── Count + Time ──
             Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.all( ResponsiveHelper.borderRadius(6),),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.primaryColor,
-                  ),
-                  child: Text(
-                    count,
-                    style: context.bodySmall.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize:  ResponsiveHelper.fontSize(10),
+                Text(
+                  time,
+                  style: context.bodySmall,
+                ),
+                SizedBox(height: ResponsiveHelper.height(4)),
+                if (count.isNotEmpty && count != '0')
+                  Container(
+                    padding: EdgeInsets.all(ResponsiveHelper.borderRadius(6)),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primaryColor,
+                    ),
+                    child: Text(
+                      count,
+                      style: context.bodySmall.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: ResponsiveHelper.fontSize(10),
+                      ),
                     ),
                   ),
-                ),
-                Text(time, style: context.bodySmall),
               ],
             ),
           ],

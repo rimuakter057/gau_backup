@@ -29,7 +29,9 @@ static  String getSingleComplain({complainId})=>"/complaints/get-single/$complai
   static String academicProgress ="/final-grade/student/academic-progress?programId=699a9a3ed08a2c30363d8c98";
 
 
+  ///message====================================================
 
-
+static String conversationList="/messages/conversations";
+  static const String searchUsers = '/messages/search-users';
 
 }

@@ -32,6 +32,7 @@ class RoutesPath {
   ///chat==============================================================
   static const String chatScreen = 'chatScreen';
   static const String chatInboxScreen = 'chatInboxScreen';
+  static const String searchScreen = 'searchScreen';
 ///transcript=================================================
   static const String transcriptScreen = 'transcript';
 
