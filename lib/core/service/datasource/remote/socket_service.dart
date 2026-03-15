@@ -1,11 +1,7 @@
 import 'package:gau_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:gau_app/utils/app_const/app_const.dart';
-
 import 'package:socket_io_client/socket_io_client.dart' as io;
-
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 import 'api_urls/api_urls.dart';
 
 class AppSocket {
@@ -24,24 +20,20 @@ class AppSocket {
   static Future<void> init({Function? onSocketConnect}) async {
     _onSocketConnectCallback = onSocketConnect;
 
-    // Retrieve userId from SharedPreferences or fallback
     _userId = await SharePrefsHelper.getString(AppConstants.userId);
 
     if (_userId == null || _userId!.isEmpty || _userId == "null") {
-      debugPrint(
-        '⚠️ No userId found in SharedPreferences. Socket not connecting.',
-      );
+      debugPrint('⚠️ No userId found. Socket not connecting.');
       return;
     }
 
-    _connectToSocket(_userId!);
+    _connectToSocket();
     _isInitialized = true;
   }
 
   ///<------------------ Internal Connect ------------------>
-  static void _connectToSocket(String userId) {
-    final socketUrl = ApiUrl.socketUrl(userId: userId);
-    debugPrint('Connecting socket with userId: $userId → $socketUrl');
+  static void _connectToSocket() {
+    final socketUrl = ApiUrl.baseSocketUrl;
 
     socket = io.io(
       socketUrl,
@@ -65,6 +57,10 @@ class AppSocket {
     socket!
       ..onConnect((_) {
         debugPrint('✅ Socket connected as $_userId');
+
+        // Step 2: Connect হলে সাথে সাথে users:online emit করো
+        emitUsersOnline();
+
         _onSocketConnectCallback?.call();
       })
       ..onDisconnect((data) {
@@ -84,11 +80,56 @@ class AppSocket {
       });
   }
 
+  ///<------------------ Step 2: Users Online ------------------>
+  static void emitUsersOnline() {
+    if (_userId == null) return;
+    sendEvent('users:online', {'userId': _userId});
+    debugPrint('📡 Emitted users:online for $_userId');
+  }
+
+  ///<------------------ Step 5: Join Conversation ------------------>
+  static void joinConversation(String conversationId) {
+    sendEvent('conversation:join', {'conversationId': conversationId});
+    debugPrint('🚪 Joined conversation: $conversationId');
+  }
+
+  ///<------------------ Step 6: Send Message ------------------>
+  static void sendMessage({
+    required String conversationId,
+    required String receiverId,
+    required String receiverModel,
+    required String content,
+    String? tempId,           // ← নতুন parameter
+    String messageType = 'text',
+  }) {
+    if (_userId == null) return;
+
+    final payload = {
+      "conversationId": conversationId,
+      "senderId": _userId,
+      "senderModel": receiverModel == 'Advisor' ? 'Student' : 'Advisor',
+      "receiverId": receiverId,
+      "receiverModel": receiverModel,
+      "content": content,
+      "messageType": messageType,
+      "tempId": tempId ?? "temp-${DateTime.now().millisecondsSinceEpoch}",
+    };
+
+    sendEvent('message:send', payload);
+    debugPrint('📤 Message sent: $payload');
+  }
+  ///<------------------ Step 6: Listen New Message ------------------>
+
+  static void listenNewMessages(Function(dynamic) onMessage) {
+    socket!.on('message:new', (data) {
+      debugPrint('📩 New message received: $data');
+      onMessage(data);
+    });
+  }
+
   ///<------------------ Listen for Events ------------------>
-  // Public method for listening to socket events
   static void onEvent(String eventName, Function(dynamic) callback) {
     if (socket != null && socket!.connected) {
-      debugPrint(' Socket connected.  listen for "$eventName".');
       socket!.on(eventName, callback);
     } else {
       debugPrint('⚠️ Socket not connected. Cannot listen for "$eventName".');
@@ -115,15 +156,7 @@ class AppSocket {
       ack(false);
       return;
     }
-
-    socket!.emitWithAck(
-      event,
-      data,
-      ack: (response) {
-        ack(response);
-      },
-      //timeout: timeout,
-    );
+    socket!.emitWithAck(event, data, ack: (response) => ack(response));
   }
 
   ///<------------------ Cleanup ------------------>

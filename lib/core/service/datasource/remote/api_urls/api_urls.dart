@@ -1,10 +1,10 @@
 class ApiUrl {
   //Live Server
   static const String primaryUrl = "http://10.10.20.45:5000"; // ////
-  static const baseSocketUrl = 'ws://10.10.20.45:5000';
+  static const baseSocketUrl = 'http://10.10.20.45:5000';
 
-  static String socketUrl({required String userId}) =>
-      "$baseSocketUrl?userId=$userId";
+  // static String socketUrl({required String userId}) =>
+  //     "$baseSocketUrl?userId=$userId";
 
   static const String baseUrl = "$primaryUrl/api/v1";
   static const String imageUrl = "$primaryUrl/";

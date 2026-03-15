@@ -1,67 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:gau_app/features/chat/controller/chat_controller.dart';
+import 'package:gau_app/features/chat/models/chat_message_model.dart';
+import 'package:gau_app/features/chat/models/chat_model.dart';
 import 'package:gau_app/features/chat/presentation/widgets/message_double.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
-
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/share/widgets/custom_profile_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
-import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
-
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../models/chat_model.dart';
-
 class ChatInboxScreen extends StatefulWidget {
-  const ChatInboxScreen({super.key});
+  final String conversationId;
+  final String receiverId;
+  final String receiverModel;
+  final String receiverName;
+
+  const ChatInboxScreen({
+    super.key,
+    required this.conversationId,
+    required this.receiverId,
+    required this.receiverModel,
+    required this.receiverName,
+  });
 
   @override
   State<ChatInboxScreen> createState() => _ChatInboxScreenState();
 }
 
 class _ChatInboxScreenState extends State<ChatInboxScreen> {
-  final TextEditingController _messageController = TextEditingController();
+ final ChatController controller =Get.find<ChatController>();
 
-  // temporary local messages (API later)
-  final List<ChatMessage> _messages = [
-    ChatMessage(text: "Hello 👋", isMe: false),
-    ChatMessage(text: "Hi, how can I help you?", isMe: true),
-    ChatMessage(
-      text:
-          "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
-      isMe: false,
-    ),
-    ChatMessage(text: "Hi, how can I help you?", isMe: true),
-    ChatMessage(text: "Hello 👋", isMe: false),
-    ChatMessage(text: "Hi, how can I help you?", isMe: true),
-    ChatMessage(
-      text:
-          "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
-      isMe: false,
-    ),
-    ChatMessage(text: "Hi, how can I help you?", isMe: true),
-    ChatMessage(text: "Hello 👋", isMe: false),
-    ChatMessage(text: "Hi, how can I help you?", isMe: true),
-    ChatMessage(
-      text:
-          "Hello rrrrrrrrrrrrrrrrrrrrrdfsdfdsafsdfdsafsdaffffffffffffffffffffffffffffffffffffffffffewrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr 👋",
-      isMe: false,
-    ),
-    ChatMessage(text: "Hi, how can I help you?", isMe: true),
-  ];
+  @override
+  void initState() {
+    super.initState();
 
-  void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
 
-    setState(() {
-      _messages.add(
-        ChatMessage(text: _messageController.text.trim(), isMe: true),
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.initConversation(
+        convId: widget.conversationId,
+        recId: widget.receiverId,
+        recModel: widget.receiverModel,
       );
     });
-
-    _messageController.clear();
   }
 
   @override
@@ -69,62 +53,89 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            context.pop();
-          },
-          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
         title: Text(
-          "User Name",
+          widget.receiverName,
           style: GoogleFonts.poppins(
             fontSize: ResponsiveHelper.fontSize(14),
             color: AppColors.titleColor,
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [Padding(
-          padding:  EdgeInsets.only(right: ResponsiveHelper.padding(16)),
-          child: CustomProfileAvatar(),
-        )],
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: ResponsiveHelper.padding(16)),
+            child: CustomProfileAvatar(),
+          ),
+        ],
       ),
 
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.padding(16)),
+        padding: EdgeInsets.symmetric(
+          horizontal: ResponsiveHelper.padding(16),
+        ),
         child: Column(
           children: [
             SizedBox(height: ResponsiveHelper.height(8)),
 
-            /// 🔹 Message list
+            /// Message List
             Expanded(
-              child: ListView.builder(
-                //padding: EdgeInsets.all(16.w),
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  return MessageBubble(message: _messages[index]);
-                },
-              ),
+              child: Obx(() {
+                if (controller.isLoadingMessages.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (controller.messages.isEmpty) {
+                  return const Center(child: Text('No messages yet.'));
+                }
+
+                return ListView.builder(
+                  controller: controller.scrollController,
+                  itemCount: controller.messages.length,
+                  itemBuilder: (context, index) {
+                    final ChatMessageModel msg = controller.messages[index];
+                    final bool isMe = msg.senderId == controller.currentUserId;
+
+                    return MessageBubble(
+                      message: ChatMessage(
+                        text: msg.content ?? '',
+                        isMe: isMe,
+                        status: msg.status ?? 'sending',
+                      ),
+                    );
+                  },
+                );
+              }),
             ),
 
-            /// 🔹 Input box
-            SafeArea(
-              child: CustomContainer(
-                borderColor: AppColors.inputBorderColor,
-                radius: ResponsiveHelper.borderRadius(121),
-                padding: EdgeInsets.only(
-                    left: ResponsiveHelper.width(4),
-                    right: ResponsiveHelper.width(2),
-                    top: ResponsiveHelper.height(8),
-                    bottom:ResponsiveHelper.height(8),
-                ),
 
+            /// Input Box
+
+
+
+            SafeArea(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                  vertical: ResponsiveHelper.height(8),
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.softRed,  // ← এখানে color
+                  borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(30)),
+                  border: Border.all(color: AppColors.inputBorderColor),
+                ),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
-                        controller: _messageController,
+                        controller: controller.messageTextController,
                         decoration: InputDecoration(
-                          fillColor: AppColors.softRed,
-                          filled: true,
+                          filled: false,  // ← false করো
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: ResponsiveHelper.width(16),
+                            vertical: ResponsiveHelper.height(10),
+                          ),
                           hintText: "Type a message...",
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -133,16 +144,42 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
                       ),
                     ),
                     IconButton(
-                      onPressed: _sendMessage,
+                      onPressed: controller.sendMessage,
                       icon: CustomImage(imageSrc: AppAssets.send),
                     ),
                   ],
                 ),
               ),
             ),
+
+
+
+
           ],
         ),
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

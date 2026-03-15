@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gau_app/features/chat/models/chat_model.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
-
 import 'package:gau_app/utils/extension/base_extension.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -9,67 +8,88 @@ class MessageBubble extends StatelessWidget {
 
   const MessageBubble({super.key, required this.message});
 
+  Widget _buildStatusIcon() {
+    switch (message.status) {
+      case 'sending':
+        return Icon(
+          Icons.access_time,
+          color: Colors.white54,
+          size: ResponsiveHelper.fontSize(12),
+        );
+      case 'sent':
+        return Icon(
+          Icons.done,
+          color: Colors.white70,
+          size: ResponsiveHelper.fontSize(12),
+        );
+      case 'delivered':
+        return Icon(
+          Icons.done_all,
+          color: Colors.white70,
+          size: ResponsiveHelper.fontSize(12),
+        );
+      case 'seen':
+        return Icon(
+          Icons.done_all,
+          color: Colors.blueAccent,
+          size: ResponsiveHelper.fontSize(12),
+        );
+      default:
+        return Icon(
+          Icons.access_time,
+          color: Colors.white54,
+          size: ResponsiveHelper.fontSize(12),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: message.isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Column(
-        crossAxisAlignment: message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: ResponsiveHelper.height(4),),
-            padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveHelper.width(14),
-              vertical: ResponsiveHelper.height(16),
+      child: Container(
+        margin: EdgeInsets.only(bottom: ResponsiveHelper.height(8)),
+        padding: EdgeInsets.symmetric(
+          horizontal: ResponsiveHelper.width(12),
+          vertical: ResponsiveHelper.height(10),
+         
+        ),
+        constraints: BoxConstraints(maxWidth: ResponsiveHelper.width(280)),
+        decoration: BoxDecoration(
+          color: message.isMe
+              ? const Color(0xFFD9534F)
+              : const Color(0xFFF8F9FA),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(ResponsiveHelper.borderRadius(16)),
+            topRight: Radius.circular(ResponsiveHelper.borderRadius(16)),
+            bottomRight: Radius.circular(
+              message.isMe ? 0 : ResponsiveHelper.borderRadius(16),
             ),
-            constraints: BoxConstraints(maxWidth: ResponsiveHelper.width(280),),
-            decoration: BoxDecoration(
-              // Sender hole Red, Receiver hole Off-white/Grey
-              color: message.isMe ? Color(0xFFD9534F) : Color(0xFFF8F9FA),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(ResponsiveHelper.borderRadius(16),),
-                topRight: Radius.circular(ResponsiveHelper.borderRadius(16),),
-                // Sender er jonno bottom-right 0, Receiver er jonno bottom-left 0
-                bottomRight: Radius.circular(message.isMe ? ResponsiveHelper.borderRadius(16) : 0),
-                bottomLeft: Radius.circular(message.isMe ? 0 : ResponsiveHelper.borderRadius(16),),
-              ),
-              border: message.isMe
-                  ? null
-                  : Border.all(color: Colors.grey.shade200),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Text(
-                                message.text,
-                    maxLines: 100,
-                    overflow:TextOverflow.ellipsis ,
-
-                    style: context.bodySmall.copyWith(
-                      color: message.isMe ? Colors.white : Colors.black87,
-                    ),
-                  ),
-                ),
-                // Tick icon shudhu matro receiver ba nicher bubble e thakle
-                if (!message.isMe)
-                  Padding(
-                    padding: EdgeInsets.only(top:ResponsiveHelper.height(4),),
-                    child: Icon(Icons.done, color: Colors.red, size: ResponsiveHelper.fontSize(16),),
-                  ),
-              ],
+            bottomLeft: Radius.circular(
+              message.isMe ? ResponsiveHelper.borderRadius(16) : 0,
             ),
           ),
-          // "1 day ago" text ta bubble er baire thakle evabe add kora jay
-          if (message.isMe)
-            Padding(
-              padding: EdgeInsets.only(bottom: ResponsiveHelper.height(10), right: ResponsiveHelper.width(4),),
-              child: Text(
-                "1 day ago",
-                style: TextStyle(fontSize:  ResponsiveHelper.fontSize(10), color: Colors.grey),
+          border: message.isMe ? null : Border.all(color: Colors.grey.shade200),
+        ),
+        child: IntrinsicWidth(
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  right: message.isMe ? ResponsiveHelper.width(18) : 0,
+                ),
+                child: Text(
+                  message.text,
+                  style: context.bodySmall.copyWith(
+                    color: message.isMe ? Colors.white : Colors.black87,
+                  ),
+                ),
               ),
-            ),
-        ],
+              if (message.isMe)
+                Positioned(bottom: 0, right: 0, child: _buildStatusIcon()),
+            ],
+          ),
+        ),
       ),
     );
   }

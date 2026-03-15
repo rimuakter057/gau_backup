@@ -225,8 +225,17 @@ class AppRouter {
         name: RoutesPath.chatInboxScreen,
         path: RoutesPath.chatInboxScreen.addBasePath,
         pageBuilder: (context, state) {
+
+          final extra = state.extra as Map<String, dynamic>;
+
           return _buildPageWithAnimation(
-            child:  ChatInboxScreen(),
+            child:  ChatInboxScreen(
+
+              conversationId: extra['conversationId'],
+              receiverId: extra['receiverId'],
+              receiverModel: extra['receiverModel'],
+              receiverName: extra['receiverName'],
+            ),
             state: state,
           );
         },
