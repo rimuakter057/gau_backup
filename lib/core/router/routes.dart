@@ -226,7 +226,7 @@ class AppRouter {
         path: RoutesPath.chatInboxScreen.addBasePath,
         pageBuilder: (context, state) {
 
-          final extra = state.extra as Map<String, dynamic>;
+          final extra = state.extra as Map<String, dynamic>? ?? {};  // ← null safe
 
           return _buildPageWithAnimation(
             child:  ChatInboxScreen(

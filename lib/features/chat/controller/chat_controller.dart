@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-
+import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/core/service/datasource/remote/api_client.dart';
 import 'package:gau_app/core/service/datasource/remote/api_urls/api_urls.dart';
 import 'package:gau_app/core/service/datasource/remote/socket_service.dart';
@@ -11,6 +10,7 @@ import 'package:gau_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:gau_app/utils/app_const/app_const.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 
@@ -24,18 +24,24 @@ class ChatController extends GetxController {
 
     final response = await ApiClient.getData(ApiUrl.conversationList);
 
+    debugPrint('📋 Conv List Response: ${response.body}');
+
     if (response.statusCode == 200) {
       List data = response.body['data'] ?? [];
       userChatList.value = data
           .map((e) => ConversationListModel.fromJson(e))
           .toList();
+
+      // ← এটাও যোগ করুন
+      for (var c in userChatList) {
+        debugPrint('✅ Conv: ${c.participant.name} | unread: ${c.unreadCount}');
+      }
     } else {
       userChatList.clear();
     }
 
     isLoadingChatList(false);
   }
-
 
 
 
@@ -81,6 +87,48 @@ class ChatController extends GetxController {
 
 
 
+
+
+  ///navigate inbox====================
+
+
+  RxBool isCreatingConversation = false.obs;
+
+  Future<void> openOrCreateConversation({
+    required String receiverId,
+    required String receiverModel,
+    required String receiverName,
+    required BuildContext context,
+  }) async {
+    isCreatingConversation(true);
+
+    final response = await ApiClient.postData(
+      ApiUrl.sendMessage,
+      {
+        'receiverId': receiverId,
+        'receiverModel': receiverModel,
+      },
+    );
+
+    debugPrint('🆕 Create Conv Response: ${response.body}');
+    isCreatingConversation(false);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = response.body['data'];
+      final convId = data['conversationId'] ?? data['_id'] ?? '';
+
+      await fetchConversationList();
+      context.pushNamed(
+        RoutesPath.chatInboxScreen,
+        extra: {
+          'conversationId': convId,
+          'receiverId': receiverId,
+          'receiverModel': receiverModel,
+          'receiverName': receiverName,
+        },
+      );
+    }
+  }
   ///socket===================================================================================
 
 
@@ -133,7 +181,7 @@ class ChatController extends GetxController {
           .toList();
 
       // Scroll to bottom after loading
-     // _scrollToBottom();
+      //_scrollToBottom();
     } else {
       messages.clear();
     }

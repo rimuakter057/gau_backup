@@ -21,7 +21,6 @@ class GradeScreen extends StatefulWidget {
 }
 
 class _GradeScreenState extends State<GradeScreen> {
-
   List<String> semesters = [];
   String? selectedSemester;
 
@@ -39,8 +38,7 @@ class _GradeScreenState extends State<GradeScreen> {
 
   // Fake backend call
   void fetchSemestersFromBackend() {
-
-    semesters = ['Semester 1', 'Semester 2', 'Semester 3'];
+    semesters = ['Fall 2024', 'Spring 2024'];
     selectedSemester = semesters.first; // default
     setState(() {});
   }
@@ -59,10 +57,7 @@ class _GradeScreenState extends State<GradeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               SizedBox(height: ResponsiveHelper.height(18)),
-
 
               CustomContainer(
                 padding: EdgeInsets.all(ResponsiveHelper.padding(24)),
@@ -155,9 +150,6 @@ class _GradeScreenState extends State<GradeScreen> {
                   children: [
                     SizedBox(height: ResponsiveHelper.height(16)),
 
-
-
-
                     Padding(
                       padding: ResponsiveHelper.symmetric(horizontal: 16),
                       child: Row(
@@ -165,7 +157,8 @@ class _GradeScreenState extends State<GradeScreen> {
                         children: [
                           // Left: Selected Semester Text
                           Text(
-                            selectedSemester ?? "Semester 1", // or always fixed text if you want
+                            selectedSemester ??
+                                "Semester 1", // or always fixed text if you want
                             style: context.bodyMedium.copyWith(
                               color: AppColors.primaryColor,
                             ),
@@ -173,19 +166,24 @@ class _GradeScreenState extends State<GradeScreen> {
 
                           // Right: Dropdown
                           CustomContainer(
-                            padding: ResponsiveHelper.symmetric(horizontal: 12, vertical: 4), // nice padding
+                            padding: ResponsiveHelper.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ), // nice padding
                             borderColor: AppColors.inputBorderColor,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
                                 value: null, // fixed, UI text never changes
                                 items: semesters
-                                    .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                    style: context.bodySmall,
-                                  ),
-                                ))
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(
+                                          e,
+                                          style: context.bodySmall,
+                                        ),
+                                      ),
+                                    )
                                     .toList(),
                                 onChanged: (value) {
                                   setState(() {
@@ -201,7 +199,9 @@ class _GradeScreenState extends State<GradeScreen> {
                                         color: AppColors.black,
                                       ),
                                     ),
-                                    SizedBox(width: ResponsiveHelper.width(8)), // gap between text & icon
+                                    SizedBox(
+                                      width: ResponsiveHelper.width(8),
+                                    ), // gap between text & icon
                                   ],
                                 ),
                                 icon: CustomImage(imageSrc: AppAssets.dropDown),
@@ -212,8 +212,6 @@ class _GradeScreenState extends State<GradeScreen> {
                         ],
                       ),
                     ),
-
-
 
                     SizedBox(height: ResponsiveHelper.height(8)),
                     CustomDivider(),
@@ -254,17 +252,26 @@ class _GradeScreenState extends State<GradeScreen> {
                               padding: ResponsiveHelper.all(12),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(course['code']!, style: context.bodySmall),
-                                      Text(course['name']!, style: context.bodySmall),
+                                      Text(
+                                        course['code']!,
+                                        style: context.bodySmall,
+                                      ),
+                                      Text(
+                                        course['name']!,
+                                        style: context.bodySmall,
+                                      ),
                                     ],
                                   ),
-                                  Text(course['Instructor']!, style: context.bodySmall),
+                                  Text(
+                                    course['Instructor']!,
+                                    style: context.bodySmall,
+                                  ),
                                 ],
                               ),
                             ),
@@ -316,7 +323,7 @@ class _GradeScreenState extends State<GradeScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: ResponsiveHelper.height(8),),
+              SizedBox(height: ResponsiveHelper.height(8)),
               SoftRedContainerWidget(),
             ],
           ),
@@ -325,9 +332,6 @@ class _GradeScreenState extends State<GradeScreen> {
     );
   }
 }
-
-
-
 
 ///===================================================================
 

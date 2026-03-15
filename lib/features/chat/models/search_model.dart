@@ -1,5 +1,5 @@
 class SearchModel {
-  String? sId;
+  String? id;
   String? profileId;
   String? name;
   String? email;
@@ -7,7 +7,7 @@ class SearchModel {
   String? designation;
 
   SearchModel(
-      {this.sId,
+      {this.id,
         this.profileId,
         this.name,
         this.email,
@@ -15,7 +15,7 @@ class SearchModel {
         this.designation});
 
   SearchModel.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     profileId = json['profileId'];
     name = json['name'];
     email = json['email'];
@@ -24,8 +24,8 @@ class SearchModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = this.id;
     data['profileId'] = this.profileId;
     data['name'] = this.name;
     data['email'] = this.email;

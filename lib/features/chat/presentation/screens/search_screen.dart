@@ -89,13 +89,46 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 }
 
+
+
+
+
+
+
+
+
                 return ListView.builder(
                   itemCount: controller.searchList.length,
                   itemBuilder: (context, index) {
                     final SearchModel user = controller.searchList[index];
                     return UserChatListWidget(
-                      onTap: () {
-                        context.pushNamed(RoutesPath.chatInboxScreen);
+                      onTap: () async {
+                        final existing = controller.userChatList.firstWhereOrNull(
+                              (c) => c.participant.id == user.id,
+                        );
+
+                        if (existing != null) {
+                          await context.pushNamed(  // ← await যোগ করুন
+                            RoutesPath.chatInboxScreen,
+                            extra: {
+                              'conversationId': existing.id,
+                              'receiverId': existing.participant.id,
+                              'receiverModel': existing.participant.model,
+                              'receiverName': existing.participant.name,
+                            },
+                          );
+                          // ← back করলে refresh
+                          controller.fetchConversationList();
+                        } else {
+                          await controller.openOrCreateConversation(
+                            receiverId: user.id ?? '',
+                            receiverModel: user.role == 'student' ? 'Student' : 'Advisor',
+                            receiverName: user.name ?? '',
+                            context: context,
+                          );
+                          // ← new conversation এর পরেও refresh
+                          controller.fetchConversationList();
+                        }
                       },
                       name: user.name ?? '',
                       message: user.designation ?? user.role ?? '',
@@ -104,6 +137,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     );
                   },
                 );
+
+
+
+
+
+
               }),
             ),
           ],
