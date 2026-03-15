@@ -11,7 +11,6 @@ import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -32,10 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        isBack: true,
-        onNotificationTap: () {},
-      ),
+      appBar: CustomAppBar(isBack: true, onNotificationTap: () {}),
       body: Padding(
         padding: EdgeInsets.all(ResponsiveHelper.padding(16)),
         child: Column(
@@ -89,26 +85,19 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 }
 
-
-
-
-
-
-
-
-
                 return ListView.builder(
                   itemCount: controller.searchList.length,
                   itemBuilder: (context, index) {
                     final SearchModel user = controller.searchList[index];
                     return UserChatListWidget(
                       onTap: () async {
-                        final existing = controller.userChatList.firstWhereOrNull(
+                        final existing = controller.userChatList
+                            .firstWhereOrNull(
                               (c) => c.participant.id == user.id,
-                        );
+                            );
 
                         if (existing != null) {
-                          await context.pushNamed(  // ← await যোগ করুন
+                          await context.pushNamed(
                             RoutesPath.chatInboxScreen,
                             extra: {
                               'conversationId': existing.id,
@@ -122,7 +111,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         } else {
                           await controller.openOrCreateConversation(
                             receiverId: user.id ?? '',
-                            receiverModel: user.role == 'student' ? 'Student' : 'Advisor',
+                            receiverModel: user.role == 'student'
+                                ? 'Student'
+                                : 'Advisor',
                             receiverName: user.name ?? '',
                             context: context,
                           );
@@ -137,12 +128,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     );
                   },
                 );
-
-
-
-
-
-
               }),
             ),
           ],

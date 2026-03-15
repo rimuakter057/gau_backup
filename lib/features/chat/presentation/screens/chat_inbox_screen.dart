@@ -94,8 +94,8 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
                   itemBuilder: (context, index) {
                     if (index == controller.messages.length) {
                       return Obx(() => controller.isLoadingMore.value
-                          ? const Padding(
-                        padding: EdgeInsets.all(8.0),
+                          ?  Padding(
+                        padding: EdgeInsets.all(ResponsiveHelper.padding(8)),
                         child: Center(child: CircularProgressIndicator()),
                       )
                           : const SizedBox.shrink());
