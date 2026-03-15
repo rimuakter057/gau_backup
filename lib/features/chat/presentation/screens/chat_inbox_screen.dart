@@ -4,7 +4,6 @@ import 'package:gau_app/features/chat/models/chat_message_model.dart';
 import 'package:gau_app/features/chat/models/chat_model.dart';
 import 'package:gau_app/features/chat/presentation/widgets/message_double.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
-import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
 import 'package:gau_app/share/widgets/custom_image/custom_image.dart';
 import 'package:gau_app/share/widgets/custom_profile_image.dart';
 import 'package:gau_app/utils/app_assets/app_assets.dart';
@@ -32,13 +31,11 @@ class ChatInboxScreen extends StatefulWidget {
 }
 
 class _ChatInboxScreenState extends State<ChatInboxScreen> {
- final ChatController controller =Get.find<ChatController>();
+  final ChatController controller = Get.find<ChatController>();
 
   @override
   void initState() {
     super.initState();
-
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.initConversation(
         convId: widget.conversationId,
@@ -71,7 +68,6 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
           ),
         ],
       ),
-
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: ResponsiveHelper.padding(16),
@@ -93,11 +89,20 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
 
                 return ListView.builder(
                   controller: controller.scrollController,
-                  itemCount: controller.messages.length,
+                  reverse: true,
+                  itemCount: controller.messages.length + 1,
                   itemBuilder: (context, index) {
+                    if (index == controller.messages.length) {
+                      return Obx(() => controller.isLoadingMore.value
+                          ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                          : const SizedBox.shrink());
+                    }
+
                     final ChatMessageModel msg = controller.messages[index];
                     final bool isMe = msg.senderId == controller.currentUserId;
-
                     return MessageBubble(
                       message: ChatMessage(
                         text: msg.content ?? '',
@@ -111,18 +116,19 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
             ),
 
 
+
+
+
             /// Input Box
-
-
-
             SafeArea(
               child: Container(
                 margin: EdgeInsets.symmetric(
                   vertical: ResponsiveHelper.height(8),
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.softRed,  // ← এখানে color
-                  borderRadius: BorderRadius.circular(ResponsiveHelper.borderRadius(30)),
+                  color: AppColors.softRed,
+                  borderRadius: BorderRadius.circular(
+                      ResponsiveHelper.borderRadius(30)),
                   border: Border.all(color: AppColors.inputBorderColor),
                 ),
                 child: Row(
@@ -131,7 +137,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
                       child: TextField(
                         controller: controller.messageTextController,
                         decoration: InputDecoration(
-                          filled: false,  // ← false করো
+                          filled: false,
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: ResponsiveHelper.width(16),
                             vertical: ResponsiveHelper.height(10),
@@ -151,35 +157,9 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
                 ),
               ),
             ),
-
-
-
-
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

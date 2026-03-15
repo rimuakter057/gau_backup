@@ -40,7 +40,7 @@ class ApiUrl {
   static String getMessage(
     String conversationId, {
     int page = 1,
-    int limit = 30,
+    int limit = 15,
   }) =>
       '/messages/conversations/$conversationId/messages?page=$page&limit=$limit';
 }

@@ -45,9 +45,10 @@ class DateConverter {
   }
 
   /// Returns time in "hh:mm a" (12-hour) format → 03:45 PM
+
   static String formatTime({DateTime? dateTime}) {
-    final dt = dateTime ?? DateTime.now();
-    return DateFormat('hh:mm a').format(dt);
+    final dt = (dateTime ?? DateTime.now()).toLocal();
+    return DateFormat('h:mm a').format(dt);
   }
 
   /// Returns relative time like “5 minutes ago”, “Yesterday”, “2 days ago”, etc.

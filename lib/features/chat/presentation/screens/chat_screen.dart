@@ -6,8 +6,8 @@ import 'package:gau_app/features/chat/models/conversation_list_model.dart';
 import 'package:gau_app/features/chat/presentation/widgets/user_chat_list_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
+import 'package:gau_app/helper/date_converter/date_converter.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
-
 import 'package:gau_app/utils/app_text/app_text.dart';
 import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:get/get.dart';
@@ -114,7 +114,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         },
                         name: conversation.participant.name,
                         message: conversation.lastMessage?.content??'...',
-                        time: _formatTime(conversation.lastMessageAt),
+
+                        time: DateConverter.formatTime(dateTime: conversation.lastMessage?.createdAt),
+
                         count: conversation.unreadCount > 0
                             ? conversation.unreadCount.toString()
                             : '',
@@ -130,10 +132,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  String _formatTime(DateTime dateTime) {
-    final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
-    final minute = dateTime.minute.toString().padLeft(2, '0');
-    final period = dateTime.hour >= 12 ? 'pm' : 'am';
-    return '$hour:$minute $period';
-  }
+
+
 }
