@@ -25,12 +25,12 @@ class SearchModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = this.id;
-    data['profileId'] = this.profileId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['role'] = this.role;
-    data['designation'] = this.designation;
+    data['_id'] = id;
+    data['profileId'] = profileId;
+    data['name'] = name;
+    data['email'] = email;
+    data['role'] = role;
+    data['designation'] = designation;
     return data;
   }
 }

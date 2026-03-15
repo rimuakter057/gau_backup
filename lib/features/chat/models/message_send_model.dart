@@ -25,13 +25,13 @@ class MessageSendModel {
     if (json['participants'] != null) {
       participants = <Participants>[];
       json['participants'].forEach((v) {
-        participants!.add(new Participants.fromJson(v));
+        participants!.add(Participants.fromJson(v));
       });
     }
     if (json['unreadCounts'] != null) {
       unreadCounts = <UnreadCounts>[];
       json['unreadCounts'].forEach((v) {
-        unreadCounts!.add(new UnreadCounts.fromJson(v));
+        unreadCounts!.add(UnreadCounts.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -42,19 +42,19 @@ class MessageSendModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
-    if (this.participants != null) {
-      data['participants'] = this.participants!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = id;
+    if (participants != null) {
+      data['participants'] = participants!.map((v) => v.toJson()).toList();
     }
-    if (this.unreadCounts != null) {
-      data['unreadCounts'] = this.unreadCounts!.map((v) => v.toJson()).toList();
+    if (unreadCounts != null) {
+      data['unreadCounts'] = unreadCounts!.map((v) => v.toJson()).toList();
     }
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    data['lastMessage'] = this.lastMessage;
-    data['lastMessageAt'] = this.lastMessageAt;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
+    data['lastMessage'] = lastMessage;
+    data['lastMessageAt'] = lastMessageAt;
     return data;
   }
 }
@@ -73,10 +73,10 @@ class Participants {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['userModel'] = this.userModel;
-    data['_id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userModel'] = userModel;
+    data['_id'] = id;
     return data;
   }
 }
@@ -95,10 +95,10 @@ class UnreadCounts {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['count'] = this.count;
-    data['_id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['count'] = count;
+    data['_id'] = id;
     return data;
   }
 }
