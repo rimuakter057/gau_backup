@@ -156,10 +156,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                           children: [
 
-                            Text("User Name",
+                            Text("Mahfuj",
                                 style: context.bodyMedium),
 
-                            Text("message",
+                            Text("student",
                                 style: context.bodySmall),
 
                           ],
