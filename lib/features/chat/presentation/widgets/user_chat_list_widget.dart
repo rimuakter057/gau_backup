@@ -12,14 +12,14 @@ class UserChatListWidget extends StatelessWidget {
     required this.name,
     required this.message,
     required this.time,
-    required this.count,
+   // required this.count,
     required this.onTap,
   });
 
   final String name;
   final String message;
   final String time;
-  final String count;
+ // final String count;
   final VoidCallback onTap;
 
   @override
@@ -74,22 +74,22 @@ class UserChatListWidget extends StatelessWidget {
                   style: context.bodySmall,
                 ),
                 SizedBox(height: ResponsiveHelper.height(4)),
-                if (count.isNotEmpty && count != '0')
-                  Container(
-                    padding: EdgeInsets.all(ResponsiveHelper.borderRadius(6)),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.primaryColor,
-                    ),
-                    child: Text(
-                      count,
-                      style: context.bodySmall.copyWith(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: ResponsiveHelper.fontSize(10),
-                      ),
-                    ),
-                  ),
+                // if (count.isNotEmpty && count != '0')
+                //   Container(
+                //     padding: EdgeInsets.all(ResponsiveHelper.borderRadius(6)),
+                //     decoration: BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       color: AppColors.primaryColor,
+                //     ),
+                //     child: Text(
+                //       count,
+                //       style: context.bodySmall.copyWith(
+                //         color: AppColors.white,
+                //         fontWeight: FontWeight.w700,
+                //         fontSize: ResponsiveHelper.fontSize(10),
+                //       ),
+                //     ),
+                //   ),
               ],
             ),
           ],

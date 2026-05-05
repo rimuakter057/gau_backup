@@ -108,9 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                         time: DateConverter.formatTime(dateTime: conversation.lastMessage?.createdAt),
 
-                        count: conversation.unreadCount > 0
-                            ? conversation.unreadCount.toString()
-                            : '',
+
                       );
                     },
                   );

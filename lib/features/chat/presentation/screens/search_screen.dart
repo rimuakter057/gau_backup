@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       name: user.name ?? '',
                       message: user.designation ?? user.role ?? '',
                       time: '',
-                      count: '',
+                      //count: '',
                     );
                   },
                 );
