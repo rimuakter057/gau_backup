@@ -26,9 +26,11 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // ✅ প্রথমে API call করো
+      await controller.fetchConversationList();
 
-      /// Socket init (ONLY ONCE)
+      // তারপর socket
       if (!AppSocket.isConnected) {
         AppSocket.init(
           onSocketConnect: () {
@@ -39,17 +41,6 @@ class _ChatScreenState extends State<ChatScreen> {
       } else {
         controller.listenNewMessagesForChatList();
       }
-
-      controller.fetchConversationList().then((_) {
-        if (controller.userChatList.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to load conversations. Please try again.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      });
     });
   }
 
@@ -88,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   }
         
                   if (controller.userChatList.isEmpty) {
-                    return const Center(child: Text('No conversations yet.'));
+                    return const Center(child: Text('You don’t have any conversations yet.Start one now!'));
                   }
         
                   return ListView.builder(
@@ -131,7 +122,5 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
-
 
 }

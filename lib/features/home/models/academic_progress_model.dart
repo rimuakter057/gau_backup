@@ -2,7 +2,11 @@ class ProgressModel {
   double? currentGPA;
   int? earnedCredits;
   int? requiredCredits;
-  int? degreeCompletionPercent;
+  double? degreeCompletionPercent;
+  // double? currentGPA;
+  // int? earnedCredits;
+  // int? requiredCredits;
+  // int? degreeCompletionPercent;
   List<RecentSemester>? recentSemesters;
 
   ProgressModel(

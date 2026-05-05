@@ -139,19 +139,59 @@ class AddComplainScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               // যদি file select করা থাকে, নাম দেখাবে
+                              // if (controller.selectedFile.value != null)
+                              //   Text(
+                              //     'Selected: ${controller.selectedFile.value!.path.split('/').last}',
+                              //     style: context.bodyMedium.copyWith(
+                              //       color: AppColors.primaryColor,
+                              //       fontWeight: FontWeight.w600,
+                              //     ),
+                              //     textAlign: TextAlign.center,
+                              //   )
+                              // else
+                              //   CustomImage(
+                              //     imageSrc: AppAssets.updateDoc,
+                              //   ), // default icon
+
+
+
+
+
                               if (controller.selectedFile.value != null)
-                                Text(
-                                  'Selected: ${controller.selectedFile.value!.path.split('/').last}',
-                                  style: context.bodyMedium.copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Selected: ${controller.selectedFile.value!.path.split('/').last}',
+                                      style: context.bodyMedium.copyWith(
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: ResponsiveHelper.height(8)),
+                                    // ✅ Remove button
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.removeFile(); // ← file clear
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.close, color: Colors.red, size: 16),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            'Remove',
+                                            style: context.bodySmall.copyWith(color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 )
                               else
-                                CustomImage(
-                                  imageSrc: AppAssets.updateDoc,
-                                ), // default icon
+                                CustomImage(imageSrc: AppAssets.updateDoc),
+
+
 
                               SizedBox(height: ResponsiveHelper.height(4)),
 
@@ -187,16 +227,25 @@ class AddComplainScreen extends StatelessWidget {
                       return CancelSaveRowButtonWidget(
                         onTapTitle: () async {
 
-                          if (subjectController.text.isEmpty ||
-                              descriptionController.text.isEmpty) {
-                            CustomSnackbar.error(context, 'Please fill all required fields');
+                          if (subjectController.text.isEmpty) {
+                            CustomSnackbar.error(context, 'Subject is required');
+                            return;
+                          }
+
+                          if (descriptionController.text.isEmpty) {
+                            CustomSnackbar.error(context, 'Description is required');
+                            return;
+                          }
+
+                          if (descriptionController.text.trim().length < 10) {
+                            CustomSnackbar.error(context, 'Description must be at least 10 characters');
                             return;
                           }
 
                           final success = await controller.createComplain(
-                            subject: subjectController.text.trim(),
-                            description: descriptionController.text.trim(),
-                            context: context
+                              subject: subjectController.text.trim(),
+                              description: descriptionController.text.trim(),
+                              context: context
                           );
 
                           if (success) {

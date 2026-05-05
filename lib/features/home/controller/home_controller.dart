@@ -3,6 +3,7 @@ import 'package:gau_app/core/service/datasource/remote/api_urls/api_urls.dart';
 import 'package:gau_app/features/complain/models/complain_model.dart';
 import 'package:gau_app/features/complain/models/create_complain_model.dart';
 import 'package:gau_app/features/home/models/academic_progress_model.dart';
+import 'package:gau_app/features/home/models/current_course_model.dart';
 import 'package:gau_app/features/home/models/upcoming_deadline_model.dart';
 import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:gau_app/utils/app_text/app_text.dart';
@@ -15,6 +16,39 @@ import '../../../core/service/datasource/remote/api_client.dart';
 class HomeController extends GetxController {
 
 
+
+  // Current Courses
+  final RxList<CurrentCourseModel> currentCourses = <CurrentCourseModel>[].obs;
+  final RxBool isCurrentCourseLoading = false.obs;
+
+  Future<void> fetchCurrentCourses() async {
+    isCurrentCourseLoading.value = true;
+    try {
+      final response = await ApiClient.getData(ApiUrl.currentCourse);
+      if (response.statusCode == 200) {
+        final List data = response.body['data'];
+        currentCourses.value =
+            data.map((e) => CurrentCourseModel.fromJson(e)).toList();
+      } else {
+        Get.snackbar(
+          'Error',
+          response.body['message'] ?? 'Something went wrong',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      debugPrint("❌ Current Course Error: $e");
+    } finally {
+      isCurrentCourseLoading.value = false;
+    }
+  }
+
+
+
+
+
+
+
   ///get all complain==============================================
 
   var complaintsList = <ComplainModel>[].obs;
@@ -23,7 +57,7 @@ class HomeController extends GetxController {
   var currentPage = 1.obs;
   var hasMore = true.obs;
 
-  final int limit = 10;
+  final int limit = 20;
   var status = "".obs;
 
 
@@ -32,7 +66,8 @@ class HomeController extends GetxController {
 // ================== fetch complaints ==================
   Future<void> fetchAllComplaints({
     bool isRefresh = false,
-  }) async {
+  }) async
+  {
     if (isRefresh) {
       currentPage.value = 1;   // ✅ reset to page 1
       complaintsList.clear();  // ✅ পুরনো data clear
@@ -123,6 +158,10 @@ class HomeController extends GetxController {
 
   var selectedFile = Rx<File?>(null);
 
+  void removeFile() {
+    selectedFile.value = null;
+  }
+
   Future<void> pickFile() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -171,7 +210,7 @@ class HomeController extends GetxController {
           "description": description,
         },
         multipartBody: selectedFile.value != null
-            ? [MultipartBody("attachments", selectedFile.value!)]
+            ? [MultipartBody("attachment", selectedFile.value!)]
             : [],
       );
 
@@ -184,7 +223,7 @@ class HomeController extends GetxController {
         selectedFile.value = null;
         selectedCategory.value = null;
         selectedPriority.value = null;
-      //  fetchAllComplaints();
+        fetchAllComplaints(isRefresh: true);
         return true;
 
       }

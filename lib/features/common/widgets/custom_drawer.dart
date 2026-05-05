@@ -34,11 +34,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
       "icon": AppAssets.grade,
       "route": RoutesPath.gradeScreen.addBasePath,
     },
-    {
-      "title": AppText.transcriptMenu,
-      "icon": AppAssets.transcript,
-      "route": RoutesPath.transcriptScreen.addBasePath,
-    },
+    // {
+    //   "title": AppText.transcriptMenu,
+    //   "icon": AppAssets.transcript,
+    //   "route": RoutesPath.transcriptScreen.addBasePath,
+    // },
     {
       "title": AppText.complaintsMenu,
       "icon": AppAssets.complain,
@@ -63,87 +63,93 @@ class _CustomDrawerState extends State<CustomDrawer> {
       child: Column(
         children: [
           // Header
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              height: ResponsiveHelper.height(150),
-              child: DrawerHeader(
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                child: CustomImage(imageSrc: AppAssets.appLogoImage),
+   
+     Padding(
+              padding: const EdgeInsets.all(16),
+              child: SizedBox(
+                height: ResponsiveHelper.height(150),
+                child: DrawerHeader(
+                  margin: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  child: CustomImage(imageSrc: AppAssets.appLogoImage),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(ResponsiveHelper.padding(16)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppText.studentPortal,
-                  style: context.bodyMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: ResponsiveHelper.height(16)),
-                ...List.generate(drawerItems.length, (index) {
-                  final item = drawerItems[index];
-                  bool isSelected = selectedIndex == index;
-                  bool isHovered = hoveredIndex == index;
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      bottom: ResponsiveHelper.height(16),
-                    ),
-                    child: MouseRegion(
-                      onEnter: (_) {
-                        setState(() => hoveredIndex = index);
-                      },
-                      onExit: (_) {
-                        setState(() => hoveredIndex = -1);
-                      },
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() => selectedIndex = index);
-                          context.push(item["route"]!);
-                        },
-                        child: CustomContainer(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: ResponsiveHelper.width(8),
-                            vertical: ResponsiveHelper.height(12),
-                          ),
-                          backgroundColor: (isSelected || isHovered)
-                              ? AppColors.primaryColor
-                              : AppColors.containerGreyBgColor,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                item["icon"]!,
-                                color: (isSelected || isHovered)
-                                    ? Colors.white
-                                    : AppColors.labelTextColor,
-                                height: ResponsiveHelper.iconSize(20),
-                                width: ResponsiveHelper.iconSize(20),
-                              ),
-                              SizedBox(width: ResponsiveHelper.width(8)),
-                              Text(
-                                item["title"]!,
-                                style: context.bodyMedium.copyWith(
-                                  color: (isSelected || isHovered)
-                                      ? Colors.white
-                                      : AppColors.labelTextColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+       
+
+         SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(ResponsiveHelper.padding(16)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppText.studentPortal,
+                      style: context.bodyMedium.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  );
-                }),
-              ],
+                    SizedBox(height: ResponsiveHelper.height(16)),
+                    ...List.generate(drawerItems.length, (index) {
+                      final item = drawerItems[index];
+                      bool isSelected = selectedIndex == index;
+                      bool isHovered = hoveredIndex == index;
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: ResponsiveHelper.height(16),
+                        ),
+                        child: MouseRegion(
+                          onEnter: (_) {
+                            setState(() => hoveredIndex = index);
+                          },
+                          onExit: (_) {
+                            setState(() => hoveredIndex = -1);
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() => selectedIndex = index);
+                              context.push(item["route"]!);
+                            },
+                            child: CustomContainer(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ResponsiveHelper.width(8),
+                                vertical: ResponsiveHelper.height(12),
+                              ),
+                              backgroundColor: (isSelected || isHovered)
+                                  ? AppColors.primaryColor
+                                  : AppColors.containerGreyBgColor,
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    item["icon"]!,
+                                    color: (isSelected || isHovered)
+                                        ? Colors.white
+                                        : AppColors.labelTextColor,
+                                    height: ResponsiveHelper.iconSize(20),
+                                    width: ResponsiveHelper.iconSize(20),
+                                  ),
+                                  SizedBox(width: ResponsiveHelper.width(8)),
+                                  Text(
+                                    item["title"]!,
+                                    style: context.bodyMedium.copyWith(
+                                      color: (isSelected || isHovered)
+                                          ? Colors.white
+                                          : AppColors.labelTextColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
             ),
-          ),
+
           const Spacer(),
           const CustomDivider(color: AppColors.dividerColor),
           // Logout

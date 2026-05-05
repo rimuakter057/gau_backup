@@ -29,10 +29,8 @@ class _ComplainScreenState extends State<ComplainScreen> {
   void initState() {
     super.initState();
 
-    // ✅ Bug 1 Fix: Listener একবারই initState-এ register হবে,
-    // build()-এ না — নাহলে প্রতিটি rebuild-এ duplicate listener যোগ হতো
     scrollController.addListener(() {
-      if (!controller.isLoading.value &&   // ✅ Bug 2 Fix: initial load চলাকালীন trigger হবে না
+      if (!controller.isLoading.value &&
           scrollController.hasClients &&
           scrollController.position.pixels >=
               scrollController.position.maxScrollExtent - 200) {
@@ -41,13 +39,13 @@ class _ComplainScreenState extends State<ComplainScreen> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.fetchAllComplaints();
+      controller.fetchAllComplaints(isRefresh: true); // ✅ isRefresh: true
     });
   }
 
   @override
   void dispose() {
-    scrollController.dispose(); // ✅ memory leak এড়াতে dispose করা হয়েছে
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -143,13 +141,18 @@ class _ComplainScreenState extends State<ComplainScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(item.subject ?? "No Subject"),
+                                        Expanded(
+                                          child: Text(
+                                            item.subject ?? "No Subject",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
                                         Container(
-                                          padding:
-                                          ResponsiveHelper.symmetric(
+                                          padding: ResponsiveHelper.symmetric(
                                             vertical: 4,
                                             horizontal: 8,
                                           ),
@@ -158,8 +161,7 @@ class _ComplainScreenState extends State<ComplainScreen> {
                                             border: Border.all(
                                               color: AppColors.primaryColor,
                                             ),
-                                            borderRadius:
-                                            BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Text(
                                             item.status ?? "pending",

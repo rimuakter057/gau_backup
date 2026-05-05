@@ -1,7 +1,7 @@
 class ApiUrl {
   //Live Server
-  static const String primaryUrl = "http://10.10.20.45:5000"; // ////
-  static const baseSocketUrl = 'http://10.10.20.45:5000';
+  static const String primaryUrl = "http://10.10.20.16:6123"; // ////
+  static const baseSocketUrl = 'http://10.10.20.16:6123';
 
   // static String socketUrl({required String userId}) =>
   //     "$baseSocketUrl?userId=$userId";
@@ -19,6 +19,8 @@ class ApiUrl {
   ///create complain========================================
 
   static const String createComplain = "/complaints/create-request";
+  static const String dashboard = "/final-grade/student/my-grades";
+  static const String currentCourse = "/course-assign/student/current-courses";
   static String getSingleComplain({complainId}) =>
       "/complaints/get-single/$complainId";
   static String getAllComplain({
@@ -37,10 +39,20 @@ class ApiUrl {
 
   static String conversationList = "/messages/conversations";
   static const String sendMessage = '/messages/conversations';
+  static const String profile = '/user/get-my-profile';
+
   static String getMessage(
     String conversationId, {
     int page = 1,
     int limit = 15,
   }) =>
       '/messages/conversations/$conversationId/messages?page=$page&limit=$limit';
+
+
+
+  static String semester({required String semesterName }) =>
+      "/final-grade/student/my-grades?semestersName=$semesterName";
+
+
+
 }

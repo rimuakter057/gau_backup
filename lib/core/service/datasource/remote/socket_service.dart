@@ -1,7 +1,8 @@
 import 'package:gau_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:gau_app/utils/app_const/app_const.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
+
 import 'package:flutter/foundation.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'api_urls/api_urls.dart';
 
 class AppSocket {
