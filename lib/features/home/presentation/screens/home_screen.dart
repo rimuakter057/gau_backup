@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gau_app/core/router/route_path.dart';
@@ -8,6 +9,7 @@ import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/grade/controller/semistar_controller.dart';
 import 'package:gau_app/features/home/controller/home_controller.dart';
 import 'package:gau_app/features/home/models/current_course_model.dart';
+import 'package:gau_app/features/home/presentation/widgets/home_screen_skeliton.dart';
 import 'package:gau_app/helper/date_converter/date_converter.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
@@ -19,6 +21,7 @@ import 'package:gau_app/utils/color/app_colors.dart';
 import 'package:gau_app/utils/extension/base_extension.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       homeController.fetchUpcomingDeadlines();
       homeController.fetchAcademicProgress();
-      homeController.fetchCurrentCourses();       // ✅ Current Courses
-      dashboardController.fetchDashboardData();   // ✅ GPA
+      homeController.fetchCurrentCourses();
+      dashboardController.fetchDashboardData();
     });
   }
 
@@ -50,375 +53,362 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppColors.drawerBgColor,
         child: CustomDrawer(),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
 
-            /// ── My Grades / GPA ──────────────────────────────────────────
-            Obx(() {
-              if (dashboardController.isDashboardLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final gpa = dashboardController.semistarData.value?.currentGPA ?? 0.0;
+      // ✅ Shimmer: যেকোনো একটা loading true হলেই skeleton দেখাবে
+      body: Obx(() {
+        final isLoading =
+            homeController.isCurrentCourseLoading.value ||
+                homeController.isDeadlineLoading.value ||
+                homeController.isProgressLoading.value ||
+                dashboardController.isDashboardLoading.value;
 
-              return CustomContainer(
-                padding: EdgeInsets.all(ResponsiveHelper.padding(24)),
-                width: double.infinity,
-                borderColor: AppColors.inputBorderColor,
-                backgroundColor: AppColors.containerGreyBgColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(AppText.myGrades, style: context.titleMedium),
-                    Text(
-                      AppText.viewAcademicPerformance,
-                      style: context.bodyMedium.copyWith(color: AppColors.greyTextColor),
-                    ),
-                    SizedBox(height: ResponsiveHelper.height(16)),
-                    Center(
-                      child: GradGpaContainerWidget(
-                        borderColor: AppColors.softRedBoarder,
-                        bgColor: AppColors.softRed,
-                        title: AppText.currentGpa,
-                        number: gpa,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
+        if (isLoading) {
+          return const HomeScreenSkeleton();
+        }
 
-            SizedBox(height: ResponsiveHelper.height(18)),
+        // ── আসল content ─────────────────────────────────────────────────
+        return SingleChildScrollView(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-            /// ── Current Courses ──────────────────────────────────────────
-            Obx(() {
-              if (homeController.isCurrentCourseLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+              /// ── My Grades / GPA ─────────────────────────────────────
+              _buildGpaSection(context),
 
-              final courses = homeController.currentCourses;
+              SizedBox(height: ResponsiveHelper.height(18)),
 
-              return CustomContainer(
-                borderColor: AppColors.inputBorderColor,
-                backgroundColor: AppColors.white,
-                width: double.infinity,
-                radius: ResponsiveHelper.borderRadius(12),
-                padding: EdgeInsets.zero,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: ResponsiveHelper.all(8.0),
-                      child: Text(AppText.currentCourses, style: context.bodyMedium),
-                    ),
-                    SizedBox(height: ResponsiveHelper.height(12)),
-                    CustomDivider(),
-                    CustomContainer(
-                      backgroundColor: AppColors.containerGreyBgColor,
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(AppText.course,
-                              style: context.bodyMedium
-                                  .copyWith(color: AppColors.greyTextColor)),
-                          Text(AppText.instructor,
-                              style: context.bodyMedium
-                                  .copyWith(color: AppColors.greyTextColor)),
-                        ],
-                      ),
-                    ),
-                    CustomDivider(),
+              /// ── Current Courses ──────────────────────────────────────
+              _buildCurrentCoursesSection(context),
 
-                    courses.isEmpty
-                        ? Padding(
-                      padding: EdgeInsets.all(ResponsiveHelper.padding(12)),
-                      child: Text(
-                        "No courses available at the moment. Stay tuned for upcoming courses!",
-                        style: context.bodySmall
-                            .copyWith(color: AppColors.greyTextColor),
-                      ),
-                    )
-                        : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: courses.length,
-                      itemBuilder: (context, index) {
-                        final course = courses[index];
-                        return Column(
-                          children: [
-                            // ✅ tap করলে details dialog
-                            InkWell(
-                              onTap: () =>
-                                  _showCourseDetailsDialog(context, course),
-                              child: Padding(
-                                padding: ResponsiveHelper.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(course.courseCode ?? '',
-                                            style: context.bodySmall),
-                                        Text(course.courseName ?? '',
-                                            style: context.bodySmall),
-                                      ],
-                                    ),
-                                    // advisor fullName instructor হিসেবে দেখাচ্ছে
-                                    Text(
-                                      course.advisorId?.fullName ?? 'N/A',
-                                      style: context.bodySmall,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            if (index != courses.length - 1) CustomDivider(),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }),
+              SizedBox(height: ResponsiveHelper.height(18)),
 
-            SizedBox(height: ResponsiveHelper.height(18)),
+              /// ── Static Design Line ───────────────────────────────────
+              SoftRedContainerWidget(),
+              SizedBox(height: ResponsiveHelper.height(18)),
 
-            /// ── Static Design Line ───────────────────────────────────────
-            SoftRedContainerWidget(),
-            SizedBox(height: ResponsiveHelper.height(18)),
+              // Quick Options Row
+              Row(
+                children: [
+                  _buildContainerOption(
+                    context,
+                    title: AppText.complaint,
+                    image: AppAssets.complain,
+                    onTap: () => context.push(RoutesPath.complainScreen.addBasePath),
+                  ),
+                  SizedBox(width: ResponsiveHelper.width(8)),
+                  _buildContainerOption(
+                    context,
+                    title: AppText.profile,
+                    image: AppAssets.profile,
+                    onTap: () => context.push(RoutesPath.profileScreen.addBasePath),
+                  ),
+                ],
+              ),
+              SizedBox(height: ResponsiveHelper.height(18)),
 
-            // Quick Options Row 1
-            Row(
-              children: [
-                // _buildContainerOption(
-                //   context,
-                //   title: AppText.transcript,
-                //   image: AppAssets.transcript,
-                //   onTap: () => context.push(RoutesPath.transcriptScreen.addBasePath),
-                // ),
-                //
-                _buildContainerOption(
-                  context,
-                  title: AppText.complaint,
-                  image: AppAssets.complain,
-                  onTap: () => context.push(RoutesPath.complainScreen.addBasePath),
-                ),
-                SizedBox(width: ResponsiveHelper.width(8)),
+              /// ── Upcoming Deadlines ───────────────────────────────────
+              _buildUpcomingDeadlinesSection(context),
 
-                _buildContainerOption(
-                  context,
-                  title: AppText.profile,
-                  image: AppAssets.profile,
-                  onTap: () => context.push(RoutesPath.profileScreen.addBasePath),
-                ),
-              ],
+              SizedBox(height: ResponsiveHelper.height(32)),
+
+              /// ── Academic Progress ────────────────────────────────────
+              _buildAcademicProgressSection(context),
+
+              SizedBox(height: ResponsiveHelper.height(24)),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  // ── GPA Section ────────────────────────────────────────────────────────────
+  Widget _buildGpaSection(BuildContext context) {
+    final gpa = dashboardController.semistarData.value?.currentGPA ?? 0.0;
+
+    return CustomContainer(
+      padding: EdgeInsets.all(ResponsiveHelper.padding(24)),
+      width: double.infinity,
+      borderColor: AppColors.inputBorderColor,
+      backgroundColor: AppColors.containerGreyBgColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(AppText.myGrades, style: context.titleMedium),
+          Text(
+            AppText.viewAcademicPerformance,
+            style: context.bodyMedium.copyWith(color: AppColors.greyTextColor),
+          ),
+          SizedBox(height: ResponsiveHelper.height(16)),
+          Center(
+            child: GradGpaContainerWidget(
+              borderColor: AppColors.softRedBoarder,
+              bgColor: AppColors.softRed,
+              title: AppText.currentGpa,
+              number: gpa,
             ),
-            SizedBox(height: ResponsiveHelper.height(12)),
-
-            // Quick Options Row 2
-            // Row(
-            //   children: [
-            //     _buildContainerOption(
-            //       context,
-            //       title: AppText.profile,
-            //       image: AppAssets.profile,
-            //       onTap: () => context.push(RoutesPath.profileScreen.addBasePath),
-            //     ),
-            //     Expanded(child: SizedBox(width: ResponsiveHelper.width(12))),
-            //     const SizedBox(),
-            //   ],
-            // ),
-            SizedBox(height: ResponsiveHelper.height(18)),
-
-            /// ── Upcoming Deadlines ───────────────────────────────────────
-            Obx(() {
-              if (homeController.isDeadlineLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (homeController.upcomingDeadlines.isEmpty) {
-                return const Center(child: Text("You have no upcoming deadlines"));
-              }
-
-              return CustomContainer(
-                width: double.infinity,
-                backgroundColor: AppColors.containerGreyBgColor,
-                borderColor: AppColors.inputBorderColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppText.upcomingDeadlines,
-                      style: context.bodyMedium.copyWith(
-                        color: AppColors.titleColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: ResponsiveHelper.height(6)),
-                    CustomDivider(color: AppColors.dividerColor),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: homeController.upcomingDeadlines.length,
-                      separatorBuilder: (_, __) =>
-                          CustomDivider(color: AppColors.dividerColor),
-                      itemBuilder: (context, index) {
-                        final deadline = homeController.upcomingDeadlines[index];
-                        final String? dateStr = deadline.dueDate;
-                        final String? timeStr = deadline.dueTime;
-
-                        DateTime? dateTime;
-                        if (dateStr != null && timeStr != null) {
-                          dateTime = DateTime.tryParse('$dateStr $timeStr');
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 8.h,
-                            horizontal: ResponsiveHelper.padding(12),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: AppColors.primaryColor,
-                                minRadius: 5,
-                              ),
-                              SizedBox(width: ResponsiveHelper.width(6)),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    deadline.title ?? "",
-                                    style: context.bodySmall.copyWith(
-                                      color: AppColors.titleColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          deadline.deadlineType ?? "",
-                                          style: context.bodySmall.copyWith(
-                                              fontSize:
-                                              ResponsiveHelper.fontSize(14)),
-                                        ),
-                                      ),
-                                      SizedBox(width: ResponsiveHelper.spacing(6)),
-                                      Flexible(
-                                        child: Text(
-                                          '(${DateConverter.formatDateTime(dateTime: dateTime)})',
-                                          style: context.bodySmall,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }),
-
-            SizedBox(height: ResponsiveHelper.height(32)),
-
-            /// ── Academic Progress ────────────────────────────────────────
-            Obx(() {
-              if (homeController.isProgressLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              final progress = homeController.academicProgress.value;
-              final degreePercent = progress?.degreeCompletionPercent ?? 0;
-
-              return CustomContainer(
-                width: double.infinity,
-                backgroundColor: AppColors.containerGreyBgColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppText.academicProgress,
-                      style: context.bodyMedium.copyWith(
-                        color: AppColors.titleColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    CustomDivider(color: AppColors.dividerColor),
-                    _buildAcademicProgressText(
-                      context,
-                      title: AppText.degree,
-                      progress: "$degreePercent%",
-                    ),
-                    SizedBox(height: ResponsiveHelper.height(12)),
-                    LinearProgressIndicator(
-                      value: degreePercent / 100,
-                      color: AppColors.primaryColor,
-                      minHeight: ResponsiveHelper.height(12),
-                      borderRadius: BorderRadius.circular(
-                          ResponsiveHelper.borderRadius(6)),
-                      backgroundColor: AppColors.dividerColor,
-                    ),
-                    SizedBox(height: ResponsiveHelper.height(12)),
-                    Text(
-                      AppText.recentSemesters,
-                      style: context.bodySmall.copyWith(
-                        fontSize: ResponsiveHelper.fontSize(16),
-                        color: AppColors.black,
-                      ),
-                    ),
-                    SizedBox(height: ResponsiveHelper.height(12)),
-                    if (progress?.recentSemesters != null &&
-                        progress!.recentSemesters!.isNotEmpty)
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: progress.recentSemesters!.length,
-                        separatorBuilder: (_, __) =>
-                            SizedBox(height: ResponsiveHelper.height(8)),
-                        itemBuilder: (context, index) {
-                          final semester = progress.recentSemesters![index];
-                          return _buildAcademicProgressText(
-                            context,
-                            title: semester.label ?? "",
-                            progress: "GPA: ${semester.gpa ?? 0}",
-                          );
-                        },
-                      )
-                    else
-                      Text(
-                        "You don’t have any recent semesters",
-                        style: context.bodySmall
-                            .copyWith(color: AppColors.greyTextColor),
-                      ),
-                  ],
-                ),
-              );
-            }),
-
-            SizedBox(height: ResponsiveHelper.height(24)),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  // ── Course Details Dialog ─────────────────────────────────────────────────
-  void _showCourseDetailsDialog(BuildContext context, CurrentCourseModel course) {
+  // ── Current Courses Section ────────────────────────────────────────────────
+  Widget _buildCurrentCoursesSection(BuildContext context) {
+    final courses = homeController.currentCourses;
+
+    return CustomContainer(
+      borderColor: AppColors.inputBorderColor,
+      backgroundColor: AppColors.white,
+      width: double.infinity,
+      radius: ResponsiveHelper.borderRadius(12),
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: ResponsiveHelper.all(8.0),
+            child: Text(AppText.currentCourses, style: context.bodyMedium),
+          ),
+          SizedBox(height: ResponsiveHelper.height(12)),
+          CustomDivider(),
+          CustomContainer(
+            backgroundColor: AppColors.containerGreyBgColor,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(AppText.course,
+                    style: context.bodyMedium
+                        .copyWith(color: AppColors.greyTextColor)),
+                Text(AppText.instructor,
+                    style: context.bodyMedium
+                        .copyWith(color: AppColors.greyTextColor)),
+              ],
+            ),
+          ),
+          CustomDivider(),
+          courses.isEmpty
+              ? Padding(
+            padding: EdgeInsets.all(ResponsiveHelper.padding(12)),
+            child: Text(
+              "No courses available at the moment. Stay tuned for upcoming courses!",
+              style: context.bodySmall
+                  .copyWith(color: AppColors.greyTextColor),
+            ),
+          )
+              : ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: courses.length,
+            itemBuilder: (context, index) {
+              final course = courses[index];
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: () =>
+                        _showCourseDetailsDialog(context, course),
+                    child: Padding(
+                      padding: ResponsiveHelper.all(8.0),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(course.courseCode ?? '',
+                                  style: context.bodySmall),
+                              Text(course.courseName ?? '',
+                                  style: context.bodySmall),
+                            ],
+                          ),
+                          Text(
+                            course.advisorId?.fullName ?? 'N/A',
+                            style: context.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (index != courses.length - 1) CustomDivider(),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Upcoming Deadlines Section ─────────────────────────────────────────────
+  Widget _buildUpcomingDeadlinesSection(BuildContext context) {
+    if (homeController.upcomingDeadlines.isEmpty) {
+      return const Center(child: Text("You have no upcoming deadlines"));
+    }
+
+    return CustomContainer(
+      width: double.infinity,
+      backgroundColor: AppColors.containerGreyBgColor,
+      borderColor: AppColors.inputBorderColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppText.upcomingDeadlines,
+            style: context.bodyMedium.copyWith(
+              color: AppColors.titleColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: ResponsiveHelper.height(6)),
+          CustomDivider(color: AppColors.dividerColor),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: homeController.upcomingDeadlines.length,
+            separatorBuilder: (_, __) =>
+                CustomDivider(color: AppColors.dividerColor),
+            itemBuilder: (context, index) {
+              final deadline = homeController.upcomingDeadlines[index];
+              final String? dateStr = deadline.dueDate;
+              final String? timeStr = deadline.dueTime;
+
+              DateTime? dateTime;
+              if (dateStr != null && timeStr != null) {
+                dateTime = DateTime.tryParse('$dateStr $timeStr');
+              }
+
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 8.h,
+                  horizontal: ResponsiveHelper.padding(12),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: AppColors.primaryColor,
+                      minRadius: 5,
+                    ),
+                    SizedBox(width: ResponsiveHelper.width(6)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          deadline.title ?? "",
+                          style: context.bodySmall.copyWith(
+                            color: AppColors.titleColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                deadline.deadlineType ?? "",
+                                style: context.bodySmall.copyWith(
+                                    fontSize: ResponsiveHelper.fontSize(14)),
+                              ),
+                            ),
+                            SizedBox(width: ResponsiveHelper.spacing(6)),
+                            Flexible(
+                              child: Text(
+                                '(${DateConverter.formatDateTime(dateTime: dateTime)})',
+                                style: context.bodySmall,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Academic Progress Section ──────────────────────────────────────────────
+  Widget _buildAcademicProgressSection(BuildContext context) {
+    final progress = homeController.academicProgress.value;
+    final degreePercent = progress?.degreeCompletionPercent ?? 0;
+
+    return CustomContainer(
+      width: double.infinity,
+      backgroundColor: AppColors.containerGreyBgColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppText.academicProgress,
+            style: context.bodyMedium.copyWith(
+              color: AppColors.titleColor,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          CustomDivider(color: AppColors.dividerColor),
+          _buildAcademicProgressText(
+            context,
+            title: AppText.degree,
+            progress: "$degreePercent%",
+          ),
+          SizedBox(height: ResponsiveHelper.height(12)),
+          LinearProgressIndicator(
+            value: degreePercent / 100,
+            color: AppColors.primaryColor,
+            minHeight: ResponsiveHelper.height(12),
+            borderRadius:
+            BorderRadius.circular(ResponsiveHelper.borderRadius(6)),
+            backgroundColor: AppColors.dividerColor,
+          ),
+          SizedBox(height: ResponsiveHelper.height(12)),
+          Text(
+            AppText.recentSemesters,
+            style: context.bodySmall.copyWith(
+              fontSize: ResponsiveHelper.fontSize(16),
+              color: AppColors.black,
+            ),
+          ),
+          SizedBox(height: ResponsiveHelper.height(12)),
+          if (progress?.recentSemesters != null &&
+              progress!.recentSemesters!.isNotEmpty)
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: progress.recentSemesters!.length,
+              separatorBuilder: (_, __) =>
+                  SizedBox(height: ResponsiveHelper.height(8)),
+              itemBuilder: (context, index) {
+                final semester = progress.recentSemesters![index];
+                return _buildAcademicProgressText(
+                  context,
+                  title: semester.label ?? "",
+                  progress: "GPA: ${semester.gpa ?? 0}",
+                );
+              },
+            )
+          else
+            Text(
+              "You don't have any recent semesters",
+              style:
+              context.bodySmall.copyWith(color: AppColors.greyTextColor),
+            ),
+        ],
+      ),
+    );
+  }
+
+  // ── Course Details Dialog ──────────────────────────────────────────────────
+  void _showCourseDetailsDialog(
+      BuildContext context, CurrentCourseModel course) {
     showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -448,15 +438,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(Icons.close, color: AppColors.greyTextColor),
+                    child:
+                    Icon(Icons.close, color: AppColors.greyTextColor),
                   ),
                 ],
               ),
               SizedBox(height: ResponsiveHelper.height(4)),
               Text(
                 course.courseCode ?? '',
-                style:
-                context.bodySmall.copyWith(color: AppColors.primaryColor),
+                style: context.bodySmall
+                    .copyWith(color: AppColors.primaryColor),
               ),
               SizedBox(height: ResponsiveHelper.height(16)),
               CustomDivider(color: AppColors.dividerColor),
@@ -478,7 +469,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: "Advisor",
                   value: course.advisorId?.fullName ?? 'N/A'),
 
-              // Class Room
               if (course.classRoomId != null) ...[
                 _buildDialogRow(context,
                     label: "Building",
@@ -489,7 +479,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     "${course.classRoomId?.roomName ?? ''} (${course.classRoomId?.roomNumber ?? ''})"),
               ],
 
-              // Section Time
               if (course.sectionTime != null) ...[
                 SizedBox(height: ResponsiveHelper.height(8)),
                 _buildDialogRow(context,
@@ -498,7 +487,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     "${course.sectionTime?.startTime ?? ''} - ${course.sectionTime?.endTime ?? ''}"),
               ],
 
-              // Section Days
               if (course.sectionDays != null &&
                   course.sectionDays!.isNotEmpty) ...[
                 SizedBox(height: ResponsiveHelper.height(8)),
@@ -509,7 +497,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               SizedBox(height: ResponsiveHelper.height(20)),
 
-              // Close Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -541,7 +528,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: context.bodySmall.copyWith(color: AppColors.black)),
+        Text(title,
+            style: context.bodySmall.copyWith(color: AppColors.black)),
         Text(progress,
             style: context.bodySmall.copyWith(
               fontWeight: FontWeight.w500,
@@ -559,8 +547,8 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label,
-              style:
-              context.bodySmall.copyWith(color: AppColors.greyTextColor)),
+              style: context.bodySmall
+                  .copyWith(color: AppColors.greyTextColor)),
           Flexible(
             child: Text(
               value,

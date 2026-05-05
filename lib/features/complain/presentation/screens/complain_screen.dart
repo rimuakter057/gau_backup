@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
+import 'package:gau_app/features/complain/presentation/widgets/complain_skeliton.dart';
 import 'package:gau_app/features/home/controller/home_controller.dart'
     show HomeController;
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
@@ -69,7 +70,7 @@ class _ComplainScreenState extends State<ComplainScreen> {
           controller: scrollController,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveHelper.height(16),
+              horizontal: ResponsiveHelper.padding(16),
             ),
             child: Column(
               children: [
@@ -107,9 +108,15 @@ class _ComplainScreenState extends State<ComplainScreen> {
                 ),
                 SizedBox(height: ResponsiveHelper.height(24)),
                 Obx(() {
+                  // if (controller.isLoading.value &&
+                  //     controller.complaintsList.isEmpty) {
+                  //   return const Center(child: CircularProgressIndicator());
+                  // }
+
+
                   if (controller.isLoading.value &&
                       controller.complaintsList.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const ComplainScreenSkeleton();
                   }
 
                   if (controller.complaintsList.isEmpty) {

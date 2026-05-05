@@ -3,6 +3,7 @@ import 'package:gau_app/core/router/route_path.dart';
 import 'package:gau_app/core/service/datasource/remote/socket_service.dart';
 import 'package:gau_app/features/chat/controller/chat_controller.dart';
 import 'package:gau_app/features/chat/models/conversation_list_model.dart';
+import 'package:gau_app/features/chat/presentation/widgets/chat_skeliton.dart';
 import 'package:gau_app/features/chat/presentation/widgets/user_chat_list_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/common/widgets/custom_drawer.dart';
@@ -75,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 SizedBox(height: ResponsiveHelper.height(16)),
                 Obx(() {
                   if (controller.isLoadingChatList.value) {
-                    return const Center(child: CircularProgressIndicator());
+                    return ChatScreenSkeleton();
                   }
         
                   if (controller.userChatList.isEmpty) {

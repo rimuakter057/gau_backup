@@ -3,6 +3,7 @@ import 'package:gau_app/features/common/widgets/custom_drawer.dart';
 import 'package:gau_app/features/common/widgets/soft_red_container_widget.dart';
 import 'package:gau_app/features/common/widgets/custom_app_bar.dart';
 import 'package:gau_app/features/grade/controller/semistar_controller.dart';
+import 'package:gau_app/features/grade/presentation/widgets/grade_shimmer.dart';
 import 'package:gau_app/features/home/models/dashboard_model.dart';
 import 'package:gau_app/helper/responsive_helper/responsive_helper.dart';
 import 'package:gau_app/share/widgets/custom_container/custom_container.dart';
@@ -41,8 +42,12 @@ class _GradeScreenState extends State<GradeScreen> {
         child: const CustomDrawer(),
       ),
       body: Obx(() {
+        // if (controller.isDashboardLoading.value) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
+
         if (controller.isDashboardLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const GradeScreenSkeleton();
         }
 
         return SingleChildScrollView(
