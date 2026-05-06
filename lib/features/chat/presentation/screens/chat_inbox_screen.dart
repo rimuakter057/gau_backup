@@ -80,7 +80,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
             Expanded(
               child: Obx(() {
                 if (controller.isLoadingMessages.value) {
-                  return const Center(child: CircularProgressIndicator());
+                  _ChatMessagesShimmer();
                 }
 
                 if (controller.messages.isEmpty) {
@@ -160,6 +160,102 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+
+
+///chat message shimmer========
+
+
+class _ChatMessagesShimmer extends StatefulWidget {
+  const _ChatMessagesShimmer();
+
+  @override
+  State<_ChatMessagesShimmer> createState() => _ChatMessagesShimmerState();
+}
+
+class _ChatMessagesShimmerState extends State<_ChatMessagesShimmer>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+    _anim = Tween<double>(begin: -1.5, end: 1.5).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  Widget _box({required double w, required double h, double radius = 8}) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (_, __) => Container(
+        width: w,
+        height: h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          gradient: LinearGradient(
+            begin: Alignment(_anim.value - 1, 0),
+            end: Alignment(_anim.value + 1, 0),
+            colors: [
+              Colors.grey.shade300,
+              Colors.grey.shade100,
+              Colors.grey.shade300,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// isMe=true  → right align (sent)
+  /// isMe=false → left align (received)
+  Widget _bubble(double sw, {required bool isMe}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: ResponsiveHelper.spacing(5),
+      ),
+      child: Align(
+        alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+        child: _box(
+          w: sw * 0.5,
+          h: ResponsiveHelper.height(30),
+          radius: 16,
+        ),
+      ),
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    final sw = MediaQuery.of(context).size.width;
+
+    /// বিভিন্ন width দিয়ে natural chat look
+    final bubbles = [
+      false, true, false, true, true,
+      false, true, false, true, false,
+    ];
+
+    return ListView.builder(
+      reverse: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.symmetric(
+        vertical: ResponsiveHelper.spacing(8),
+      ),
+      itemCount: bubbles.length,
+      itemBuilder: (_, i) => _bubble(sw, isMe: bubbles[i]),
     );
   }
 }

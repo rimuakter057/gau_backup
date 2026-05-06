@@ -212,7 +212,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
     );
 
     if (success) {
-      CustomSnackbar.success(context, "Password reset successful");
+      CustomSnackbar.success(context:context,message:  "Password reset successful");
       context.pushNamed(RoutesPath.passwordResetCompleteScreen);
 
       newPassword.clear();

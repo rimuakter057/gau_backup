@@ -249,7 +249,7 @@ class AddComplainScreen extends StatelessWidget {
                           );
 
                           if (success) {
-                            CustomSnackbar.success(context, 'Complaint submitted successfully');
+                            CustomSnackbar.success(context:context, message: 'Complaint submitted successfully');
                             context.pop();
                           }
                         },

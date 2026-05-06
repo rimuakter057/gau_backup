@@ -185,9 +185,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 bottom: 0,
                                 right: 0,
                                 child: GestureDetector(
-                                  onTap:(){
-                                    ///edit profile
-                                  },
+
+                                    onTap: () => profileController.pickAndUploadImage(context: context),
+
                                   child: Container(
                                     padding: EdgeInsets.all(ResponsiveHelper.padding(4)),
                                     decoration: BoxDecoration(
@@ -229,60 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     }),
 
-                    // Obx(() {
-                    //   if (profileController.isLoading.value) {
-                    //     return const Center(child: CircularProgressIndicator());
-                    //   }
-                    //
-                    //   return Row(
-                    //     children: [
-                    //       Stack(
-                    //         children: [
-                    //           CustomProfileAvatar(
-                    //             image:ImageHandler.imagesHandle( profileController.profileImage.value,)
-                    //           ),
-                    //           Positioned(
-                    //             bottom: 0,
-                    //             right: 0,
-                    //             child: Container(
-                    //               padding: EdgeInsets.all(ResponsiveHelper.width(4)),
-                    //               decoration: BoxDecoration(
-                    //                 shape: BoxShape.circle,
-                    //                 color: AppColors.white,
-                    //                 border: Border.all(
-                    //                   color: AppColors.primaryColor,
-                    //                   width: ResponsiveHelper.width(2),
-                    //                 ),
-                    //               ),
-                    //               child: CustomImage(
-                    //                 imageSrc: AppAssets.camera,
-                    //                 height: ResponsiveHelper.iconSize(6),
-                    //                 width: ResponsiveHelper.iconSize(6),
-                    //                 fit: BoxFit.contain,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //
-                    //       const SizedBox(width: 8),
-                    //
-                    //       Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text(
-                    //             profileController.name.value,
-                    //             style: context.bodyMedium,
-                    //           ),
-                    //           Text(
-                    //             profileController.userId.value,
-                    //             style: context.bodySmall,
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   );
-                    // }),
+
                     
                     
                     

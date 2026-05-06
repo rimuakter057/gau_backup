@@ -40,6 +40,7 @@ class ApiUrl {
   static String conversationList = "/messages/conversations";
   static const String sendMessage = '/messages/conversations';
   static const String profile = '/user/get-my-profile';
+  static const String updateProfile = '/user/update-profile';
 
   static String getMessage(
     String conversationId, {

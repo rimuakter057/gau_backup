@@ -142,7 +142,8 @@ class ApiClient extends GetxService {
       dynamic body, {
         Map<String, String>? headers,
         bool isJson = true,
-      }) async {
+      }) async
+  {
     if (!await _checkConnection()) {
       return const Response(
         statusCode: 0,
