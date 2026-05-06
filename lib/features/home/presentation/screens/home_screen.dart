@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       homeController.fetchUpcomingDeadlines();
       homeController.fetchAcademicProgress();
       homeController.fetchCurrentCourses();
-      dashboardController.fetchDashboardData();
+      dashboardController.fetchDashboardData(context: context);
     });
   }
 

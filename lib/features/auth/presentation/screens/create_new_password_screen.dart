@@ -187,19 +187,19 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   Future<void> onTapResetPassword() async {
     // check new password
     if (newPassword.text.trim().isEmpty) {
-      CustomSnackbar.error(context, "New password cannot be empty");
+      CustomSnackbar.error(context:context,message:  "New password cannot be empty");
       return;
     }
 
     // check confirm password
     if (confirmedPasswordController.text.trim().isEmpty) {
-      CustomSnackbar.error(context, "Confirm password cannot be empty");
+      CustomSnackbar.error(context:context,message:  "Confirm password cannot be empty");
       return;
     }
 
     // check if passwords match
     if (newPassword.text.trim() != confirmedPasswordController.text.trim()) {
-      CustomSnackbar.error(context, "Passwords do not match");
+      CustomSnackbar.error(context:context,message:  "Passwords do not match");
       return;
     }
 
@@ -219,8 +219,8 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
       confirmedPasswordController.clear();
     } else {
       CustomSnackbar.error(
-        context,
-        authController.errorMessage.value,
+        context:context,
+       message:  authController.errorMessage.value,
       );
     }
   }

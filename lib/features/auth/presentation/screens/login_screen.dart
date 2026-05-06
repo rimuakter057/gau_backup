@@ -224,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // email empty check
     if (email.isEmpty) {
-      CustomSnackbar.error(context, "Please enter your email");
+      CustomSnackbar.error(context:context,message:  "Please enter your email");
       return;
     }
 
@@ -233,13 +233,13 @@ class _LoginScreenState extends State<LoginScreen> {
       r'^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$',
     );
     if (!emailRegex.hasMatch(email)) {
-      CustomSnackbar.error(context, "Please enter a valid email address");
+      CustomSnackbar.error(context:context,message:  "Please enter a valid email address");
       return;
     }
     {
       // password empty check
       if (password.isEmpty) {
-        CustomSnackbar.error(context, "Please enter your password");
+        CustomSnackbar.error(context:context,message:  "Please enter your password");
         return;
       }
 
@@ -254,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (success) {
         context.goNamed(RoutesPath.homeScreen);
       } else {
-        CustomSnackbar.error(context, authController.errorMessage.value);
+        CustomSnackbar.error(context:context,message:  authController.errorMessage.value);
       }
     }
   }

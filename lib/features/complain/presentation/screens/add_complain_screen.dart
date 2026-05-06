@@ -228,17 +228,17 @@ class AddComplainScreen extends StatelessWidget {
                         onTapTitle: () async {
 
                           if (subjectController.text.isEmpty) {
-                            CustomSnackbar.error(context, 'Subject is required');
+                            CustomSnackbar.error(context:context,message:  'Subject is required');
                             return;
                           }
 
                           if (descriptionController.text.isEmpty) {
-                            CustomSnackbar.error(context, 'Description is required');
+                            CustomSnackbar.error(context:context, message: 'Description is required');
                             return;
                           }
 
                           if (descriptionController.text.trim().length < 10) {
-                            CustomSnackbar.error(context, 'Description must be at least 10 characters');
+                            CustomSnackbar.error(context:context,message:  'Description must be at least 10 characters');
                             return;
                           }
 

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gau_app/core/service/datasource/remote/api_client.dart';
 import 'package:gau_app/core/service/datasource/remote/api_urls/api_urls.dart';
 import 'package:gau_app/features/home/models/dashboard_model.dart';
+import 'package:gau_app/share/widgets/custom_snackbar/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class SemistarController extends GetxController {
@@ -43,17 +45,20 @@ class SemistarController extends GetxController {
   // ─── API Calls ───────────────────────────────────────────────────────────────
 
   /// HomeScreen থেকে call হয়।
-  Future<void> fetchDashboardData() async {
+  Future<void> fetchDashboardData({required BuildContext context}) async {
     isDashboardLoading.value = true;
     try {
       final response = await ApiClient.getData(ApiUrl.dashboard);
       if (response.statusCode == 200) {
         semistarData.value = SemistarModel.fromJson(response.body['data']);
       } else {
-        _showError(response.statusText ?? 'Failed to load grade data');
+       // _showError(response.statusText ?? 'Failed to load grade data');
+
+        CustomSnackbar.error(context:context, message:response.statusText ?? 'Failed to load grade data');
       }
     } catch (_) {
-      _showError('Failed to load grade data');
+     // _showError('Failed to load grade data');
+      CustomSnackbar.error(context:context,message: 'Failed to load grade data');
     } finally {
       isDashboardLoading.value = false;
     }
@@ -62,10 +67,10 @@ class SemistarController extends GetxController {
   /// GradeScreen এ enter করলে call হয়।
   /// Dashboard data তে already semesters আছে — সেখান থেকেই প্রথম semester select করে।
   /// আলাদা API call করে না।
-  Future<void> initGradeScreen() async {
+  Future<void> initGradeScreen({required BuildContext context}) async {
     if (semistarData.value == null) {
       // HomeScreen bypass করে সরাসরি GradeScreen এ আসলে fetch করো
-      await fetchDashboardData();
+      await fetchDashboardData(context: context);
     }
     _selectSemesterFromLocalData(semesterNames.isNotEmpty ? semesterNames.first : null);
   }
@@ -73,7 +78,7 @@ class SemistarController extends GetxController {
   /// Dropdown থেকে semester বদলালে call হয়।
   /// Dashboard data তে এই semester এর courses already আছে কিনা check করে।
   /// থাকলে local থেকে নেয়, না থাকলে API call করে।
-  Future<void> onSemesterSelected(String semesterName) async {
+  Future<void> onSemesterSelected(String semesterName,{required BuildContext context}) async {
     if (selectedSemesterName.value == semesterName) return;
 
     selectedSemesterName.value = semesterName;
@@ -103,10 +108,14 @@ class SemistarController extends GetxController {
               (s) => s.semesterName == semesterName,
         );
       } else {
-        _showError(response.statusText ?? 'Failed to load semester data');
+        //_showError(response.statusText ?? 'Failed to load semester data');
+
+        CustomSnackbar.error(context:context, message:response.statusText ?? 'Failed to load semester data');
       }
     } catch (_) {
-      _showError('Failed to load semester data');
+      //_showError('Failed to load semester data');
+
+      CustomSnackbar.error(context:context, message: 'Failed to load semester data');
     } finally {
       isSemesterLoading.value = false;
     }
@@ -126,7 +135,5 @@ class SemistarController extends GetxController {
     }
   }
 
-  void _showError(String message) {
-    Get.snackbar('Error', message, snackPosition: SnackPosition.BOTTOM);
-  }
+
 }

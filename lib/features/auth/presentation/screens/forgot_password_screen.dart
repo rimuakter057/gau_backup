@@ -233,7 +233,7 @@ final AuthController authController =Get.find<AuthController>();
     // email empty check
     if (emailController.text.trim().isEmpty) {
 
-      CustomSnackbar.error(context, "Email cannot be empty");
+      CustomSnackbar.error(context:context,message:  "Email cannot be empty");
 
       return;
 
@@ -258,8 +258,8 @@ final AuthController authController =Get.find<AuthController>();
     } else {
 
       CustomSnackbar.error(
-        context,
-        authController.errorMessage.value,
+        context:context,
+       message:  authController.errorMessage.value,
       );
 
     }

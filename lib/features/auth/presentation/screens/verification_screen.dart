@@ -270,7 +270,7 @@ class _VerificationScreenScreenState extends State<VerificationScreenScreen> {
     // email empty check
     if (otpController.text.trim().isEmpty) {
 
-      CustomSnackbar.error(context, "Otp cannot be empty");
+      CustomSnackbar.error(context:context,message:  "Otp cannot be empty");
 
       return;
 
@@ -296,8 +296,8 @@ class _VerificationScreenScreenState extends State<VerificationScreenScreen> {
     } else {
 
       CustomSnackbar.error(
-        context,
-        authController.errorMessage.value,
+        context:context,
+        message:authController.errorMessage.value,
       );
 
     }

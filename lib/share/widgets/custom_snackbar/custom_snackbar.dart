@@ -39,7 +39,7 @@ class CustomSnackbar {
 
 
   /// ❌ ERROR
-  static void error(BuildContext context, String message) {
+  static void error({required BuildContext context,required String message}) {
 
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()

@@ -194,7 +194,7 @@ class HomeController extends GetxController {
     required BuildContext context,
   }) async {
     if (selectedCategory.value == null || selectedPriority.value == null) {
-      CustomSnackbar.error(context, "Please select category and priority");
+      CustomSnackbar.error(context:context,message:  "Please select category and priority");
       return false;
     }
 
@@ -229,8 +229,8 @@ class HomeController extends GetxController {
       }
 
       CustomSnackbar.error(
-        context,
-        response.body['message'] ?? 'Failed to create complain',
+        context:context,
+        message:response.body['message'] ?? 'Failed to create complain',
       );
       return false;
     } finally {

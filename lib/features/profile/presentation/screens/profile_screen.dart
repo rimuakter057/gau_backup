@@ -156,14 +156,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 12,
-                                  width: 120,
+                                  height:  ResponsiveHelper.height(12),
+                                  width:  ResponsiveHelper.width(120),
                                   color: Colors.grey.shade300,
                                 ),
-                                const SizedBox(height: 6),
+                                 SizedBox(height: ResponsiveHelper.spacing(6)),
                                 Container(
-                                  height: 10,
-                                  width: 80,
+                                  height:  ResponsiveHelper.height(10),
+                                  width:  ResponsiveHelper.width(80),
                                   color: Colors.grey.shade300,
                                 ),
                               ],
@@ -184,28 +184,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Positioned(
                                 bottom: 0,
                                 right: 0,
-                                child: Container(
-                                  padding: EdgeInsets.all(ResponsiveHelper.width(4)),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.white,
-                                    border: Border.all(
-                                      color: AppColors.primaryColor,
-                                      width: ResponsiveHelper.width(2),
+                                child: GestureDetector(
+                                  onTap:(){
+                                    ///edit profile
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(ResponsiveHelper.padding(4)),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.white,
+                                      border: Border.all(
+                                        color: AppColors.primaryColor,
+                                        width: ResponsiveHelper.width(2),
+                                      ),
                                     ),
-                                  ),
-                                  child: CustomImage(
-                                    imageSrc: AppAssets.camera,
-                                    height: ResponsiveHelper.iconSize(6),
-                                    width: ResponsiveHelper.iconSize(6),
-                                    fit: BoxFit.contain,
+                                    child: CustomImage(
+                                      imageSrc: AppAssets.camera,
+                                      height: ResponsiveHelper.iconSize(6),
+                                      width: ResponsiveHelper.iconSize(6),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
 
-                          const SizedBox(width: 8),
+                           SizedBox(width: ResponsiveHelper.width(8)),
 
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     
                     
 
-                    SizedBox(height: 8),
+                    SizedBox(height: ResponsiveHelper.width(8)),
 
                     CustomDivider(),
 
@@ -301,7 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             ),
 
-            SizedBox(height: 40),
+            SizedBox(height: ResponsiveHelper.height(40)),
 
           ],
 

@@ -56,7 +56,7 @@ class _SecurityWidgetState extends State<SecurityWidget> {
       CustomSnackbar.success(context, 'Password updated successfully');
     } else {
 
-      CustomSnackbar.error(context, authController.errorMessage.value);
+      CustomSnackbar.error(context:context, message:authController.errorMessage.value);
     }
   }
 

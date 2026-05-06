@@ -29,7 +29,7 @@ class _GradeScreenState extends State<GradeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.initGradeScreen();
+      controller.initGradeScreen(context: context);
     });
   }
 
@@ -358,7 +358,7 @@ class _SemesterCourseCard extends StatelessWidget {
                             .toList(),
                         onChanged: (value) {
                           if (value != null) {
-                            controller.onSemesterSelected(value);
+                            controller.onSemesterSelected(value, context: context);
                           }
                         },
                         hint: Text(
