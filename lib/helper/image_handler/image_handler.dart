@@ -4,18 +4,26 @@ import 'package:gau_app/utils/app_const/app_const.dart';
 
 class ImageHandler {
   static String imagesHandle(String? url, {bool isProfile = false}) {
-    if (url == null || url.isEmpty) {
+    final trimmedUrl = url?.trim() ?? '';
+    if (trimmedUrl.isEmpty) {
       if (isProfile) {
         return AppConstants.unknown;
       }
       return AppConstants.unknown;
     }
 
-    if (url.startsWith('http')) {
-      return url; // If the URL starts with 'http', return as is
-    } else {
-      return '${ApiUrl.imageUrl}$url';
-      //  return ApiUrl.imageUrl + url;
+    if (trimmedUrl.startsWith('http://') || trimmedUrl.startsWith('https://')) {
+      return trimmedUrl;
     }
+
+    // Backend can return host/path without scheme, e.g. cloudfront URLs.
+    final looksLikeHostWithoutScheme = RegExp(r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(/.*)?$')
+        .hasMatch(trimmedUrl);
+    if (looksLikeHostWithoutScheme) {
+      return 'https://$trimmedUrl';
+    }
+
+    return '${ApiUrl.imageUrl}$trimmedUrl';
+    //  return ApiUrl.imageUrl + url;
   }
 }

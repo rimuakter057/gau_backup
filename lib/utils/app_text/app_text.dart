@@ -26,7 +26,7 @@ class AppText{
   // ===== Auth Fields =====
   static const String emailAddress =
       "Email Address";
-  static const enterEmail='your.email@gau.edu';
+  static const enterEmail='example@gmail.com';
   static const String password =
       "Password";
   static const enterPassword = 'Enter your Password here';

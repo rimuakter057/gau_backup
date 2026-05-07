@@ -177,9 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Stack(
                             children: [
                               CustomProfileAvatar(
-                                image: ImageHandler.imagesHandle(
-                                  profileController.profileImage.value,
-                                ),
+                                image:   profileController.profileImage.value,
                               ),
                               Positioned(
                                 bottom: 0,

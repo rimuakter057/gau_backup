@@ -39,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               () => CustomProfileAvatar(
             height: ResponsiveHelper.height(28),
             width: ResponsiveHelper.width(28),
-            image: ImageHandler.imagesHandle(profileController.profileImage.value,)
+            image: profileController.profileImage.value,
           ),
         ),
         SizedBox(width: ResponsiveHelper.width(24)),
