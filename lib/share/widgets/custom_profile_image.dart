@@ -24,7 +24,7 @@ class CustomProfileAvatar extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Image.network(
-        image ?? "",
+        image ??AppConstants.unknown,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           return const ColoredBox(

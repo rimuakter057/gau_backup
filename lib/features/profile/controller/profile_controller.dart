@@ -26,9 +26,15 @@ class ProfileController extends GetxController {
       final response = await ApiClient.getData(ApiUrl.profile);
       if (response.statusCode == 200) {
         final data = response.body['data'];
-        name.value         = data['fullName']      ?? '';
-        userId.value       = data['studentId']     ?? '';
-        profileImage.value = data['profile_image'] ?? '';
+        name.value   = data['fullName']  ?? '';
+        userId.value = data['studentId'] ?? '';
+
+        final rawImage = data['profile_image'] ?? '';
+        profileImage.value = rawImage.isEmpty
+            ? ''
+            : rawImage.startsWith('http')
+            ? rawImage
+            : 'https://$rawImage';
       } else {
         Get.snackbar('Error', response.statusText ?? 'Failed to load profile');
       }

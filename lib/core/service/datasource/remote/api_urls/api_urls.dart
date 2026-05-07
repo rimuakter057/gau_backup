@@ -1,5 +1,5 @@
 class ApiUrl {
-  //Live Server
+  //local Server
   static const String primaryUrl = "http://10.10.20.16:6123"; // ////
   static const baseSocketUrl = 'http://10.10.20.16:6123';
 
