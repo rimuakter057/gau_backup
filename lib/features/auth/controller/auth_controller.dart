@@ -36,8 +36,11 @@ class AuthController extends GetxController {
       return true;
     }
     else {
-      final msg = response.body?['message'] ?? 'Something went wrong';
-      errorMessage.value = msg;
+      errorMessage.value =
+          response.body?['message'] ??
+              response.statusText ??
+              'Unknown error';
+
       return false;
     }
   }

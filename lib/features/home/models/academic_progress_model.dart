@@ -1,12 +1,8 @@
 class ProgressModel {
   double? currentGPA;
-  int? earnedCredits;
+  double? earnedCredits;              // int? → double? এ পরিবর্তন করা হলো
   int? requiredCredits;
   double? degreeCompletionPercent;
-  // double? currentGPA;
-  // int? earnedCredits;
-  // int? requiredCredits;
-  // int? degreeCompletionPercent;
   List<RecentSemester>? recentSemesters;
 
   ProgressModel(
@@ -18,9 +14,9 @@ class ProgressModel {
 
   ProgressModel.fromJson(Map<String, dynamic> json) {
     currentGPA = (json['currentGPA'] as num?)?.toDouble();
-    earnedCredits = json['earnedCredits'];
-    requiredCredits = json['requiredCredits'];
-    degreeCompletionPercent = json['degreeCompletionPercent'];
+    earnedCredits = (json['earnedCredits'] as num?)?.toDouble();       // ✅ fix
+    requiredCredits = (json['requiredCredits'] as num?)?.toInt();      // ✅ fix
+    degreeCompletionPercent = (json['degreeCompletionPercent'] as num?)?.toDouble();
     if (json['recentSemesters'] != null) {
       recentSemesters = <RecentSemester>[];
       json['recentSemesters'].forEach((v) {
