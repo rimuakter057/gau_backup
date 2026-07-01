@@ -1,7 +1,11 @@
 class ApiUrl {
   //local Server
-  static const String primaryUrl = "http://10.10.20.16:6123"; // ////
-  static const baseSocketUrl = 'http://10.10.20.16:6123';
+  static const String primaryUrl = "http://3.130.104.6:5000";
+  // ////
+  static const baseSocketUrl = 'http://3.130.104.6:5000';
+
+  // static const String primaryUrl = "http://10.10.20.16:6123";
+  // static const baseSocketUrl = 'http://10.10.20.16:6123';
 
   // static String socketUrl({required String userId}) =>
   //     "$baseSocketUrl?userId=$userId";

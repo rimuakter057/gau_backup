@@ -305,10 +305,26 @@ class ApiClient extends GetxService {
         statusText: somethingWentWrong,
       );
     } catch (e) {
-      logger.e(
-        "❌ MULTIPART POST Error:====================================================== $e",
+      logger.e("❌ POST Error: $e");
+
+      String message;
+
+      if (e is SocketException) {
+        message = "Unable to connect to the server.";
+      } else if (e is HttpException) {
+        message = "Server is unavailable.";
+      } else if (e is FormatException) {
+        message = "Invalid server response.";
+      } else {
+        message = e.toString();
+      }
+
+      return Response(
+        statusCode: 1,
+        body: {
+          "message": message,
+        },
       );
-      return const Response(statusCode: 1, statusText: somethingWentWrong);
     }
   }
 

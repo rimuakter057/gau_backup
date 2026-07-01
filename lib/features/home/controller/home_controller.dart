@@ -294,22 +294,22 @@ class HomeController extends GetxController {
 
   RxList<UpcomingDeadlineModel> upcomingDeadlines = <UpcomingDeadlineModel>[].obs;
   RxBool isDeadlineLoading = false.obs;
-
-  Future<void> fetchUpcomingDeadlines() async {
-    isDeadlineLoading.value = true;
-
-    final response = await ApiClient.getData(ApiUrl.upcomingDeadline);
-
-    if (response.statusCode == 200) {
-      List data = response.body['data'] ?? [];
-
-
-      upcomingDeadlines.value =
-          data.map((e) => UpcomingDeadlineModel.fromJson(e)).toList();
-    }
-
-    isDeadlineLoading.value = false;
-  }
+  //
+  // Future<void> fetchUpcomingDeadlines() async {
+  //   isDeadlineLoading.value = true;
+  //
+  //   final response = await ApiClient.getData(ApiUrl.upcomingDeadline);
+  //
+  //   if (response.statusCode == 200) {
+  //     List data = response.body['data'] ?? [];
+  //
+  //
+  //     upcomingDeadlines.value =
+  //         data.map((e) => UpcomingDeadlineModel.fromJson(e)).toList();
+  //   }
+  //
+  //   isDeadlineLoading.value = false;
+  // }
 
 ///academic progress===============================================
 
@@ -318,22 +318,64 @@ class HomeController extends GetxController {
   Rxn<ProgressModel> academicProgress = Rxn<ProgressModel>();
   RxBool isProgressLoading = false.obs;
 
-  Future<void> fetchAcademicProgress() async {
-    isProgressLoading.value = true;
+  // Future<void> fetchAcademicProgress() async {
+  //   isProgressLoading.value = true;
+  //
+  //   final response = await ApiClient.getData(ApiUrl.academicProgress);
+  //
+  //   if (response.statusCode == 200) {
+  //     final data = response.body['data'];
+  //     if (data != null) {
+  //       academicProgress.value = ProgressModel.fromJson(data);
+  //     }
+  //   }
+  //
+  //   isProgressLoading.value = false;
+  // }
 
-    final response = await ApiClient.getData(ApiUrl.academicProgress);
 
-    if (response.statusCode == 200) {
-      final data = response.body['data'];
-      if (data != null) {
-        academicProgress.value = ProgressModel.fromJson(data);
+
+
+
+
+
+
+
+
+  Future<void> fetchUpcomingDeadlines() async {
+    isDeadlineLoading.value = true;
+    try {
+      final response = await ApiClient.getData(ApiUrl.upcomingDeadline);
+
+      if (response.statusCode == 200) {
+        List data = response.body['data'] ?? [];
+        upcomingDeadlines.value =
+            data.map((e) => UpcomingDeadlineModel.fromJson(e)).toList();
       }
+    } catch (e) {
+      debugPrint("❌ Upcoming Deadline Error: $e");
+    } finally {
+      isDeadlineLoading.value = false;   // ✅ এখন এটা সবসময় execute হবে
     }
-
-    isProgressLoading.value = false;
   }
 
+  Future<void> fetchAcademicProgress() async {
+    isProgressLoading.value = true;
+    try {
+      final response = await ApiClient.getData(ApiUrl.academicProgress);
 
+      if (response.statusCode == 200) {
+        final data = response.body['data'];
+        if (data != null) {
+          academicProgress.value = ProgressModel.fromJson(data);
+        }
+      }
+    } catch (e) {
+      debugPrint("❌ Academic Progress Error: $e");
+    } finally {
+      isProgressLoading.value = false;   // ✅ এখন এটা সবসময় execute হবে
+    }
+  }
 
 
 
